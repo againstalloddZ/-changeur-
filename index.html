@@ -17,18 +17,18 @@ button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#
 .diag{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.diag div{padding:10px;border-radius:10px;background:#0b141d}.ok{color:#55df9b}.bad{color:#ff7b83}.wait{color:#f1c75b}
 .status{margin-top:10px;color:#aebbc7;min-height:24px}.bar{height:8px;background:#172431;border-radius:99px;overflow:hidden;margin-top:8px}.bar>i{display:block;height:100%;width:0;background:#2b9bea}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ranking{display:grid;grid-template-columns:1fr;gap:10px}.rankCard{width:100%;text-align:left;background:#0b141d;border:1px solid #263646;border-radius:14px;padding:14px;cursor:pointer;transition:background .15s,border-color .15s,transform .08s}.rankCard:hover{background:#14212d}.rankCard:active{transform:scale(.995)}.rankCard.selected{background:#142433;border-color:#3a789f}.rankTop{display:flex;justify-content:space-between;align-items:center;gap:12px}.rankCoin{font-size:19px;font-weight:800;display:flex;align-items:center;gap:6px}.levBadge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:7px;background:#155b55;color:#8ef0d2;font-size:13px;font-weight:800;line-height:1.25}.rankMove{font-size:20px;font-weight:800}.rankArrow{font-size:20px;font-weight:900;margin-left:2px}.rankRaw{font-size:13px;font-weight:700;margin-top:4px}.rankMeta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.rankCell{background:#101c27;border-radius:10px;padding:9px}.rankLabel{display:block;color:#8fa0af;font-size:11px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}.rankValue{font-size:14px;font-weight:650}.up{color:#55df9b}.down{color:#ff7b83}.winnerUp{color:#55df9b}.winnerDown{color:#ff7b83}
-.hero{display:grid;grid-template-columns:minmax(260px,.7fr) minmax(360px,1.3fr);gap:18px;align-items:stretch}.metric{font-size:34px;font-weight:800}.winnerHead{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.winnerCoin{font-size:28px;font-weight:850}.winnerLev{display:inline-flex;align-items:center;padding:3px 8px;border-radius:7px;background:#155b55;color:#8ef0d2;font-size:15px;font-weight:800}.winnerArrow{font-size:28px;font-weight:900;margin-left:1px}.clocks{display:flex;gap:18px;margin-top:16px;align-items:center;justify-content:flex-start}.clockWrap{text-align:center}.clock{width:96px;height:96px;display:block}.clockLabel{font-size:11px;color:#8fa0af;margin-top:4px}.muted{color:#9eacba}.chartbox{height:340px}.chartbox canvas{width:100%;height:100%;display:block;background:#0b141d;border-radius:12px}
+.hero{display:grid;grid-template-columns:minmax(260px,.7fr) minmax(360px,1.3fr);gap:18px;align-items:stretch}.metric{font-size:34px;font-weight:800}.winnerHead{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.winnerCoin{font-size:28px;font-weight:850}.winnerLev{display:inline-flex;align-items:center;padding:3px 8px;border-radius:7px;background:#155b55;color:#8ef0d2;font-size:15px;font-weight:800}.winnerArrow{font-size:28px;font-weight:900;margin-left:1px}.clocks{display:flex;gap:18px;margin-top:16px;align-items:center;justify-content:flex-start}.clockWrap{text-align:center}.clock{width:96px;height:96px;display:block}.clockLabel{font-size:11px;color:#8fa0af;margin-top:4px}.digitalTime{font-size:25px;font-weight:850;letter-spacing:.02em;margin-bottom:5px}.miniClockWrap{text-align:center;min-width:82px}.miniDigital{font-size:18px;font-weight:850;line-height:1.05;margin-bottom:4px}.miniClock{width:72px;height:72px;display:block;margin:0 auto}.rankClockPair{display:flex;gap:16px;justify-content:flex-start;align-items:center}.muted{color:#9eacba}.chartbox{height:340px}.chartbox canvas{width:100%;height:100%;display:block;background:#0b141d;border-radius:12px}
 .chartLegend{display:none}
-@media(max-width:700px){main{padding:10px}.grid{grid-template-columns:1fr 1fr}.diag{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.metric{font-size:30px}h1{font-size:24px}.chartbox{height:300px}.rankMeta{grid-template-columns:1fr 1fr}.clock{width:82px;height:82px}.clocks{gap:10px}}
+@media(max-width:700px){.concurrencyPerps{grid-column:span 1}main{padding:10px}.grid{grid-template-columns:1fr 1fr}.diag{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.metric{font-size:30px}h1{font-size:24px}.chartbox{height:300px}.rankMeta{grid-template-columns:1fr 1fr}.clock{width:82px;height:82px}.clocks{gap:10px}}
 </style>
 </head>
 <body>
 <main>
-<h1>⚡ Hyperliquid Scanner V3.3</h1>
-<div class="sub">Architecture iPhone → Hyperliquid API → Hyperliquid</div>
+<h1></h1>
+<div class="sub"></div>
 
 <section class="card">
-<h2>Paramètres</h2>
+
 <div class="grid">
 <label>Heures
 <input id="hours" type="number" min="1" max="48" value="6"></label>
@@ -47,7 +47,7 @@ button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#
 
 <!-- Le gagnant est volontairement placé AVANT le classement. -->
 <section class="card" id="detail" hidden>
-<h2 id="detailTitle">🏆 Mouvement gagnant</h2>
+
 <div class="hero">
 <div>
 <div class="winnerHead" id="winnerHead"><span class="winnerCoin" id="winnerCoin">—</span><span class="winnerLev" id="winnerLev">—×</span><span class="winnerArrow" id="winnerArrow">↑</span></div>
@@ -55,8 +55,8 @@ button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#
 <div class="rankRaw" id="detailRaw">—</div>
 <div id="detailPrices" class="muted" style="margin-top:8px"></div>
 <div class="clocks">
-  <div class="clockWrap"><canvas class="clock" id="clockStart" width="192" height="192"></canvas><div class="clockLabel" id="clockStartLabel">—</div></div>
-  <div class="clockWrap"><canvas class="clock" id="clockEnd" width="192" height="192"></canvas><div class="clockLabel" id="clockEndLabel">—</div></div>
+  <div class="clockWrap"><div class="digitalTime" id="clockStartLabel">—</div><canvas class="clock" id="clockStart" width="192" height="192"></canvas></div>
+  <div class="clockWrap"><div class="digitalTime" id="clockEndLabel">—</div><canvas class="clock" id="clockEnd" width="192" height="192"></canvas></div>
 </div>
 </div>
 <div class="chartbox"><canvas id="chart"></canvas></div>
@@ -203,7 +203,13 @@ function render(){
   const card=document.createElement("div");
   card.className="rankCard"+(state.selected===r?" selected":"");
   const up=r.direction==="up";
-  card.innerHTML=`<div class="rankTop"><div class="rankCoin">${r.coin}<span class="levBadge">${r.leverage}×</span><span class="rankArrow ${up?"up":"down"}">${up?"↑":"↓"}</span></div><div class="rankMove ${up?"up":"down"}">+${r.score.toFixed(2)}%<div class="rankRaw">${up?"+":"−"}${r.move.toFixed(2)}%</div></div></div><div class="rankMeta"><div class="rankCell"><span class="rankLabel">Mouvement</span><span class="rankValue">${fmtTime(r.startT,r.endT)} → ${fmtTime(r.endT,r.startT)}</span></div><div class="rankCell"><span class="rankLabel">Prix</span><span class="rankValue">${fmt(r.startPrice)} → ${fmt(r.endPrice)}</span></div></div>`;
+  card.innerHTML=`<div class="rankTop"><div class="rankCoin">${r.coin}<span class="levBadge">${r.leverage}×</span><span class="rankArrow ${up?"up":"down"}">${up?"↑":"↓"}</span></div><div class="rankMove ${up?"up":"down"}">+${r.score.toFixed(2)}%<div class="rankRaw">${up?"+":"−"}${r.move.toFixed(2)}%</div></div></div><div class="rankMeta">
+  <div class="rankCell"><div class="rankClockPair">
+    <div class="miniClockWrap"><div class="miniDigital">${fmtClock(r.startT)}</div><canvas class="miniClock" data-clock-time="${r.startT}" data-direction="${up?"up":"down"}" width="160" height="160"></canvas></div>
+    <div class="miniClockWrap"><div class="miniDigital">${fmtClock(r.endT)}</div><canvas class="miniClock" data-clock-time="${r.endT}" data-direction="${up?"up":"down"}" width="160" height="160"></canvas></div>
+  </div></div>
+  <div class="rankCell"><span class="rankLabel">Prix</span><span class="rankValue">${fmt(r.startPrice)} → ${fmt(r.endPrice)}</span></div>
+</div>`;
   card.onclick=()=>showDetail(r);body.appendChild(card);
  });
  $("count").textContent=state.results.length+" mouvement(s)";
@@ -237,9 +243,15 @@ function renderSelectionOnly(){
  document.querySelectorAll("#rows .rankCard").forEach((card,i)=>card.classList.toggle("selected",state.results[i]===state.selected));
 }
 
+function drawMiniClocks(){
+ document.querySelectorAll(".miniClock").forEach(c=>{
+   const ms=Number(c.dataset.clockTime);
+   drawClock(c,ms,c.dataset.direction);
+ });
+}
 function drawClock(canvas,ms,direction){
  const dpr=devicePixelRatio||1,rect=canvas.getBoundingClientRect();
- const size=Math.max(72,Math.min(rect.width||96,rect.height||96));
+ const size=Math.max(52,Math.min(rect.width||96,rect.height||96));
  canvas.width=size*dpr;canvas.height=size*dpr;
  const x=canvas.getContext("2d");x.setTransform(dpr,0,0,dpr,0,0);
  const cx=size/2,cy=size/2,R=size*.43;

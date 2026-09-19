@@ -32,3 +32,10 @@ No API key is required for these public market-data calls.
 - Ranking and winner display both the leveraged score and the raw movement percentage without verbose labels.
 - Main chart now uses OHLC candlesticks.
 - Start/end times are also shown on analog clocks with minute graduations and no seconds hand.
+
+- Simplified top interface: removed the scanner title/architecture subtitle and the Parameters heading.
+- Perpetual-only option is placed beside concurrency.
+- Removed the winner-panel heading.
+- Digital start/end times are larger and positioned above their analog clocks.
+- Ranking cards now include the same two analog clocks and digital times.
+- Removed the "Mouvement" label from ranking cards.

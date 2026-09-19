@@ -16,10 +16,10 @@ label{display:block;color:#aebbc7;font-size:13px}input,select,button{width:100%;
 button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#2998ed}.danger{background:#512126;border-color:#9c4a54}
 .diag{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.diag div{padding:10px;border-radius:10px;background:#0b141d}.ok{color:#55df9b}.bad{color:#ff7b83}.wait{color:#f1c75b}
 .status{margin-top:10px;color:#aebbc7;min-height:24px}.bar{height:8px;background:#172431;border-radius:99px;overflow:hidden;margin-top:8px}.bar>i{display:block;height:100%;width:0;background:#2b9bea}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ranking{display:grid;grid-template-columns:1fr;gap:10px}.rankCard{width:100%;text-align:left;background:#0b141d;border:1px solid #263646;border-radius:14px;padding:14px;cursor:pointer;transition:background .15s,border-color .15s,transform .08s}.rankCard:hover{background:#14212d}.rankCard:active{transform:scale(.995)}.rankCard.selected{background:#142433;border-color:#3a789f}.rankTop{display:flex;justify-content:space-between;align-items:center;gap:12px}.rankCoin{font-size:19px;font-weight:800;display:flex;align-items:center;gap:6px}.levBadge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:7px;background:#155b55;color:#8ef0d2;font-size:13px;font-weight:800;line-height:1.25}.rankMove{font-size:20px;font-weight:800}.rankMeta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.rankCell{background:#101c27;border-radius:10px;padding:9px}.rankLabel{display:block;color:#8fa0af;font-size:11px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}.rankValue{font-size:14px;font-weight:650}.up{color:#55df9b}.down{color:#ff7b83}.winnerUp{color:#55df9b}.winnerDown{color:#ff7b83}
-.hero{display:grid;grid-template-columns:minmax(260px,.7fr) minmax(360px,1.3fr);gap:18px;align-items:stretch}.metric{font-size:34px;font-weight:800}.muted{color:#9eacba}.chartbox{height:340px}.chartbox canvas{width:100%;height:100%;display:block;background:#0b141d;border-radius:12px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ranking{display:grid;grid-template-columns:1fr;gap:10px}.rankCard{width:100%;text-align:left;background:#0b141d;border:1px solid #263646;border-radius:14px;padding:14px;cursor:pointer;transition:background .15s,border-color .15s,transform .08s}.rankCard:hover{background:#14212d}.rankCard:active{transform:scale(.995)}.rankCard.selected{background:#142433;border-color:#3a789f}.rankTop{display:flex;justify-content:space-between;align-items:center;gap:12px}.rankCoin{font-size:19px;font-weight:800;display:flex;align-items:center;gap:6px}.levBadge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:7px;background:#155b55;color:#8ef0d2;font-size:13px;font-weight:800;line-height:1.25}.rankMove{font-size:20px;font-weight:800}.rankArrow{font-size:20px;font-weight:900;margin-left:2px}.rankRaw{font-size:13px;font-weight:700;margin-top:4px}.rankMeta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.rankCell{background:#101c27;border-radius:10px;padding:9px}.rankLabel{display:block;color:#8fa0af;font-size:11px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}.rankValue{font-size:14px;font-weight:650}.up{color:#55df9b}.down{color:#ff7b83}.winnerUp{color:#55df9b}.winnerDown{color:#ff7b83}
+.hero{display:grid;grid-template-columns:minmax(260px,.7fr) minmax(360px,1.3fr);gap:18px;align-items:stretch}.metric{font-size:34px;font-weight:800}.winnerHead{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.winnerCoin{font-size:28px;font-weight:850}.winnerLev{display:inline-flex;align-items:center;padding:3px 8px;border-radius:7px;background:#155b55;color:#8ef0d2;font-size:15px;font-weight:800}.winnerArrow{font-size:28px;font-weight:900;margin-left:1px}.clocks{display:flex;gap:18px;margin-top:16px;align-items:center;justify-content:flex-start}.clockWrap{text-align:center}.clock{width:96px;height:96px;display:block}.clockLabel{font-size:11px;color:#8fa0af;margin-top:4px}.muted{color:#9eacba}.chartbox{height:340px}.chartbox canvas{width:100%;height:100%;display:block;background:#0b141d;border-radius:12px}
 .chartLegend{display:none}
-@media(max-width:700px){main{padding:10px}.grid{grid-template-columns:1fr 1fr}.diag{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.metric{font-size:30px}h1{font-size:24px}.chartbox{height:300px}.rankMeta{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){main{padding:10px}.grid{grid-template-columns:1fr 1fr}.diag{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.metric{font-size:30px}h1{font-size:24px}.chartbox{height:300px}.rankMeta{grid-template-columns:1fr 1fr}.clock{width:82px;height:82px}.clocks{gap:10px}}
 </style>
 </head>
 <body>
@@ -50,8 +50,14 @@ button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#
 <h2 id="detailTitle">🏆 Mouvement gagnant</h2>
 <div class="hero">
 <div>
+<div class="winnerHead" id="winnerHead"><span class="winnerCoin" id="winnerCoin">—</span><span class="winnerLev" id="winnerLev">—×</span><span class="winnerArrow" id="winnerArrow">↑</span></div>
 <div class="metric" id="detailMove">—</div>
+<div class="rankRaw" id="detailRaw">—</div>
 <div id="detailPrices" class="muted" style="margin-top:8px"></div>
+<div class="clocks">
+  <div class="clockWrap"><canvas class="clock" id="clockStart" width="192" height="192"></canvas><div class="clockLabel" id="clockStartLabel">—</div></div>
+  <div class="clockWrap"><canvas class="clock" id="clockEnd" width="192" height="192"></canvas><div class="clockLabel" id="clockEndLabel">—</div></div>
+</div>
 </div>
 <div class="chartbox"><canvas id="chart"></canvas></div>
 </div>
@@ -197,7 +203,7 @@ function render(){
   const card=document.createElement("div");
   card.className="rankCard"+(state.selected===r?" selected":"");
   const up=r.direction==="up";
-  card.innerHTML=`<div class="rankTop"><div class="rankCoin">${r.coin}<span class="levBadge">${r.leverage}×</span></div><div class="rankMove ${up?"up":"down"}">${up?"↑":"↓"} +${r.score.toFixed(2)}%</div></div><div class="rankMeta"><div class="rankCell"><span class="rankLabel">Mouvement</span><span class="rankValue">${fmtTime(r.startT,r.endT)} → ${fmtTime(r.endT,r.startT)}</span></div><div class="rankCell"><span class="rankLabel">Prix</span><span class="rankValue">${fmt(r.startPrice)} → ${fmt(r.endPrice)}</span></div></div>`;
+  card.innerHTML=`<div class="rankTop"><div class="rankCoin">${r.coin}<span class="levBadge">${r.leverage}×</span><span class="rankArrow ${up?"up":"down"}">${up?"↑":"↓"}</span></div><div class="rankMove ${up?"up":"down"}">+${r.score.toFixed(2)}%<div class="rankRaw">${up?"+":"−"}${r.move.toFixed(2)}%</div></div></div><div class="rankMeta"><div class="rankCell"><span class="rankLabel">Mouvement</span><span class="rankValue">${fmtTime(r.startT,r.endT)} → ${fmtTime(r.endT,r.startT)}</span></div><div class="rankCell"><span class="rankLabel">Prix</span><span class="rankValue">${fmt(r.startPrice)} → ${fmt(r.endPrice)}</span></div></div>`;
   card.onclick=()=>showDetail(r);body.appendChild(card);
  });
  $("count").textContent=state.results.length+" mouvement(s)";
@@ -209,11 +215,20 @@ function showDetail(r){
  $("detail").hidden=false;
  const up=r.direction==="up";
  const title=$("detailTitle");
- title.textContent=(up ? "↑ " : "↓ ")+r.coin+" — "+r.leverage+"×";
- title.className=up?"winnerUp":"winnerDown";
+ title.textContent="🏆 Mouvement gagnant";
+ $("winnerCoin").textContent=r.coin;
+ $("winnerLev").textContent=r.leverage+"×";
+ $("winnerArrow").textContent=up?"↑":"↓";
+ $("winnerArrow").className="winnerArrow "+(up?"winnerUp":"winnerDown");
  $("detailMove").textContent="+"+r.score.toFixed(2)+"%";
  $("detailMove").className="metric "+(up?"winnerUp":"winnerDown");
+ $("detailRaw").textContent=(up?"+":"−")+r.move.toFixed(2)+"%";
+ $("detailRaw").className="rankRaw "+(up?"winnerUp":"winnerDown");
  $("detailPrices").textContent="Prix : "+fmt(r.startPrice)+" → "+fmt(r.endPrice);
+ drawClock($("clockStart"),r.startT,up);
+ drawClock($("clockEnd"),r.endT,up);
+ $("clockStartLabel").textContent=fmtTime(r.startT,r.endT);
+ $("clockEndLabel").textContent=fmtTime(r.endT,r.startT);
  draw(r);
  renderSelectionOnly();
 }
@@ -222,6 +237,44 @@ function renderSelectionOnly(){
  document.querySelectorAll("#rows .rankCard").forEach((card,i)=>card.classList.toggle("selected",state.results[i]===state.selected));
 }
 
+function drawClock(canvas,ms,direction){
+ const dpr=devicePixelRatio||1,rect=canvas.getBoundingClientRect();
+ const size=Math.max(72,Math.min(rect.width||96,rect.height||96));
+ canvas.width=size*dpr;canvas.height=size*dpr;
+ const x=canvas.getContext("2d");x.setTransform(dpr,0,0,dpr,0,0);
+ const cx=size/2,cy=size/2,R=size*.43;
+ x.clearRect(0,0,size,size);
+ x.fillStyle="#0b141d";x.beginPath();x.arc(cx,cy,R+5,0,Math.PI*2);x.fill();
+ x.strokeStyle="#304252";x.lineWidth=2;x.beginPath();x.arc(cx,cy,R,0,Math.PI*2);x.stroke();
+
+ // 60 minute graduations, no seconds hand.
+ for(let i=0;i<60;i++){
+   const a=i*Math.PI/30-Math.PI/2;
+   const major=i%5===0;
+   const r1=R-(major?8:5),r2=R-1;
+   x.strokeStyle=major?"#e6eef5":"#71808d";
+   x.lineWidth=major?2:1;
+   x.beginPath();
+   x.moveTo(cx+Math.cos(a)*r1,cy+Math.sin(a)*r1);
+   x.lineTo(cx+Math.cos(a)*r2,cy+Math.sin(a)*r2);
+   x.stroke();
+ }
+ const d=new Date(ms);
+ const minutes=d.getMinutes()+d.getSeconds()/60;
+ const hours=(d.getHours()%12)+minutes/60;
+ const hourA=hours*Math.PI/6-Math.PI/2;
+ const minA=minutes*Math.PI/30-Math.PI/2;
+ const hand=(a,len,width)=>{
+   x.strokeStyle=direction==="up"?"#55df9b":"#ff7b83";
+   x.lineWidth=width;x.lineCap="round";
+   x.beginPath();x.moveTo(cx,cy);
+   x.lineTo(cx+Math.cos(a)*len,cy+Math.sin(a)*len);x.stroke();
+ };
+ hand(hourA,R*.52,4);
+ hand(minA,R*.75,3);
+ x.fillStyle=direction==="up"?"#55df9b":"#ff7b83";
+ x.beginPath();x.arc(cx,cy,3.5,0,Math.PI*2);x.fill();
+}
 function draw(r){
  const c=$("chart"),dpr=devicePixelRatio||1,rect=c.getBoundingClientRect();
  const w=Math.max(1,rect.width),h=Math.max(1,rect.height);c.width=w*dpr;c.height=h*dpr;
@@ -236,7 +289,17 @@ function draw(r){
  const sy=v=>h-p.b-(v-mn)*(h-p.t-p.b)/Math.max(1e-12,mx-mn);
  x.font="12px sans-serif";x.lineWidth=1;x.strokeStyle="#20303d";x.fillStyle="#8fa0af";
  for(let k=0;k<5;k++){const yy=p.t+k*(h-p.t-p.b)/4;x.beginPath();x.moveTo(p.l,yy);x.lineTo(w-p.r,yy);x.stroke();const val=mx-k*(mx-mn)/4;x.fillText(fmt(val),6,yy+4)}
- x.beginPath();view.forEach((v,i)=>i?x.lineTo(sx(i),sy(v.c)):x.moveTo(sx(i),sy(v.c)));x.strokeStyle="#38bdf8";x.lineWidth=2;x.stroke();
+ const candleStep=(w-p.l-p.r)/Math.max(1,view.length-1);
+ const bodyW=Math.max(3,Math.min(12,candleStep*.62));
+ view.forEach((v,i)=>{
+   const xx=sx(i),yo=sy(v.o),yc=sy(v.c),yh=sy(v.h),yl=sy(v.l);
+   const rising=v.c>=v.o;
+   const col=rising?"#55df9b":"#ff7b83";
+   x.strokeStyle=col;x.fillStyle=col;x.lineWidth=1.4;
+   x.beginPath();x.moveTo(xx,yh);x.lineTo(xx,yl);x.stroke();
+   const top=Math.min(yo,yc),bh=Math.max(1,Math.abs(yc-yo));
+   x.fillRect(xx-bodyW/2,top,bodyW,bh);
+ });
  const si=r.startI-from,ei=r.endI-from;
  if(si>=0&&ei>=0&&si<view.length&&ei<view.length){
    const sx0=sx(si),sy0=sy(r.startPrice),sx1=sx(ei),sy1=sy(r.endPrice);

@@ -26,3 +26,9 @@ No API key is required for these public market-data calls.
 - Times are always shown before dates.
 - Dates are omitted when the movement starts and ends on the same calendar day.
 - Chart start/end time labels are drawn inside the chart.
+
+- Ranking arrows are now placed after the coin and max leverage.
+- Winner header uses the same coin + leverage + arrow arrangement.
+- Ranking and winner display both the leveraged score and the raw movement percentage without verbose labels.
+- Main chart now uses OHLC candlesticks.
+- Start/end times are also shown on analog clocks with minute graduations and no seconds hand.

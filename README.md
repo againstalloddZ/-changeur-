@@ -17,3 +17,12 @@ The scanner uses the Hyperliquid public Info endpoint:
 `https://api.hyperliquid.xyz/info`
 
 No API key is required for these public market-data calls.
+
+
+## V3.3 display updates
+- Ranking count no longer mentions "2 maximum par perp".
+- Ranking vignette displays movement % × max leverage as a positive gain with `+`, green for upward moves and red for downward moves.
+- Max leverage is displayed directly beside the perp name.
+- Times are always shown before dates.
+- Dates are omitted when the movement starts and ends on the same calendar day.
+- Chart start/end time labels are drawn inside the chart.

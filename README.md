@@ -1,41 +1,10 @@
-# Hyperliquid Scanner V3.3 — GitHub Pages
+# Hyperliquid Scanner V3.3 — GitHub Pages v5
 
-This edition is based on the supplied scanner frontend and removes the Netlify
-Function dependency. The browser calls the Hyperliquid Info API directly.
+Corrected version based on the deployed V4 `index.html`.
 
-## Deploy
-
-1. Create a GitHub repository.
-2. Upload the contents of this folder to the repository root.
-3. Push to the `main` branch.
-4. In GitHub: Settings → Pages → Source: GitHub Actions.
-5. The workflow deploys `index.html` automatically after each push.
-
-## Important
-
-The scanner uses the Hyperliquid public Info endpoint:
-`https://api.hyperliquid.xyz/info`
-
-No API key is required for these public market-data calls.
-
-
-## V3.3 display updates
-- Ranking count no longer mentions "2 maximum par perp".
-- Ranking vignette displays movement % × max leverage as a positive gain with `+`, green for upward moves and red for downward moves.
-- Max leverage is displayed directly beside the perp name.
-- Times are always shown before dates.
-- Dates are omitted when the movement starts and ends on the same calendar day.
-- Chart start/end time labels are drawn inside the chart.
-
-- Ranking arrows are now placed after the coin and max leverage.
-- Winner header uses the same coin + leverage + arrow arrangement.
-- Ranking and winner display both the leveraged score and the raw movement percentage without verbose labels.
-- Main chart now uses OHLC candlesticks.
-- Start/end times are also shown on analog clocks with minute graduations and no seconds hand.
-
-- Simplified top interface: removed the scanner title/architecture subtitle and the Parameters heading.
-- Perpetual-only option is placed beside concurrency.
-- Removed the winner-panel heading.
-- Digital start/end times are larger and positioned above their analog clocks.
-- Ranking cards now include the same two analog clocks and digital times.
-- Removed the "Mouvement" label from ranking cards.
+Fixes:
+- Removed the JavaScript reference to the deleted "Mouvement gagnant" heading.
+- Perpétuels uniquement is now beside Concurrence.
+- Ranking analog clocks are explicitly rendered after ranking cards are inserted.
+- Winner digital times remain above their analog clocks.
+- Direct Hyperliquid API architecture is preserved.

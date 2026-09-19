@@ -11,15 +11,15 @@
 main{max-width:1100px;margin:auto;padding:18px}
 h1{font-size:28px;margin:8px 0 4px}.sub{color:#9eacba;margin-bottom:18px}
 .card{background:#101923;border:1px solid #263646;border-radius:18px;padding:16px;margin:14px 0;box-shadow:0 10px 30px #0003}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-label{display:block;color:#aebbc7;font-size:13px}input,select,button{width:100%;min-height:48px;border-radius:12px;border:1px solid #2d4052;background:#111d28;color:#eef5fb;padding:10px;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:end}
+label{display:block;color:#aebbc7;font-size:13px}.perpControl{display:flex;align-items:center;gap:8px;min-height:48px}.perpControl input{width:auto;min-height:auto;margin:0}input,select,button{width:100%;min-height:48px;border-radius:12px;border:1px solid #2d4052;background:#111d28;color:#eef5fb;padding:10px;font-size:16px}
 button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#2998ed}.danger{background:#512126;border-color:#9c4a54}
 .diag{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.diag div{padding:10px;border-radius:10px;background:#0b141d}.ok{color:#55df9b}.bad{color:#ff7b83}.wait{color:#f1c75b}
 .status{margin-top:10px;color:#aebbc7;min-height:24px}.bar{height:8px;background:#172431;border-radius:99px;overflow:hidden;margin-top:8px}.bar>i{display:block;height:100%;width:0;background:#2b9bea}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ranking{display:grid;grid-template-columns:1fr;gap:10px}.rankCard{width:100%;text-align:left;background:#0b141d;border:1px solid #263646;border-radius:14px;padding:14px;cursor:pointer;transition:background .15s,border-color .15s,transform .08s}.rankCard:hover{background:#14212d}.rankCard:active{transform:scale(.995)}.rankCard.selected{background:#142433;border-color:#3a789f}.rankTop{display:flex;justify-content:space-between;align-items:center;gap:12px}.rankCoin{font-size:19px;font-weight:800;display:flex;align-items:center;gap:6px}.levBadge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:7px;background:#155b55;color:#8ef0d2;font-size:13px;font-weight:800;line-height:1.25}.rankMove{font-size:20px;font-weight:800}.rankArrow{font-size:20px;font-weight:900;margin-left:2px}.rankRaw{font-size:13px;font-weight:700;margin-top:4px}.rankMeta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.rankCell{background:#101c27;border-radius:10px;padding:9px}.rankLabel{display:block;color:#8fa0af;font-size:11px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}.rankValue{font-size:14px;font-weight:650}.up{color:#55df9b}.down{color:#ff7b83}.winnerUp{color:#55df9b}.winnerDown{color:#ff7b83}
 .hero{display:grid;grid-template-columns:minmax(260px,.7fr) minmax(360px,1.3fr);gap:18px;align-items:stretch}.metric{font-size:34px;font-weight:800}.winnerHead{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.winnerCoin{font-size:28px;font-weight:850}.winnerLev{display:inline-flex;align-items:center;padding:3px 8px;border-radius:7px;background:#155b55;color:#8ef0d2;font-size:15px;font-weight:800}.winnerArrow{font-size:28px;font-weight:900;margin-left:1px}.clocks{display:flex;gap:18px;margin-top:16px;align-items:center;justify-content:flex-start}.clockWrap{text-align:center}.clock{width:96px;height:96px;display:block}.clockLabel{font-size:11px;color:#8fa0af;margin-top:4px}.digitalTime{font-size:25px;font-weight:850;letter-spacing:.02em;margin-bottom:5px}.miniClockWrap{text-align:center;min-width:82px}.miniDigital{font-size:18px;font-weight:850;line-height:1.05;margin-bottom:4px}.miniClock{width:72px;height:72px;display:block;margin:0 auto}.rankClockPair{display:flex;gap:16px;justify-content:flex-start;align-items:center}.muted{color:#9eacba}.chartbox{height:340px}.chartbox canvas{width:100%;height:100%;display:block;background:#0b141d;border-radius:12px}
 .chartLegend{display:none}
-@media(max-width:700px){.concurrencyPerps{grid-column:span 1}main{padding:10px}.grid{grid-template-columns:1fr 1fr}.diag{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.metric{font-size:30px}h1{font-size:24px}.chartbox{height:300px}.rankMeta{grid-template-columns:1fr 1fr}.clock{width:82px;height:82px}.clocks{gap:10px}}
+@media(max-width:700px){.perpControl{grid-column:span 1}.grid{grid-template-columns:1fr 1fr}main{padding:10px}.grid{grid-template-columns:1fr 1fr}.diag{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.metric{font-size:30px}h1{font-size:24px}.chartbox{height:300px}.rankMeta{grid-template-columns:1fr 1fr}.clock{width:82px;height:82px}.clocks{gap:10px}}
 </style>
 </head>
 <body>
@@ -36,8 +36,10 @@ button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#
 <select id="interval"><option>1m</option><option>3m</option><option selected>5m</option><option>15m</option><option>30m</option><option>1h</option><option>2h</option><option>4h</option><option>8h</option><option>12h</option><option>1d</option></select></label>
 <label>Concurrence
 <input id="concurrency" type="number" min="1" max="8" value="4"></label>
+<label class="perpControl">Perpétuels uniquement
+<input id="perpsOnly" type="checkbox" checked style="width:auto;min-height:auto;margin-right:8px"></label>
 </div>
-<p><label><input id="perpsOnly" type="checkbox" checked style="width:auto;min-height:auto;margin-right:8px"> Perpétuels uniquement</label></p>
+
 <div class="actions">
 <button class="primary" id="scan">Lancer le scan</button>
 <button class="danger" id="cancel">Annuler</button>
@@ -212,6 +214,7 @@ function render(){
 </div>`;
   card.onclick=()=>showDetail(r);body.appendChild(card);
  });
+ drawMiniClocks();
  $("count").textContent=state.results.length+" mouvement(s)";
  if(state.results[0]&&!state.selected)showDetail(state.results[0]);
 }
@@ -220,8 +223,7 @@ function showDetail(r){
  state.selected=r;
  $("detail").hidden=false;
  const up=r.direction==="up";
- const title=$("detailTitle");
- title.textContent="🏆 Mouvement gagnant";
+ title.textContent="";
  $("winnerCoin").textContent=r.coin;
  $("winnerLev").textContent=r.leverage+"×";
  $("winnerArrow").textContent=up?"↑":"↓";
@@ -244,9 +246,11 @@ function renderSelectionOnly(){
 }
 
 function drawMiniClocks(){
- document.querySelectorAll(".miniClock").forEach(c=>{
-   const ms=Number(c.dataset.clockTime);
-   drawClock(c,ms,c.dataset.direction);
+ requestAnimationFrame(()=>{
+   document.querySelectorAll(".miniClock").forEach(c=>{
+     const ms=Number(c.dataset.clockTime);
+     if(Number.isFinite(ms)) drawClock(c,ms,c.dataset.direction);
+   });
  });
 }
 function drawClock(canvas,ms,direction){
@@ -373,7 +377,7 @@ async function scan(){
 $("scan").onclick=()=>scan().catch(err);
 $("cancel").onclick=()=>{state.cancel=true;setStatus("Annulation demandée…")};
 window.addEventListener("resize",()=>{if(state.selected)draw(state.selected)});
-diagnostics().then(ok=>setStatus(ok?"Prêt — proxy Hyperliquid opérationnel":"Diagnostic en échec — voir le détail ci-dessus"));
+diagnostics().then(ok=>setStatus(ok?"Prêt — Hyperliquid API opérationnelle":"Diagnostic en échec — voir le détail ci-dessus"));
 })();
 </script>
 </body>

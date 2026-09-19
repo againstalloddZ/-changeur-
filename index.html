@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#091019">
+<title>Hyperliquid Scanner V3.3</title>
+<style>
+:root{color-scheme:dark;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+*{box-sizing:border-box}body{margin:0;background:#091019;color:#eaf1f8}
+main{max-width:1100px;margin:auto;padding:18px}
+h1{font-size:28px;margin:8px 0 4px}.sub{color:#9eacba;margin-bottom:18px}
+.card{background:#101923;border:1px solid #263646;border-radius:18px;padding:16px;margin:14px 0;box-shadow:0 10px 30px #0003}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+label{display:block;color:#aebbc7;font-size:13px}input,select,button{width:100%;min-height:48px;border-radius:12px;border:1px solid #2d4052;background:#111d28;color:#eef5fb;padding:10px;font-size:16px}
+button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#2998ed}.danger{background:#512126;border-color:#9c4a54}
+.diag{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.diag div{padding:10px;border-radius:10px;background:#0b141d}.ok{color:#55df9b}.bad{color:#ff7b83}.wait{color:#f1c75b}
+.status{margin-top:10px;color:#aebbc7;min-height:24px}.bar{height:8px;background:#172431;border-radius:99px;overflow:hidden;margin-top:8px}.bar>i{display:block;height:100%;width:0;background:#2b9bea}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ranking{display:grid;grid-template-columns:1fr;gap:10px}.rankCard{width:100%;text-align:left;background:#0b141d;border:1px solid #263646;border-radius:14px;padding:14px;cursor:pointer;transition:background .15s,border-color .15s,transform .08s}.rankCard:hover{background:#14212d}.rankCard:active{transform:scale(.995)}.rankCard.selected{background:#142433;border-color:#3a789f}.rankTop{display:flex;justify-content:space-between;align-items:center;gap:12px}.rankCoin{font-size:19px;font-weight:800}.rankMove{font-size:20px;font-weight:800}.rankMeta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}.rankCell{background:#101c27;border-radius:10px;padding:9px}.rankLabel{display:block;color:#8fa0af;font-size:11px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}.rankValue{font-size:14px;font-weight:650}.up{color:#55df9b}.down{color:#ff7b83}.winnerUp{color:#55df9b}.winnerDown{color:#ff7b83}
+.hero{display:grid;grid-template-columns:minmax(260px,.7fr) minmax(360px,1.3fr);gap:18px;align-items:stretch}.metric{font-size:34px;font-weight:800}.muted{color:#9eacba}.chartbox{height:340px}.chartbox canvas{width:100%;height:100%;display:block;background:#0b141d;border-radius:12px}
+.chartLegend{display:none}
+@media(max-width:700px){main{padding:10px}.grid{grid-template-columns:1fr 1fr}.diag{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.metric{font-size:30px}h1{font-size:24px}.chartbox{height:300px}.rankMeta{grid-template-columns:1fr 1fr}.rankMeta .rankCell:last-child{grid-column:1/-1}}
+</style>
+</head>
+<body>
+<main>
+<h1>⚡ Hyperliquid Scanner V3.3</h1>
+<div class="sub">Architecture iPhone → Hyperliquid API → Hyperliquid</div>
+
+<section class="card">
+<h2>Paramètres</h2>
+<div class="grid">
+<label>Heures
+<input id="hours" type="number" min="1" max="48" value="6"></label>
+<label>Bougies
+<select id="interval"><option>1m</option><option>3m</option><option selected>5m</option><option>15m</option><option>30m</option><option>1h</option><option>2h</option><option>4h</option><option>8h</option><option>12h</option><option>1d</option></select></label>
+<label>Concurrence
+<input id="concurrency" type="number" min="1" max="8" value="4"></label>
+</div>
+<p><label><input id="perpsOnly" type="checkbox" checked style="width:auto;min-height:auto;margin-right:8px"> Perpétuels uniquement</label></p>
+<div class="actions">
+<button class="primary" id="scan">Lancer le scan</button>
+<button class="danger" id="cancel">Annuler</button>
+</div>
+<div class="status" id="status">Initialisation…</div><div class="bar"><i id="progress"></i></div>
+</section>
+
+<!-- Le gagnant est volontairement placé AVANT le classement. -->
+<section class="card" id="detail" hidden>
+<h2 id="detailTitle">🏆 Mouvement gagnant</h2>
+<div class="hero">
+<div>
+<div class="metric" id="detailMove">—</div>
+<div id="detailPrices" class="muted" style="margin-top:8px"></div>
+</div>
+<div class="chartbox"><canvas id="chart"></canvas></div>
+</div>
+</section>
+
+<section class="card">
+<h2>🏆 Classement</h2>
+<div id="count" class="muted">Aucun résultat</div>
+<div id="rows" class="ranking"></div>
+</section>
+
+<!-- Le diagnostic reste TOUJOURS le dernier panneau. -->
+<section class="card" id="diagnosticPanel">
+<h2>📱 Diagnostic connexion</h2>
+<div class="diag">
+<div>JavaScript : <b id="djs">…</b></div>
+<div>Origine : <b id="dorigin">…</b></div>
+<div>fetch : <b id="dfetch">…</b></div>
+<div>IndexedDB : <b id="didb">…</b></div>
+<div>Hyperliquid API : <b id="dproxy">…</b></div>
+<div>Hyperliquid : <b id="dhl">…</b></div>
+</div>
+<pre id="error" style="white-space:pre-wrap;color:#ff9ba1"></pre>
+</section>
+</main>
+
+<script>
+"use strict";
+(() => {
+const $=id=>document.getElementById(id);
+const state={cancel:false,results:[],cache:null,selected:null};
+const endpoint=()=>location.protocol==="file:" ? null : (location.origin+"/.netlify/functions/hyperliquid");
+
+function mark(id,text,cls){const e=$(id);e.textContent=text;e.className=cls||""}
+function setStatus(s,p){$("status").textContent=s;if(Number.isFinite(p))$("progress").style.width=Math.max(0,Math.min(100,p))+"%"}
+function err(e){$("error").textContent=(e&&e.stack)||String(e);console.error(e)}
+function fmtTime(ms){const d=new Date(ms);return new Intl.DateTimeFormat("fr-FR",{hour:"2-digit",minute:"2-digit",day:"2-digit",month:"2-digit",year:"numeric"}).format(d).replace(" "," · ")}
+function fmt(n){return Number(n).toLocaleString("fr-FR",{maximumFractionDigits:8})}
+
+async function api(op, params = {}) {
+  const payload = op === "ping"
+    ? { type: "meta" }
+    : op === "meta"
+      ? { type: "meta" }
+      : {
+          type: "candleSnapshot",
+          req: {
+            coin: params.coin,
+            interval: params.interval,
+            startTime: params.startTime,
+            endTime: params.endTime
+          }
+        };
+
+  const response = await fetch("https://api.hyperliquid.xyz/info", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+    cache: "no-store"
+  });
+
+  if (!response.ok) {
+    throw new Error(`Hyperliquid HTTP ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  if (op === "ping") {
+    return { ok: true, direct: true };
+  }
+
+  if (op === "meta") {
+    return data;
+  }
+
+  if (op === "candles") {
+    return data;
+  }
+
+  return data;
+}
+
+async function diagnostics(){
+ mark("djs","OK","ok");
+ mark("dorigin",location.origin||"file://","wait");
+ mark("dfetch",typeof fetch==="function"?"OK":"ABSENT",typeof fetch==="function"?"ok":"bad");
+ try{const x=window.indexedDB;mark("didb",x?"OK":"ABSENT",x?"ok":"bad")}catch(e){mark("didb","ERREUR","bad")}
+ if(!endpoint()){mark("dproxy","ABSENT (file://)","bad");mark("dhl","NON TESTÉ","wait");return false}
+ try{await api("ping");mark("dproxy","OK","ok")}catch(e){mark("dproxy","ERREUR","bad");err(e);return false}
+ try{const meta=await api("meta");mark("dhl","OK — "+meta.universe.length+" perps","ok");state.cache=meta;return true}catch(e){mark("dhl","ERREUR","bad");err(e);return false}
+}
+
+function parseCandles(a){return (Array.isArray(a)?a:[]).map(c=>({t:+c.t,o:+c.o,h:+c.h,l:+c.l,c:+c.c})).filter(x=>[x.t,x.h,x.l,x.c].every(Number.isFinite)).sort((a,b)=>a.t-b.t)}
+
+/*
+ * Cherche séparément :
+ *  - le plus grand mouvement haussier : plus bas antérieur -> plus haut ultérieur
+ *  - le plus grand mouvement baissier : plus haut antérieur -> plus bas ultérieur
+ * Les deux mouvements sont donc conservés pour chaque perp.
+ */
+function calcMovements(coin,lev,candles){
+ if(candles.length<2)return [];
+ const out=[];
+ let minLow=candles[0].l,minLowI=0;
+ let maxHigh=candles[0].h,maxHighI=0;
+ let bestUp=null,bestDown=null;
+ for(let i=1;i<candles.length;i++){
+   const c=candles[i];
+   const up=(c.h-minLow)/minLow*100;
+   if(!bestUp||up>bestUp.move){bestUp={direction:"up",startPrice:minLow,endPrice:c.h,startT:candles[minLowI].t,endT:c.t,startI:minLowI,endI:i,move:up}}
+   const down=(maxHigh-c.l)/maxHigh*100;
+   if(!bestDown||down>bestDown.move){bestDown={direction:"down",startPrice:maxHigh,endPrice:c.l,startT:candles[maxHighI].t,endT:c.t,startI:maxHighI,endI:i,move:down}}
+   if(c.l<minLow){minLow=c.l;minLowI=i}
+   if(c.h>maxHigh){maxHigh=c.h;maxHighI=i}
+ }
+ for(const m of [bestUp,bestDown]){
+   if(m&&m.move>0&&m.startI!==m.endI){
+     out.push({coin,leverage:lev,score:m.move*lev,candles,direction:m.direction,startPrice:m.startPrice,endPrice:m.endPrice,startT:m.startT,endT:m.endT,move:m.move,startI:m.startI,endI:m.endI});
+   }
+ }
+ return out;
+}
+
+function render(){
+ const body=$("rows");body.innerHTML="";
+ state.results.forEach(r=>{
+  const card=document.createElement("div");
+  card.className="rankCard"+(state.selected===r?" selected":"");
+  const up=r.direction==="up";
+  card.innerHTML=`<div class="rankTop"><div class="rankCoin">${r.coin}</div><div class="rankMove ${up?"up":"down"}">${up?"↑":"↓"} ${r.move.toFixed(2)}%</div></div><div class="rankMeta"><div class="rankCell"><span class="rankLabel">Début</span><span class="rankValue">${fmtTime(r.startT)}<br>${fmt(r.startPrice)}</span></div><div class="rankCell"><span class="rankLabel">Fin</span><span class="rankValue">${fmtTime(r.endT)}<br>${fmt(r.endPrice)}</span></div><div class="rankCell"><span class="rankLabel">Leverage max · Score</span><span class="rankValue">${r.leverage}× · ${(up?"+":"−")}${r.score.toFixed(2)}%</span></div></div>`;
+  card.onclick=()=>showDetail(r);body.appendChild(card);
+ });
+ $("count").textContent=state.results.length+" mouvement(s) — 2 maximum par perp (haussier + baissier)";
+ if(state.results[0]&&!state.selected)showDetail(state.results[0]);
+}
+
+function showDetail(r){
+ state.selected=r;
+ $("detail").hidden=false;
+ const up=r.direction==="up";
+ const title=$("detailTitle");
+ title.textContent=(up ? "↑ " : "↓ ")+r.coin+" — "+r.leverage+"×";
+ title.className=up?"winnerUp":"winnerDown";
+ $("detailMove").textContent=(up?"+":"−")+r.move.toFixed(3)+"%";
+ $("detailMove").className="metric "+(up?"winnerUp":"winnerDown");
+ $("detailPrices").textContent="Prix : "+fmt(r.startPrice)+" → "+fmt(r.endPrice);
+ draw(r);
+ renderSelectionOnly();
+}
+
+function renderSelectionOnly(){
+ document.querySelectorAll("#rows .rankCard").forEach((card,i)=>card.classList.toggle("selected",state.results[i]===state.selected));
+}
+
+function draw(r){
+ const c=$("chart"),dpr=devicePixelRatio||1,rect=c.getBoundingClientRect();
+ const w=Math.max(1,rect.width),h=Math.max(1,rect.height);c.width=w*dpr;c.height=h*dpr;
+ const x=c.getContext("2d");x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,w,h);
+ const candles=r.candles;if(!candles.length)return;
+ const span=Math.max(1,r.endI-r.startI),pad=Math.max(3,Math.ceil(span*.35));
+ const from=Math.max(0,r.startI-pad),to=Math.min(candles.length-1,r.endI+pad),view=candles.slice(from,to+1);
+ const values=[];view.forEach(v=>values.push(v.h,v.l));
+ let mn=Math.min(...values),mx=Math.max(...values);const margin=(mx-mn)*.08||Math.max(Math.abs(mx)*.001,1e-8);mn-=margin;mx+=margin;
+ const p={l:58,r:18,t:42,b:24};
+ const sx=i=>p.l+i*(w-p.l-p.r)/Math.max(1,view.length-1);
+ const sy=v=>h-p.b-(v-mn)*(h-p.t-p.b)/Math.max(1e-12,mx-mn);
+ x.font="12px sans-serif";x.lineWidth=1;x.strokeStyle="#20303d";x.fillStyle="#8fa0af";
+ for(let k=0;k<5;k++){const yy=p.t+k*(h-p.t-p.b)/4;x.beginPath();x.moveTo(p.l,yy);x.lineTo(w-p.r,yy);x.stroke();const val=mx-k*(mx-mn)/4;x.fillText(fmt(val),6,yy+4)}
+ x.beginPath();view.forEach((v,i)=>i?x.lineTo(sx(i),sy(v.c)):x.moveTo(sx(i),sy(v.c)));x.strokeStyle="#38bdf8";x.lineWidth=2;x.stroke();
+ const si=r.startI-from,ei=r.endI-from;
+ if(si>=0&&ei>=0&&si<view.length&&ei<view.length){
+   const sx0=sx(si),sy0=sy(r.startPrice),sx1=sx(ei),sy1=sy(r.endPrice);
+   x.setLineDash([5,4]);x.strokeStyle="#f1c75b";x.beginPath();x.moveTo(sx0,p.t);x.lineTo(sx0,h-p.b);x.stroke();
+   x.strokeStyle="#38bdf8";x.beginPath();x.moveTo(sx1,p.t);x.lineTo(sx1,h-p.b);x.stroke();x.setLineDash([]);
+   const startColor=r.direction==="up"?"#55df9b":"#ff7b83",endColor=r.direction==="up"?"#55df9b":"#ff7b83";
+   x.fillStyle=startColor;x.beginPath();x.arc(sx0,sy0,6,0,Math.PI*2);x.fill();
+   x.fillStyle=endColor;x.beginPath();x.arc(sx1,sy1,6,0,Math.PI*2);x.fill();
+   x.font="bold 18px sans-serif";x.fillStyle=startColor;
+   const startLabel=fmtTime(r.startT).split(" · ")[0];
+   const endLabel=fmtTime(r.endT).split(" · ")[0];
+   const sw=x.measureText(startLabel).width,ew=x.measureText(endLabel).width;
+   x.fillText(startLabel,Math.max(p.l,Math.min(w-p.r-sw,sx0-sw/2)),26);
+   x.fillStyle=endColor;x.fillText(endLabel,Math.max(p.l,Math.min(w-p.r-ew,sx1-ew/2)),h-2);
+ }
+ // Aucun repère date/heure de la fenêtre de scan sur l'axe des abscisses.
+}
+
+async function scan(){
+ state.cancel=false;$("error").textContent="";state.selected=null;
+ if(!state.cache){if(!(await diagnostics()))return}
+ const hours=Math.max(1,Math.min(48,+$("hours").value||6)), interval=$("interval").value;
+ const conc=Math.max(1,Math.min(8,+$("concurrency").value||4));
+ let markets=state.cache.universe.filter(x=>!x.isDelisted&&Number(x.maxLeverage)>0);
+ const now=Date.now(),start=now-hours*3600000;
+ state.results=[];render();$("detail").hidden=true;setStatus("Scan de "+markets.length+" perps…",0);
+ let next=0,done=0;
+ async function worker(){
+  while(true){
+   if(state.cancel)return;
+   const i=next++;if(i>=markets.length)return;
+   const m=markets[i];
+   try{
+    const raw=await api("candles",{coin:m.name,interval,startTime:start,endTime:now});
+    const moves=calcMovements(m.name,+m.maxLeverage,parseCandles(raw));
+    for(const r of moves)state.results.push(r);
+   }catch(e){console.warn(m.name,e)}
+   done++;setStatus(`Scan ${done}/${markets.length} — ${m.name}`,done/markets.length*100);
+  }
+ }
+ await Promise.all(Array.from({length:Math.min(conc,markets.length)},worker));
+ state.results.sort((a,b)=>b.score-a.score);state.selected=null;render();
+ setStatus(state.cancel?"Scan annulé":"Terminé — "+state.results.length+" mouvements",100);
+}
+
+$("scan").onclick=()=>scan().catch(err);
+$("cancel").onclick=()=>{state.cancel=true;setStatus("Annulation demandée…")};
+window.addEventListener("resize",()=>{if(state.selected)draw(state.selected)});
+diagnostics().then(ok=>setStatus(ok?"Prêt — proxy Hyperliquid opérationnel":"Diagnostic en échec — voir le détail ci-dessus"));
+})();
+</script>
+</body>
+</html>

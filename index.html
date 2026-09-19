@@ -15,7 +15,7 @@ h1{font-size:28px;margin:8px 0 4px}.sub{color:#9eacba;margin-bottom:18px}
 label{display:block;color:#aebbc7;font-size:13px}.perpControl{display:flex;align-items:center;gap:8px;min-height:48px}.perpControl input{width:auto;min-height:auto;margin:0}input,select,button{width:100%;min-height:48px;border-radius:12px;border:1px solid #2d4052;background:#111d28;color:#eef5fb;padding:10px;font-size:16px}
 button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#2998ed}.danger{background:#512126;border-color:#9c4a54}
 .diag{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.diag div{padding:10px;border-radius:10px;background:#0b141d}.ok{color:#55df9b}.bad{color:#ff7b83}.wait{color:#f1c75b}
-.status{margin-top:10px;color:#aebbc7;min-height:24px}.logPanel{margin-top:12px}.logActions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}.logActions button{min-height:42px}.logBox{margin:10px 0 0;background:#071018;border:1px solid #263646;border-radius:10px;padding:10px;max-height:260px;overflow:auto;font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;color:#d7e2ec}.logHint{font-size:12px;color:#8fa0af;margin-top:7px}.bar{height:8px;background:#172431;border-radius:99px;overflow:hidden;margin-top:8px}.bar>i{display:block;height:100%;width:0;background:#2b9bea}
+.status{margin-top:10px;color:#aebbc7;min-height:24px}.logPanel{margin-top:12px}.logActions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}.logActions button{min-height:42px}.logFollow{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12px;color:#9eacb9}.logFollow input{width:auto}.logBox{margin:10px 0 0;background:#071018;border:1px solid #263646;border-radius:10px;padding:10px;max-height:260px;overflow:auto;font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;color:#d7e2ec}.logHint{font-size:12px;color:#8fa0af;margin-top:7px}.bar{height:8px;background:#172431;border-radius:99px;overflow:hidden;margin-top:8px}.bar>i{display:block;height:100%;width:0;background:#2b9bea}
 .rankingToggle{margin-top:10px}.rankingToggle button{min-height:44px}.floatingLogs{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:50;width:auto;min-height:42px;padding:8px 14px;border-radius:999px;background:#1766a3;border:1px solid #2998ed;box-shadow:0 6px 20px #0006;font-size:14px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ranking{display:grid;grid-template-columns:1fr;gap:10px}.rankCard{width:100%;text-align:left;background:#0b141d;border:1px solid #263646;border-radius:14px;padding:14px;cursor:pointer;transition:background .15s,border-color .15s,transform .08s}.rankCard:hover{background:#14212d}.rankCard:active{transform:scale(.995)}.rankCard.selected{background:#142433;border-color:#3a789f}.rankTop{display:flex;justify-content:space-between;align-items:center;gap:12px}.rankCoin{font-size:19px;font-weight:800;display:flex;align-items:center;gap:6px}.levBadge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:7px;background:#155b55;color:#8ef0d2;font-size:13px;font-weight:800;line-height:1.25}.rankMove{font-size:20px;font-weight:800}.rankArrow{font-size:20px;font-weight:900;margin-left:2px}.rankRaw{font-size:13px;font-weight:700;margin-top:4px}.rankMeta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.rankCell{background:#101c27;border-radius:10px;padding:9px}.rankLabel{display:block;color:#8fa0af;font-size:11px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}.rankValue{font-size:14px;font-weight:650}.up{color:#55df9b}.down{color:#ff7b83}.winnerUp{color:#55df9b}.winnerDown{color:#ff7b83}
 .hero{display:grid;grid-template-columns:minmax(260px,.7fr) minmax(360px,1.3fr);gap:18px;align-items:stretch}.metric{font-size:34px;font-weight:800}.winnerHead{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:6px}.winnerCoin{font-size:28px;font-weight:850}.winnerLev{display:inline-flex;align-items:center;padding:3px 8px;border-radius:7px;background:#155b55;color:#8ef0d2;font-size:15px;font-weight:800}.winnerArrow{font-size:28px;font-weight:900;margin-left:1px}.clocks{display:flex;gap:18px;margin-top:16px;align-items:center;justify-content:flex-start}.clockWrap{text-align:center}.clock{width:96px;height:96px;display:block}.clockLabel{font-size:11px;color:#8fa0af;margin-top:4px}.digitalTime{font-size:25px;font-weight:850;letter-spacing:.02em;margin-bottom:5px}.miniClockWrap{text-align:center;min-width:82px}.miniDigital{font-size:18px;font-weight:850;line-height:1.05;margin-bottom:4px}.miniClock{width:72px;height:72px;display:block;margin:0 auto}.rankClockPair{display:flex;gap:16px;justify-content:flex-start;align-items:center}.muted{color:#9eacba}.chartbox{height:340px}.chartbox canvas{width:100%;height:100%;display:block;background:#0b141d;border-radius:12px}
 .chartLegend{display:none}
@@ -43,6 +43,7 @@ button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#
 <div class="actions">
 <button class="primary" id="scan">Lancer le scan</button>
 <button class="danger" id="cancel">Annuler</button>
+<button id="finishNow" hidden>Terminer maintenant avec les données disponibles</button>
 </div>
 <div class="status" id="status">Initialisation…</div><div class="bar"><i id="progress"></i></div>
 </section>
@@ -95,6 +96,7 @@ button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#
 <button class="danger" id="clearLog">Vider le log</button>
 </div>
 <div class="logHint" id="logCount">0 événement</div>
+<label class="logFollow"><input id="followLog" type="checkbox" checked> Suivre automatiquement les derniers événements en direct</label>
 <pre class="logBox" id="logBox">Aucune erreur enregistrée.</pre>
 </section>
 
@@ -105,8 +107,11 @@ button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#
 "use strict";
 (() => {
 const $=id=>document.getElementById(id);
-const state={cancel:false,results:[],cache:null,selected:null,showAll:false};
+const state={cancel:false,finishEarly:false,scanning:false,results:[],cache:null,selected:null,showAll:false};
 const RANKING_LIMIT=30;
+const MAX_RETRIES=6;
+const RETRY_DELAYS=[1000,2000,4000,8000,12000,20000];
+let scanAbortController=null;
 const LOG_KEY="hyperliquid_scanner_error_log_v1";
 const MAX_LOG_ENTRIES=1000;
 let requestSequence=0;
@@ -136,8 +141,10 @@ function formatLogEntry(x){
 }
 function renderLog(){
  const a=readLog();
+ const box=$("logBox");
  $("logCount").textContent=`${a.length} événement${a.length>1?"s":""}`;
- $("logBox").textContent=a.length?a.map(formatLogEntry).join("\n\n") : "Aucune erreur enregistrée.";
+ box.textContent=a.length?a.map(formatLogEntry).join("\n\n") : "Aucune erreur enregistrée.";
+ if($("followLog").checked) requestAnimationFrame(()=>{box.scrollTop=box.scrollHeight});
 }
 function logEvent(level,context,error,extra={}){
  const e=error instanceof Error ? error : new Error(String(error??"Erreur inconnue"));
@@ -178,20 +185,23 @@ function fmt(n){return Number(n).toLocaleString("fr-FR",{maximumFractionDigits:8
 
 function sleep(ms){return new Promise(resolve=>setTimeout(resolve,ms))}
 
-async function api(op, params = {}) {
+async function api(op, params = {}, options = {}) {
   const payload = op === "ping" ? {type:"meta"} : op === "meta" ? {type:"meta"} : {type:"candleSnapshot",req:{coin:params.coin,interval:params.interval,startTime:params.startTime,endTime:params.endTime}};
-  const maxRetries=op === "candles" ? 3 : 0;
+  const maxRetries=op === "candles" ? MAX_RETRIES : 0;
   let lastError=null;
   for(let attempt=0;attempt<=maxRetries;attempt++){
     const requestNo=++requestSequence, started=Date.now();
     if(op === "candles") scanStats.requested++;
     let response;
-    try{response=await fetch("https://api.hyperliquid.xyz/info",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),cache:"no-store"})}
-    catch(e){logEvent("ERROR","API fetch",e,{operation:op,coin:params.coin||"",attempt:attempt+1,requestNo});throw e}
+    try{response=await fetch("https://api.hyperliquid.xyz/info",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),cache:"no-store",signal:options.signal})}
+    catch(e){
+      if(e&&e.name==="AbortError") throw e;
+      logEvent("ERROR","API fetch",e,{operation:op,coin:params.coin||"",attempt:attempt+1,requestNo});throw e
+    }
     if(!response.ok){
       const e=new Error(`Hyperliquid HTTP ${response.status} ${response.statusText||""}`.trim());lastError=e;
       if(response.status===429 && attempt<maxRetries){
-        const delay=[1000,2000,4000][attempt];scanStats.retries++;
+        const delay=RETRY_DELAYS[attempt]||20000;scanStats.retries++;
         logEvent("WARN","API retry",e,{operation:op,coin:params.coin||"",attempt:attempt+1,retry:attempt+1,maxRetries,delayMs:delay,requestNo});
         await sleep(delay);continue;
       }
@@ -405,36 +415,52 @@ function draw(r){
 }
 
 async function scan(){
- state.cancel=false;$('error').textContent="";state.selected=null;
- if(!state.cache){if(!(await diagnostics()))return}
+ state.cancel=false;state.finishEarly=false;state.scanning=true;
+ scanAbortController=new AbortController();
+ $("finishNow").hidden=false;$('error').textContent="";state.selected=null;
+ if(!state.cache){if(!(await diagnostics())){state.scanning=false;$("finishNow").hidden=true;return}}
  const hours=Math.max(1,Math.min(48,+$('hours').value||6)), interval=$('interval').value;
  const conc=Math.max(1,Math.min(8,+$('concurrency').value||4));
  let markets=state.cache.universe.filter(x=>!x.isDelisted&&Number(x.maxLeverage)>0);
  const now=Date.now(),start=now-hours*3600000;
  state.results=[];render();$('detail').hidden=true;
- scanStats={requested:0,success:0,retries:0,failed:0,failedCoins:[]};
+ scanStats={requested:markets.length,success:0,retries:0,failed:0,failedCoins:[],started:0,finished:0};
+ requestSequence=0;
  setStatus(`Scan de ${markets.length} perps…`,0);
- logEvent("INFO","SCAN START",new Error(`${markets.length} perps — ${interval} — ${hours}h`),{markets:markets.length,interval,hours,concurrency:conc});
+ logEvent("INFO","SCAN START",new Error(`${markets.length} perps — ${interval} — ${hours}h`),{markets:markets.length,interval,hours,concurrency:conc,maxRetries:MAX_RETRIES});
  let next=0,done=0;
  async function worker(){
   while(true){
-   if(state.cancel)return;
+   if(state.cancel||state.finishEarly)return;
    const i=next++;if(i>=markets.length)return;
-   const m=markets[i];
-   try{const raw=await api("candles",{coin:m.name,interval,startTime:start,endTime:now});const moves=calcMovements(m.name,+m.maxLeverage,parseCandles(raw));for(const r of moves)state.results.push(r)}
-   catch(e){logEvent("ERROR","Scan candles",e,{coin:m.name,interval,marketIndex:i})}
-   done++;setStatus(`Scan ${done}/${markets.length} — ${m.name}`,done/markets.length*100);
+   const m=markets[i];scanStats.started++;
+   try{
+    const raw=await api("candles",{coin:m.name,interval,startTime:start,endTime:now},{signal:scanAbortController.signal});
+    const moves=calcMovements(m.name,+m.maxLeverage,parseCandles(raw));
+    for(const r of moves)state.results.push(r);
+   }catch(e){
+    if(e&&e.name==="AbortError") return;
+    logEvent("ERROR","Scan candles",e,{coin:m.name,interval,marketIndex:i});
+   }
+   done++;scanStats.finished=done;setStatus(`Scan ${done}/${markets.length} — ${m.name}`,done/markets.length*100);
   }
  }
  await Promise.all(Array.from({length:Math.min(conc,markets.length)},worker));
  state.results.sort((a,b)=>b.score-a.score);state.selected=null;render();
  const missing=markets.length-scanStats.success;
- if(state.cancel){setStatus(`Scan annulé — ${scanStats.success}/${markets.length} marchés récupérés`,100)}
- else if(missing>0){setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${missing} manquants`,100)}
- else{setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${state.results.length} mouvements`,100)}
- logEvent(missing>0?"WARN":"INFO","SCAN END",new Error(`${scanStats.success}/${markets.length} marchés récupérés`),{markets:markets.length,success:scanStats.success,failed:scanStats.failed,retries:scanStats.retries,missing,failedCoins:scanStats.failedCoins.join(", "),movements:state.results.length});
+ const incomplete=missing>0;
+ if(state.finishEarly){
+   setStatus(`Classement terminé avec les données disponibles — ${scanStats.success}/${markets.length} marchés récupérés — ${missing} non récupérés`,100);
+ }else if(state.cancel){
+   setStatus(`Scan annulé — ${scanStats.success}/${markets.length} marchés récupérés`,100);
+ }else if(incomplete){
+   setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${missing} manquants`,100);
+ }else{
+   setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${state.results.length} mouvements`,100);
+ }
+ logEvent(incomplete?"WARN":"INFO","SCAN END",new Error(`${scanStats.success}/${markets.length} marchés récupérés`),{markets:markets.length,success:scanStats.success,failed:scanStats.failed,retries:scanStats.retries,missing,failedCoins:scanStats.failedCoins.join(", "),movements:state.results.length,finishEarly:state.finishEarly,cancelled:state.cancel});
+ state.scanning=false;$("finishNow").hidden=true;scanAbortController=null;
 }
-
 $("downloadLog").onclick=()=>{
  const text=readLog().map(formatLogEntry).join("\n\n")||"Aucune erreur enregistrée.";
  const blob=new Blob([text+"\n"],{type:"text/plain;charset=utf-8"});
@@ -447,10 +473,12 @@ $("copyLog").onclick=async()=>{
 $("clearLog").onclick=()=>{localStorage.removeItem(LOG_KEY);renderLog();$("error").textContent="";};
 $("toggleRanking").onclick=()=>{state.showAll=!state.showAll;render();};
 $("jumpLogs").onclick=()=>{$("logPanel").scrollIntoView({behavior:"smooth",block:"start"});};
+$("followLog").onchange=()=>{if($("followLog").checked){const box=$("logBox");box.scrollTop=box.scrollHeight}};
 renderLog();
 
-$("scan").onclick=()=>scan().catch(e=>err(e,"Scan"));
-$("cancel").onclick=()=>{state.cancel=true;setStatus("Annulation demandée…")};
+$("scan").onclick=()=>{if(state.scanning)return;scan().catch(e=>{state.scanning=false;$("finishNow").hidden=true;err(e,"Scan")})};
+$("cancel").onclick=()=>{state.cancel=true;if(scanAbortController)scanAbortController.abort();setStatus("Annulation demandée…")};
+$("finishNow").onclick=()=>{if(!state.scanning)return;state.finishEarly=true;state.cancel=true;if(scanAbortController)scanAbortController.abort();setStatus("Finalisation du classement avec les données disponibles…")};
 window.addEventListener("resize",()=>{if(state.selected)draw(state.selected)});
 diagnostics().then(ok=>setStatus(ok?"Prêt — Hyperliquid API opérationnelle":"Diagnostic en échec — voir le détail ci-dessus"));
 })();

@@ -1,9 +1,10 @@
-# Hyperliquid Scanner V3.3 — GitHub Pages V14
+# Hyperliquid Scanner V3.3 — GitHub Pages V15
 
-V14 conserve le comportement de V13 et modifie les repères horaires du graphique :
-- les heures de début et de fin sont toujours sur une seule ligne sous l’axe X ;
-- par défaut, chaque heure est alignée avec sa graduation ;
-- si les deux libellés se chevaucheraient, ils sont écartés de manière égale autour de leur centre ;
-- chaque libellé reste relié à sa graduation par une ligne fine ;
-- la ligne démarre légèrement sous la graduation, sans la toucher et sans point terminal ;
-- lorsque le libellé est décalé, la liaison est courbée pour identifier clairement sa graduation.
+## Modifications V15
+- Affichage permanent de la version de l’outil dans le panneau du journal : **V15**.
+- La version est centralisée dans `TOOL_VERSION` afin d’être réécrite à chaque nouvelle version.
+- Ajout de **AM / PM** directement à l’intérieur de chaque horloge analogique.
+- Conservation de toutes les fonctionnalités et corrections de la V14.
+
+## Déploiement
+Projet statique compatible GitHub Pages. Conserver le workflow GitHub Actions de la version précédente.

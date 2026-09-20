@@ -93,7 +93,7 @@ button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#
 </main>
 
 <script>
-const TOOL_VERSION="V24";
+const TOOL_VERSION="V25";
 window.addEventListener("DOMContentLoaded",()=>{const v=document.getElementById("toolVersion");if(v)v.textContent=TOOL_VERSION;});
 "use strict";
 (() => {
@@ -576,11 +576,24 @@ $("showRankingEarly").onclick=()=>{
  $("rankingPanel").scrollIntoView({behavior:"smooth",block:"start"});
 };
 $("jumpLogs").onclick=()=>{
- const nearBottom=window.scrollY+window.innerHeight>=document.documentElement.scrollHeight-180;
- if(nearBottom){window.scrollTo({top:0,behavior:"smooth"});$("jumpLogs").setAttribute("aria-label","Aller au journal");$("jumpLogs").title="Journal";}
- else{$("logPanel").scrollIntoView({behavior:"smooth",block:"start"});$("jumpLogs").setAttribute("aria-label","Revenir en haut");$("jumpLogs").title="Haut";}
+ const log=$("logPanel");
+ const logTop=log.getBoundingClientRect().top+window.scrollY;
+ const nearLog=Math.abs(window.scrollY-logTop)<220;
+ if(nearLog){
+   window.scrollTo({top:0,behavior:"smooth"});
+ }else{
+   log.scrollIntoView({behavior:"smooth",block:"start"});
+ }
+ setTimeout(updateJumpButton,80);
 };
-function updateJumpButton(){const nearBottom=window.scrollY+window.innerHeight>=document.documentElement.scrollHeight-180;$("jumpLogs").setAttribute("aria-label",nearBottom?"Revenir en haut":"Aller au journal");$("jumpLogs").title=nearBottom?"Haut":"Journal";}
+function updateJumpButton(){
+ const log=$("logPanel");
+ if(!log)return;
+ const logTop=log.getBoundingClientRect().top+window.scrollY;
+ const nearLog=Math.abs(window.scrollY-logTop)<220;
+ $("jumpLogs").setAttribute("aria-label",nearLog?"Revenir en haut":"Aller au journal");
+ $("jumpLogs").title=nearLog?"Haut":"Journal";
+}
 window.addEventListener("scroll",updateJumpButton,{passive:true});updateJumpButton();
 $("followLog").onchange=()=>{if($("followLog").checked){const box=$("logBox");box.scrollTop=box.scrollHeight}};
 renderLog();
@@ -588,15 +601,27 @@ renderLog();
 $("scan").onclick=()=>{if(state.scanning)return;scan().catch(e=>{state.scanning=false;$("finishNow").hidden=true;$("showRankingEarly").hidden=true;err(e,"Scan")})};
 $("cancel").onclick=()=>{state.cancel=true;if(scanAbortController)scanAbortController.abort();setStatus("Annulation demandée…")};
 $("finishNow").onclick=()=>{if(!state.scanning)return;state.finishEarly=true;state.cancel=true;if(scanAbortController)scanAbortController.abort();setStatus("Finalisation du classement avec les données disponibles…")};
+// V25 : sur iOS/Safari, visualViewport.resize peut se déclencher pendant
+// le simple défilement (barre d'adresse qui apparaît/disparaît). Re-render
+// pendant le scroll provoquait un effet de glitch. On ne redessine donc que
+// lorsque la largeur de mise en page change réellement (orientation/resize).
 let resizeRaf=0;
+let lastLayoutWidth=document.documentElement.clientWidth;
 function handleViewportResize(){
+  const currentWidth=document.documentElement.clientWidth;
+  if(Math.abs(currentWidth-lastLayoutWidth)<1)return;
+  lastLayoutWidth=currentWidth;
   cancelAnimationFrame(resizeRaf);
   resizeRaf=requestAnimationFrame(()=>{
     if(!state.scanning)render();
+    updateJumpButton();
   });
 }
 window.addEventListener("resize",handleViewportResize,{passive:true});
 if(window.visualViewport)window.visualViewport.addEventListener("resize",handleViewportResize,{passive:true});
+window.addEventListener("orientationchange",()=>{
+  setTimeout(()=>{lastLayoutWidth=document.documentElement.clientWidth;handleViewportResize();},120);
+},{passive:true});
 diagnostics().then(ok=>setStatus(ok?"Prêt — Hyperliquid API opérationnelle":"Diagnostic en échec — voir le détail ci-dessus"));
 })();
 </script>

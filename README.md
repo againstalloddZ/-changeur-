@@ -1,24 +1,15 @@
-# Hyperliquid Scanner V3.3 — GitHub Pages V7
+# Hyperliquid Scanner V3.3 — GitHub Pages V11
 
-Version GitHub Pages du scanner Hyperliquid, avec appel direct à l'API Hyperliquid depuis le navigateur.
+Scanner statique compatible GitHub Pages / iPhone utilisant directement l'API Hyperliquid.
 
-## Nouveauté V7 — journal d'erreurs
-Un panneau **🧾 Journal d’erreurs** est placé tout en bas de la page.
+## V11
+- panneau gagnant structuré comme les vignettes du classement, en plus grand, avec graphique sous les données ;
+- aiguilles des horloges vertes en hausse et rouges en baisse ;
+- graphique avec toutes les bougies disponibles de la fenêtre scannée ;
+- axe X gradué : petites graduations à chaque bougie, moyennes aux quarts d'heure, grandes aux heures ; heures affichées sous l'axe ;
+- clic sur une vignette : affiche/masque son graphique directement dans cette vignette ;
+- bouton flottant transparent en haut : va au journal, puis revient en haut lorsqu'on est déjà en bas ;
+- conserve les retries 429, le bouton de fin anticipée et le journal détaillé de la V10.
 
-Il enregistre automatiquement :
-- les erreurs JavaScript globales (`window.onerror`) ;
-- les Promises rejetées sans gestionnaire (`unhandledrejection`) ;
-- les erreurs de connexion/fetch à l'API Hyperliquid ;
-- les réponses HTTP en erreur ;
-- les erreurs de décodage JSON ;
-- les erreurs rencontrées pendant le scan d'une paire, avec le symbole concerné ;
-- les erreurs des diagnostics et du scan.
-
-Chaque entrée contient l'heure, le contexte, le message, la pile d'appel et, lorsque le navigateur le fournit, le fichier, la ligne et la colonne concernés.
-
-Le journal est conservé localement dans le navigateur (maximum 200 événements) et peut être :
-- téléchargé en fichier `.txt` ;
-- copié dans le presse-papiers ;
-- vidé avec le bouton dédié.
-
-Le scanner reste entièrement côté navigateur et utilise directement `https://api.hyperliquid.xyz/info`.
+## Déploiement
+Le fichier `index.html` peut être publié directement avec GitHub Pages.

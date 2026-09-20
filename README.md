@@ -1,8 +1,7 @@
-# Hyperliquid Scanner V3.3 — GitHub Pages V26
+# Hyperliquid Scanner V3.3 — GitHub Pages V27
 
-## V26
-- Correction du positionnement responsive des heures de début/fin sous les graphiques.
-- Les deux libellés sont résolus comme deux boîtes indépendantes avec contraintes de largeur et de bords.
-- En portrait étroit, les heures ne peuvent plus se recouvrir ; les liaisons restent attachées à leur graduation exacte et au centre du libellé.
-- Le comportement paysage de V25 est conservé.
-- Version interne : V26.
+## V27
+- Connecteurs des heures de début/fin : départ vertical parallèle aux graduations, courbure au milieu, puis arrivée verticale au centre exact du libellé.
+- Le connecteur conserve la graduation exacte comme origine même lorsque le libellé est décalé pour éviter un chevauchement.
+- Durée entre les deux horloges réduite de 20px à 16px.
+- Version interne : V27.

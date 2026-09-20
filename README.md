@@ -1,7 +1,7 @@
-# Hyperliquid Scanner V3.3 — GitHub Pages V27
+# Hyperliquid Scanner V3.3 — GitHub Pages V28
 
-## V27
-- Connecteurs des heures de début/fin : départ vertical parallèle aux graduations, courbure au milieu, puis arrivée verticale au centre exact du libellé.
-- Le connecteur conserve la graduation exacte comme origine même lorsque le libellé est décalé pour éviter un chevauchement.
-- Durée entre les deux horloges réduite de 20px à 16px.
-- Version interne : V27.
+## Modifications V28
+- Connecteurs des heures du graphique : très courte portion verticale au départ et à l'arrivée.
+- Transition centrale en courbe de Bézier douce, avec tangentes verticales aux extrémités pour éviter les angles saillants.
+- Durée entre les deux horloges légèrement réduite à 14 px.
+- Version interne : V28.

@@ -394,19 +394,79 @@ function draw(r,canvas){
 
    const label0=fmtTime(r.startT,r.endT), label1=fmtTime(r.endT,r.startT);
    x.font="bold 12px sans-serif";
-   const pad=6, boxH=22;
+   const pad=6, boxH=22, gap=8;
    const w0=x.measureText(label0).width+pad*2, w1=x.measureText(label1).width+pad*2;
-   let b0=Math.max(p.l+2,Math.min(w-p.r-w0-2,sx0-w0/2));
-   let b1=Math.max(p.l+2,Math.min(w-p.r-w1-2,sx1-w1/2));
-   // Si les deux heures sont trop proches, les placer sur deux niveaux sous l'axe.
-   const overlap=!(b0+w0+8<b1 || b1+w1+8<b0);
-   const y0=axisY+8, y1=overlap?axisY+34:axisY+8;
+   const minCenter0=p.l+2+w0/2, maxCenter0=w-p.r-2-w0/2;
+   const minCenter1=p.l+2+w1/2, maxCenter1=w-p.r-2-w1/2;
+   let c0=Math.max(minCenter0,Math.min(maxCenter0,sx0));
+   let c1=Math.max(minCenter1,Math.min(maxCenter1,sx1));
+   const naturalGap=Math.abs(c1-c0);
+   const neededGap=(w0+w1)/2+gap;
+   let shifted=false;
+
+   // Comportement par défaut : chaque heure reste exactement en face de sa graduation.
+   // Si les deux libellés se chevauchent, on les écarte de manière strictement égale
+   // autour de leur position centrale, puis on les relie aux graduations par des courbes.
+   if(naturalGap<neededGap){
+     shifted=true;
+     const mid=(sx0+sx1)/2;
+     const dir=sx1>=sx0?1:-1;
+     let target0=mid-dir*neededGap/2;
+     let target1=mid+dir*neededGap/2;
+     const shiftBounds=()=>{
+       const d0=Math.max(minCenter0,Math.min(maxCenter0,target0))-target0;
+       const d1=Math.max(minCenter1,Math.min(maxCenter1,target1))-target1;
+       const d=Math.abs(d0)>Math.abs(d1)?d0:d1;
+       target0+=d;target1+=d;
+     };
+     shiftBounds();
+     c0=Math.max(minCenter0,Math.min(maxCenter0,target0));
+     c1=Math.max(minCenter1,Math.min(maxCenter1,target1));
+     // Si une extrémité empêche l'écartement symétrique complet, on conserve
+     // le maximum de séparation possible sans sortir du graphique.
+     if(Math.abs(c1-c0)<neededGap){
+       const order=sx0<=sx1?1:-1;
+       if(order>0){
+         c0=Math.min(c0,c1-neededGap);
+         c1=Math.max(c1,c0+neededGap);
+         c0=Math.max(minCenter0,Math.min(maxCenter0,c0));
+         c1=Math.max(minCenter1,Math.min(maxCenter1,c1));
+       }else{
+         c1=Math.min(c1,c0-neededGap);
+         c0=Math.max(c0,c1+neededGap);
+         c0=Math.max(minCenter0,Math.min(maxCenter0,c0));
+         c1=Math.max(minCenter1,Math.min(maxCenter1,c1));
+       }
+     }
+   }
+
+   const b0=c0-w0/2, b1=c1-w1/2;
+   const labelY=axisY+34;
    const drawBottomLabel=(label,bx,by,boxW)=>{
      x.fillStyle="rgba(11,20,29,.96)";x.beginPath();x.roundRect(bx,by,boxW,boxH,6);x.fill();
      x.fillStyle=color;x.fillText(label,bx+pad,by+15);
    };
-   drawBottomLabel(label0,b0,y0,w0);
-   drawBottomLabel(label1,b1,y1,w1);
+
+   // La liaison commence juste sous la graduation : aucun point et aucun contact
+   // avec le trait de graduation. Sans décalage, elle reste parfaitement verticale.
+   const drawConnector=(sourceX,labelCenter)=>{
+     const sourceY=axisY+14;
+     const endY=labelY-2;
+     x.strokeStyle=color;x.lineWidth=1.25;x.lineCap="round";x.lineJoin="round";
+     x.beginPath();x.moveTo(sourceX,sourceY);
+     if(Math.abs(labelCenter-sourceX)<0.5){
+       x.lineTo(labelCenter,endY);
+     }else{
+       const delta=labelCenter-sourceX;
+       const bend=Math.min(32,Math.max(14,Math.abs(delta)*0.28));
+       x.bezierCurveTo(sourceX,sourceY+bend,labelCenter,endY-bend,labelCenter,endY);
+     }
+     x.stroke();
+   };
+   drawConnector(sx0,c0);
+   drawConnector(sx1,c1);
+   drawBottomLabel(label0,b0,labelY,w0);
+   drawBottomLabel(label1,b1,labelY,w1);
  }
 }
 

@@ -93,7 +93,7 @@ button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#
 </main>
 
 <script>
-const TOOL_VERSION="V23";
+const TOOL_VERSION="V24";
 window.addEventListener("DOMContentLoaded",()=>{const v=document.getElementById("toolVersion");if(v)v.textContent=TOOL_VERSION;});
 "use strict";
 (() => {
@@ -453,25 +453,31 @@ function draw(r,canvas){
    const pad=6, boxH=22, gap=8;
    const w0=x.measureText(label0).width+pad*2, w1=x.measureText(label1).width+pad*2;
 
-   // V23 : par défaut, chaque heure est centrée exactement sur sa graduation.
-   // Si les deux libellés se chevauchent, ils sont écartés horizontalement pour
-   // rester lisibles. Dans ce seul cas, une liaison courbe relie la graduation
-   // exacte au centre réel du libellé déplacé.
+   // V24 : positionnement responsive des heures.
+   // Chaque libellé est d'abord centré EXACTEMENT sur sa graduation.
+   // Il n'est déplacé que si les deux boîtes se chevauchent réellement.
+   // Dans ce cas seulement, les liaisons courbent de la graduation vers
+   // le centre réel du libellé. Le calcul se fait sur la largeur réelle
+   // du canvas afin de rester correct en portrait comme en paysage.
    let c0=sx0, c1=sx1;
-   const required=(w0+w1)/2+gap;
-   const distance=Math.abs(c1-c0);
-   if(distance<required){
-     const delta=(required-distance)/2;
-     if(c0<=c1){c0-=delta;c1+=delta;}
-     else{c0+=delta;c1-=delta;}
+   const minGap=Math.max(8,Math.min(18,w*.012));
+   const overlap=(Math.abs(c1-c0) < (w0+w1)/2 + minGap);
+   if(overlap){
+     const dir=c1>=c0?1:-1;
+     const target=(w0+w1)/2 + minGap;
+     const delta=(target-Math.abs(c1-c0))/2;
+     c0-=dir*delta;
+     c1+=dir*delta;
    }
 
-   // Empêche les boîtes de sortir de la zone du graphique. Les liaisons
-   // rejoignent ensuite le centre effectivement affiché de chaque heure.
-   const clampCenter=(c,boxW)=>Math.max(p.l+2+boxW/2,Math.min(w-p.r-2-boxW/2,c));
+   // Les centres restent dans le canvas. En cas de contrainte de bord,
+   // le connecteur conserve toujours la graduation comme point de départ.
+   const clampCenter=(c,boxW)=>Math.max(p.l+boxW/2,Math.min(w-p.r-boxW/2,c));
    c0=clampCenter(c0,w0);
    c1=clampCenter(c1,w1);
 
+   // Si le viewport est assez large et qu'il n'y a pas de chevauchement,
+   // c0/c1 sont strictement égaux à sx0/sx1 : aucune dérive horizontale.
    const b0=c0-w0/2, b1=c1-w1/2;
    const labelY=axisY+34;
    const drawBottomLabel=(label,bx,by,boxW)=>{
@@ -479,9 +485,7 @@ function draw(r,canvas){
      x.fillStyle=color;x.textAlign="center";x.textBaseline="middle";x.fillText(label,bx+boxW/2,by+boxH/2);
    };
 
-   // Liaison depuis la graduation exacte jusqu'au milieu de l'heure affichée.
-   // Quand le libellé est déplacé pour éviter un chevauchement, la liaison se
-   // courbe naturellement avec une courbe quadratique.
+   // Liaison responsive : source = graduation exacte, cible = milieu exact du texte.
    const drawConnector=(sourceX,targetX)=>{
      const sourceY=axisY+14;
      const targetY=labelY+boxH/2;
@@ -491,7 +495,7 @@ function draw(r,canvas){
      if(Math.abs(dx)<0.5){
        x.lineTo(targetX,targetY);
      }else{
-       const bend=Math.max(10,Math.min(28,Math.abs(dx)*.55));
+       const bend=Math.max(10,Math.min(32,Math.abs(dx)*.45));
        const controlX=sourceX+dx*.5;
        const controlY=sourceY+bend;
        x.quadraticCurveTo(controlX,controlY,targetX,targetY);
@@ -584,7 +588,15 @@ renderLog();
 $("scan").onclick=()=>{if(state.scanning)return;scan().catch(e=>{state.scanning=false;$("finishNow").hidden=true;$("showRankingEarly").hidden=true;err(e,"Scan")})};
 $("cancel").onclick=()=>{state.cancel=true;if(scanAbortController)scanAbortController.abort();setStatus("Annulation demandée…")};
 $("finishNow").onclick=()=>{if(!state.scanning)return;state.finishEarly=true;state.cancel=true;if(scanAbortController)scanAbortController.abort();setStatus("Finalisation du classement avec les données disponibles…")};
-window.addEventListener("resize",()=>{if(!state.scanning)render();});
+let resizeRaf=0;
+function handleViewportResize(){
+  cancelAnimationFrame(resizeRaf);
+  resizeRaf=requestAnimationFrame(()=>{
+    if(!state.scanning)render();
+  });
+}
+window.addEventListener("resize",handleViewportResize,{passive:true});
+if(window.visualViewport)window.visualViewport.addEventListener("resize",handleViewportResize,{passive:true});
 diagnostics().then(ok=>setStatus(ok?"Prêt — Hyperliquid API opérationnelle":"Diagnostic en échec — voir le détail ci-dessus"));
 })();
 </script>

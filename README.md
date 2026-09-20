@@ -1,11 +1,8 @@
-# Hyperliquid Scanner V3.3 — GitHub Pages V16
+# Hyperliquid Scanner V3.3 — GitHub Pages V17
 
-## Modifications V16
-- Affichage de la version de l’outil dans le panneau du journal : **V16**.
-- Ajout de la durée du mouvement entre les deux horloges, sans augmenter l’écart entre celles-ci.
-- AM / PM translucide et placé au premier plan dans chaque horloge afin de rester lisible malgré les aiguilles.
-- Ajout des chiffres **1 à 12** autour du cadran de chaque horloge.
-- Conservation de toutes les fonctionnalités et corrections de la V15.
-
-## Déploiement
-Projet statique compatible GitHub Pages. Conserver le workflow GitHub Actions de la version précédente.
+Modifications V17 :
+- Durée du mouvement placée plus haut entre les deux horloges, sans modifier leur espacement.
+- Numéros 1 à 12 déplacés à l'extérieur des cadrans.
+- AM/PM en blanc translucide, avec contraste renforcé et rendu au premier plan au-dessus des aiguilles.
+- Version de l'outil affichée dans le panneau de log : V17.
+- Conservation des fonctionnalités de la V16.

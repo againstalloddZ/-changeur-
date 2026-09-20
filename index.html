@@ -93,7 +93,7 @@ button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#
 </main>
 
 <script>
-const TOOL_VERSION="V25";
+const TOOL_VERSION="V26";
 window.addEventListener("DOMContentLoaded",()=>{const v=document.getElementById("toolVersion");if(v)v.textContent=TOOL_VERSION;});
 "use strict";
 (() => {
@@ -459,22 +459,57 @@ function draw(r,canvas){
    // Dans ce cas seulement, les liaisons courbent de la graduation vers
    // le centre réel du libellé. Le calcul se fait sur la largeur réelle
    // du canvas afin de rester correct en portrait comme en paysage.
+   // V26 : résolution responsive robuste des deux boîtes de temps.
+   // On conserve les graduations comme ancres et on ne décale les textes
+   // que lorsqu'ils se chevauchent. Après la contrainte aux bords, on
+   // réapplique toujours l'écart minimal afin qu'une boîte ne recouvre
+   // jamais l'autre, notamment sur petit écran en portrait.
+   const minGap=Math.max(10,Math.min(20,w*.018));
+   const leftBound=p.l+w0/2, rightBound=w-p.r-w1/2;
    let c0=sx0, c1=sx1;
-   const minGap=Math.max(8,Math.min(18,w*.012));
-   const overlap=(Math.abs(c1-c0) < (w0+w1)/2 + minGap);
-   if(overlap){
-     const dir=c1>=c0?1:-1;
-     const target=(w0+w1)/2 + minGap;
-     const delta=(target-Math.abs(c1-c0))/2;
-     c0-=dir*delta;
-     c1+=dir*delta;
+   const forward=c1>=c0;
+
+   if(forward){
+     const minC1=c0+(w0+w1)/2+minGap;
+     if(c1<minC1){
+       const need=minC1-c1;
+       c0-=need/2;
+       c1+=need/2;
+     }
+     // Repositionnement global si l'un des deux centres dépasse un bord.
+     if(c0<leftBound){
+       const shift=leftBound-c0;c0+=shift;c1+=shift;
+     }
+     if(c1>rightBound){
+       const shift=c1-rightBound;c0-=shift;c1-=shift;
+     }
+     // Dernière passe de sécurité : priorité aux limites du canvas.
+     c0=Math.max(leftBound,Math.min(w-p.r-w0/2,c0));
+     c1=Math.max(p.l+w1/2,Math.min(rightBound,c1));
+   }else{
+     const maxC1=c0-(w0+w1)/2-minGap;
+     if(c1>maxC1){
+       const need=c1-maxC1;
+       c0+=need/2;
+       c1-=need/2;
+     }
+     if(c0> w-p.r-w0/2){
+       const shift=c0-(w-p.r-w0/2);c0-=shift;c1-=shift;
+     }
+     if(c1< p.l+w1/2){
+       const shift=p.l+w1/2-c1;c0+=shift;c1+=shift;
+     }
+     c0=Math.max(p.l+w0/2,Math.min(w-p.r-w0/2,c0));
+     c1=Math.max(p.l+w1/2,Math.min(w-p.r-w1/2,c1));
    }
 
-   // Les centres restent dans le canvas. En cas de contrainte de bord,
-   // le connecteur conserve toujours la graduation comme point de départ.
-   const clampCenter=(c,boxW)=>Math.max(p.l+boxW/2,Math.min(w-p.r-boxW/2,c));
-   c0=clampCenter(c0,w0);
-   c1=clampCenter(c1,w1);
+   // Si la largeur disponible est insuffisante pour deux boîtes séparées,
+   // on réduit légèrement la typographie plutôt que de laisser les textes
+   // se superposer. Dans les tailles normales cela ne s'active pas.
+   const availableGap=forward?(c1-c0-(w0+w1)/2):(c0-c1-(w0+w1)/2);
+   if(availableGap<minGap && w<420){
+     x.font="bold 11px sans-serif";
+   }
 
    // Si le viewport est assez large et qu'il n'y a pas de chevauchement,
    // c0/c1 sont strictement égaux à sx0/sx1 : aucune dérive horizontale.

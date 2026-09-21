@@ -95,7 +95,7 @@ button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#
 </main>
 
 <script>
-const TOOL_VERSION="V30";
+const TOOL_VERSION="V31";
 window.addEventListener("DOMContentLoaded",()=>{const v=document.getElementById("toolVersion");if(v)v.textContent=TOOL_VERSION;});
 "use strict";
 (() => {
@@ -461,7 +461,7 @@ function draw(r,canvas){
    // Dans ce cas seulement, les liaisons courbent de la graduation vers
    // le centre réel du libellé. Le calcul se fait sur la largeur réelle
    // du canvas afin de rester correct en portrait comme en paysage.
-   // V30 : placement conjoint robuste des deux libellés.
+   // V30/V31 : placement conjoint robuste des deux libellés.
    // Le bug des versions précédentes venait du clamp indépendant :
    // lorsqu'une paire était proche du bord, chaque centre était ramené
    // séparément dans le canvas, ce qui pouvait recréer un chevauchement.
@@ -533,40 +533,63 @@ function draw(r,canvas){
      if(Math.abs(dx)<0.5){
        x.lineTo(targetX,targetY);
      }else if($('newConnectors')?.checked){
-       // Nouveau : très courte verticale -> courbe douce -> diagonale ->
-       // courbe douce -> très courte verticale, sans angle saillant.
-       const totalDy=Math.max(20,targetY-sourceY);
-       const absDx=Math.abs(dx);
+       // V31 : nouveau connecteur basé sur la HAUTEUR VERTICALE disponible,
+       // et non sur la longueur géométrique de la ligne.
+       // 20% : départ vertical court.
+       // 70% : segment principal ; vertical si la cible est alignée,
+       // oblique si le libellé a dû être décalé.
+       // 10% : arrivée verticale très courte.
+       // Les transitions sont des Bézier tangentielles pour éviter tout angle saillant.
+       const totalDy=Math.max(1,targetY-sourceY);
        const sign=dx>=0?1:-1;
-       const lead=Math.max(5,Math.min(11,totalDy*.10));
-       const curveLen=Math.max(12,Math.min(30,absDx*.18));
-       const y1=sourceY+lead;
-       const y2=targetY-lead;
-       const diagStartX=sourceX+sign*curveLen;
-       const diagEndX=targetX-sign*curveLen;
-       const diagStartY=y1+Math.max(8,(y2-y1)*.12);
-       const diagEndY=y2-Math.max(8,(y2-y1)*.12);
-       const vx=diagEndX-diagStartX, vy=diagEndY-diagStartY;
-       const vlen=Math.max(1,Math.hypot(vx,vy));
-       const tx=vx/vlen, ty=vy/vlen;
-       const bend=Math.max(10,Math.min(28,curveLen));
-       x.lineTo(sourceX,y1);
-       // Tangente verticale au départ, tangente exactement alignée sur la
-       // diagonale à la sortie de la première courbe.
-       x.bezierCurveTo(
-         sourceX,y1+bend,
-         diagStartX-tx*bend,diagStartY-ty*bend,
-         diagStartX,diagStartY
-       );
-       // Diagonale centrale.
-       x.lineTo(diagEndX,diagEndY);
-       // Tangente diagonale à l'entrée, puis tangente verticale à l'arrivée.
-       x.bezierCurveTo(
-         diagEndX+tx*bend,diagEndY+ty*bend,
-         targetX,y2-bend,
-         targetX,y2
-       );
-       x.lineTo(targetX,targetY);
+       const y1=sourceY+totalDy*.20;
+       const y2=sourceY+totalDy*.90;
+       const aligned=Math.abs(dx)<0.5;
+
+       if(aligned){
+         // Cas idéal : étiquette alignée sur sa graduation.
+         x.lineTo(sourceX,y1);
+         x.lineTo(targetX,y2);
+         x.lineTo(targetX,targetY);
+       }else{
+         // Le segment principal parcourt exactement les 70% centraux de la
+         // hauteur. Les deux changements de direction sont arrondis.
+         const mainDy=Math.max(1,y2-y1);
+         const curveX=Math.max(8,Math.min(Math.abs(dx)*.22,28));
+         const bend=Math.max(4,Math.min(mainDy*.16,Math.abs(dx)*.12+4));
+         const c1x=sourceX+sign*curveX;
+         const c2x=targetX-sign*curveX;
+         const startDiagX=c1x;
+         const startDiagY=y1+bend;
+         const endDiagX=c2x;
+         const endDiagY=y2-bend;
+         const vx=endDiagX-startDiagX;
+         const vy=endDiagY-startDiagY;
+         const vlen=Math.max(1,Math.hypot(vx,vy));
+         const tx=vx/vlen, ty=vy/vlen;
+         const tangentLen=Math.max(5,Math.min(curveX*1.15,mainDy*.18));
+
+         // 20% vertical, puis une courbe dont la tangente de sortie
+         // est exactement celle de la portion oblique centrale.
+         x.lineTo(sourceX,y1);
+         x.bezierCurveTo(
+           sourceX,y1+bend*.55,
+           startDiagX-tx*tangentLen,startDiagY-ty*tangentLen,
+           startDiagX,startDiagY
+         );
+         // Portion oblique principale : sa projection verticale couvre
+         // la zone centrale entre 20% et 90% de la hauteur totale.
+         x.lineTo(endDiagX,endDiagY);
+         // Courbe inverse : tangente d'entrée identique à la diagonale,
+         // tangente de sortie parfaitement verticale.
+         x.bezierCurveTo(
+           endDiagX+tx*tangentLen,endDiagY+ty*tangentLen,
+           targetX,y2-bend*.55,
+           targetX,y2
+         );
+         // 10% vertical final.
+         x.lineTo(targetX,targetY);
+       }
      }else{
        // V27 : liaison conservée telle quelle.
        const lead=Math.max(10,Math.min(18,(targetY-sourceY)*.22));

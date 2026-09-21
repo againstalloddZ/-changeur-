@@ -1,17 +1,13 @@
-# Hyperliquid Scanner V3.3 — GitHub Pages V31
+# Hyperliquid Scanner V3.3 — GitHub Pages V32
 
-V31 is based on V30.
+V32 is based on V31.
 
-## Connector modes
-- **Checkbox OFF:** keeps the V30 connector management unchanged.
-- **Checkbox ON:** enables the new V31 connector geometry.
+## Changes in V32
+- Floating connector-style control is visually transparent except for its outline.
+- Analog clock hour and minute hands are slightly longer.
+- Added detailed source-code comments around label placement and connector geometry so the connector behavior can be modified manually later.
+- V27 remains the fallback connector style when the floating checkbox is unchecked.
+- The newer connector style remains available when the checkbox is checked.
 
-## V31 connector geometry
-The requested percentages describe the **vertical distance travelled**, not the geometric length of the connector:
-- **20%**: short vertical section from the exact x-axis graduation;
-- **70%**: central section, vertical when the label is aligned, oblique when the label has been shifted;
-- **10%**: short final vertical section into the exact center of the time label.
-
-When the central section changes direction, smooth Bézier transitions are used so there are no sharp corners. The Bézier tangents are aligned with the vertical and oblique sections.
-
-The V30 label placement is retained: each label is centered on its own graduation whenever possible; if the two labels would overlap, they are shifted as a pair and the connectors follow their final centers.
+## Deployment
+Use the included GitHub Pages workflow from `.github/workflows/pages.yml`.

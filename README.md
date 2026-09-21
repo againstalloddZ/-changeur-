@@ -1,10 +1,9 @@
-# Hyperliquid Scanner V3.3 — GitHub Pages V29
+# Hyperliquid Scanner V3.3 — GitHub Pages V30
 
-## V29
-- V27 reste le mode par défaut pour les connecteurs.
-- Ajout d’une case à cocher flottante à gauche pour activer le nouveau style.
-- Nouveau style : très courte verticale au départ, courbe douce, diagonale centrale, courbe douce, puis très courte verticale à l’arrivée, sans angle saillant.
-- La graduation exacte reste toujours l’origine du connecteur et le milieu exact du libellé reste sa destination.
-- Le bouton flottant du journal est déplacé vers le bas pour être plus facilement accessible sur mobile.
-- Le choix du style des connecteurs est mémorisé localement.
-- Version interne : V29.
+Version V30, basée sur V29.
+
+- V27 reste le style de connecteur par défaut.
+- Option flottante pour activer le nouveau style.
+- Placement conjoint robuste des deux libellés horaires : les deux boîtes sont traitées comme un bloc afin d'empêcher tout chevauchement, y compris lorsque les deux mouvements sont proches du bord du graphique.
+- Les connecteurs continuent de partir des graduations exactes et d'arriver au centre exact des libellés.
+- Responsive portrait/paysage conservé.

@@ -73,14 +73,12 @@ button:not(.primary):not(.danger):hover{border-color:var(--border-glow);backgrou
 .svg-clock .min-hand{transition:transform .8s cubic-bezier(.45,0,.15,1)}
 .svg-clock.anim-clock .hour-hand,.svg-clock.anim-clock .min-hand{transition:none!important}
 .svg-clock .dial-ring{filter:drop-shadow(0 0 6px rgba(45,212,191,.12))}
-/* Directional glows */
 .svg-clock.dir-up .hour-hand{filter:drop-shadow(0 0 3px rgba(52,211,153,.4))}
 .svg-clock.dir-up .min-hand{filter:drop-shadow(0 0 2px rgba(52,211,153,.3))}
 .svg-clock.dir-up .pivot{filter:drop-shadow(0 0 4px rgba(52,211,153,.5))}
 .svg-clock.dir-down .hour-hand{filter:drop-shadow(0 0 3px rgba(248,113,113,.4))}
 .svg-clock.dir-down .min-hand{filter:drop-shadow(0 0 2px rgba(248,113,113,.3))}
 .svg-clock.dir-down .pivot{filter:drop-shadow(0 0 4px rgba(248,113,113,.5))}
-/* Pulse for animated clock pivot */
 @keyframes pulseGlowUp{0%,100%{filter:drop-shadow(0 0 3px rgba(52,211,153,.35))}50%{filter:drop-shadow(0 0 8px rgba(52,211,153,.6))}}
 @keyframes pulseGlowDown{0%,100%{filter:drop-shadow(0 0 3px rgba(248,113,113,.35))}50%{filter:drop-shadow(0 0 8px rgba(248,113,113,.6))}}
 .svg-clock.anim-clock.dir-up .pivot{animation:pulseGlowUp 2.5s ease-in-out infinite}
@@ -133,8 +131,20 @@ button:not(.primary):not(.danger):hover{border-color:var(--border-glow);backgrou
 .digitalTime{font-size:25px;font-weight:850;letter-spacing:.02em;margin-bottom:5px;font-family:'JetBrains Mono',monospace}
 .miniClockWrap{text-align:center;min-width:0;flex:0 0 auto}
 .miniDigital{font-size:16px;font-weight:850;line-height:1.05;margin-bottom:4px;font-family:'JetBrains Mono',monospace}
-.rankClockPair{position:relative;display:flex;width:100%;gap:4px;justify-content:space-between;align-items:center}
-.movementDuration{position:absolute;left:50%;top:34px;transform:translate(-50%,-50%);z-index:6;pointer-events:none;color:var(--text-primary);font-size:15px;font-weight:800;line-height:1;white-space:nowrap;text-align:center;text-shadow:0 1px 4px rgba(0,0,0,.95);background:rgba(5,10,18,.7);padding:4px 8px;border-radius:var(--radius-sm);font-family:'JetBrains Mono',monospace;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.rankClockPair{position:relative;display:flex;width:100%;gap:4px;justify-content:space-between;align-items:flex-start}
+
+/* ── DURATION: above animated clock, in normal flow ── */
+.movementDuration{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;font-weight:800;
+  color:var(--text-primary);
+  text-align:center;
+  margin-bottom:4px;
+  line-height:1.2;
+  white-space:nowrap;
+}
+.winnerInfo .movementDuration{font-size:16px}
+
 .muted{color:var(--text-secondary)}
 .chartbox{height:320px}
 .chartbox canvas{width:100%;height:100%;display:block;background:var(--bg-inner);border-radius:var(--radius-md);border:1px solid var(--border-primary)}
@@ -259,9 +269,6 @@ async function diagnostics(){const isFile=location.protocol==="file:";mark("djs"
 function parseCandles(a){return (Array.isArray(a)?a:[]).map(c=>({t:+c.t,o:+c.o,h:+c.h,l:+c.l,c:+c.c})).filter(x=>[x.t,x.h,x.l,x.c].every(Number.isFinite)).sort((a,b)=>a.t-b.t)}
 function calcMovements(coin,lev,candles){if(candles.length<2)return [];const out=[];let minLow=candles[0].l,minLowI=0,maxHigh=candles[0].h,maxHighI=0;let bestUp=null,bestDown=null;for(let i=1;i<candles.length;i++){const c=candles[i];const up=(c.h-minLow)/minLow*100;if(!bestUp||up>bestUp.move)bestUp={direction:"up",startPrice:minLow,endPrice:c.h,startT:candles[minLowI].t,endT:c.t,startI:minLowI,endI:i,move:up};const down=(maxHigh-c.l)/maxHigh*100;if(!bestDown||down>bestDown.move)bestDown={direction:"down",startPrice:maxHigh,endPrice:c.l,startT:candles[maxHighI].t,endT:c.t,startI:maxHighI,endI:i,move:down};if(c.l<minLow){minLow=c.l;minLowI=i}if(c.h>maxHigh){maxHigh=c.h;maxHighI=i}}for(const m of [bestUp,bestDown]){if(m&&m.move>0&&m.startI!==m.endI)out.push({coin,leverage:lev,score:m.move*lev,candles,direction:m.direction,startPrice:m.startPrice,endPrice:m.endPrice,startT:m.startT,endT:m.endT,move:m.move,startI:m.startI,endI:m.endI});}return out;}
 
-/* ═══════════════════════════════════════════════════
-   SVG CLOCK — Hyperliquid-inspired, green/red direction
-   ═══════════════════════════════════════════════════ */
 let clockUid=0;
 function buildSVGClock(tm,opts={}){
   const isAnim=!!opts.anim;
@@ -273,8 +280,6 @@ function buildSVGClock(tm,opts={}){
   const mm=d.getMinutes()+d.getSeconds()/60;
   const ha=hh*30, ma=mm*6;
   const ampm=d.getHours()<12?'AM':'PM';
-
-  // Tick marks (teal Hyperliquid style)
   let ticks='';
   for(let i=0;i<12;i++){
     const a=(i*30-90)*Math.PI/180;
@@ -282,25 +287,17 @@ function buildSVGClock(tm,opts={}){
     const col=i===0?'rgba(45,212,191,.7)':'rgba(45,212,191,.18)';
     ticks+=`<line x1="${(50+Math.cos(a)*t1).toFixed(1)}" y1="${(50+Math.sin(a)*t1).toFixed(1)}" x2="${(50+Math.cos(a)*t2).toFixed(1)}" y2="${(50+Math.sin(a)*t2).toFixed(1)}" stroke="${col}" stroke-width="${i===0?1.2:.7}" stroke-linecap="round"/>`;
   }
-
-  // Numbers 1-12 at radius 34
   let numbers='';
   for(let n=1;n<=12;n++){
-    const a=(n*30-90)*Math.PI/180;
-    const nr=34;
-    const nx=50+Math.cos(a)*nr;
-    const ny=50+Math.sin(a)*nr;
-    const isQ=(n%3===0);
-    const fs=isQ?7:5.5;
-    const fw=isQ?700:500;
+    const a=(n*30-90)*Math.PI/180, nr=34;
+    const nx=50+Math.cos(a)*nr, ny=50+Math.sin(a)*nr;
+    const isQ=(n%3===0), fs=isQ?7:5.5, fw=isQ?700:500;
     const fill=isQ?'rgba(200,216,232,.75)':'rgba(200,216,232,.45)';
     numbers+=`<text x="${nx.toFixed(1)}" y="${ny.toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="${fs}" font-weight="${fw}" fill="${fill}" font-family="Inter,sans-serif">${n}</text>`;
   }
-
   const dirClass=isUp?'dir-up':'dir-down';
   const clockType=isAnim?'anim-clock':'static-clock';
   const dataAttrs=isAnim?` data-anim-start="${opts.startT}" data-anim-end="${opts.endT}"`:` data-clock-time="${tm}"`;
-
   return `<svg class="svg-clock ${clockType} ${dirClass}" viewBox="0 0 100 100"${dataAttrs}>
 <defs><radialGradient id="g_${uid}" cx="50%" cy="45%"><stop offset="0%" stop-color="#0c1825"/><stop offset="100%" stop-color="#060e18"/></radialGradient></defs>
 <circle cx="50" cy="50" r="48" fill="url(#g_${uid})" stroke="rgba(45,212,191,.2)" stroke-width="1" class="dial-ring"/>
@@ -328,8 +325,8 @@ function setSVGClocks(){
 
 const animClocks=[];
 let animRaf=0;
-const HOLD_MS=800, MOVE_MS=1500;
-const CYCLE=HOLD_MS*2+MOVE_MS*2; // 4600ms total ping-pong
+const HOLD_MS=1500, MOVE_MS=1500;
+const CYCLE=HOLD_MS*2+MOVE_MS*2;
 
 function initAnimatedClocks(){
   cancelAnimationFrame(animRaf);
@@ -345,19 +342,10 @@ function initAnimatedClocks(){
     for(const c of animClocks){
       const el=now-t0, p=el%CYCLE;
       let ts;
-      if(p<HOLD_MS){
-        ts=c.start;
-      }else if(p<HOLD_MS+MOVE_MS){
-        const u=(p-HOLD_MS)/MOVE_MS;
-        const ease=u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;
-        ts=c.start+(c.end-c.start)*ease;
-      }else if(p<HOLD_MS*2+MOVE_MS){
-        ts=c.end;
-      }else{
-        const u=(p-HOLD_MS*2-MOVE_MS)/MOVE_MS;
-        const ease=u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;
-        ts=c.end+(c.start-c.end)*ease;
-      }
+      if(p<HOLD_MS){ts=c.start;}
+      else if(p<HOLD_MS+MOVE_MS){const u=(p-HOLD_MS)/MOVE_MS;const ease=u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;ts=c.start+(c.end-c.start)*ease;}
+      else if(p<HOLD_MS*2+MOVE_MS){ts=c.end;}
+      else{const u=(p-HOLD_MS*2-MOVE_MS)/MOVE_MS;const ease=u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;ts=c.end+(c.start-c.end)*ease;}
       const d=new Date(ts);
       const hh=+d.getHours()%12+d.getMinutes()/60;
       const mm=d.getMinutes()+d.getSeconds()/60;
@@ -378,7 +366,6 @@ function cardHTML(r,large=false){
   const wmFillBottom=up?"rgba(52,211,153,0.05)":"rgba(248,113,113,0.05)";
   const wmSvg=(t,f)=>`<svg class="wm-svg" viewBox="0 0 100 50" preserveAspectRatio="none"><text x="50" y="42" text-anchor="middle" textLength="100" lengthAdjust="spacingAndGlyphs" font-size="50" font-weight="900" fill="${f}" font-family="Inter,-apple-system,sans-serif">${t}</text></svg>`;
   const watermark=`<div class="watermark" aria-hidden="true"><div class="wm-half">${wmSvg(r.coin,wmFillTop)}</div><div class="wm-half">${wmSvg(dirLabel,wmFillBottom)}</div></div>`;
-
   const dir=up?'up':'down';
   const svgStart=buildSVGClock(r.startT,{anim:false,direction:dir});
   const svgEnd=buildSVGClock(r.endT,{anim:false,direction:dir});
@@ -388,8 +375,7 @@ function cardHTML(r,large=false){
 <div class="rankTop"><div class="rankCoin">${r.coin}<span class="rankArrow ${up?"up":"down"}">${dirLabel}</span><span class="levBadge">${r.leverage}×</span></div><div class="rankMove ${up?"up":"down"}">${r.score.toFixed(2)}%<div class="rankRaw ${up?"up":"down"}">${up?"+":"−"}${r.move.toFixed(2)}%</div></div></div>
 <div class="rankMeta"><div class="rankCell"><div class="rankClockPair">
   <div class="miniClockWrap"><div class="${digitalClass}">${fmtTime(r.startT,r.endT)}</div>${svgStart}</div>
-  <div class="movementDuration">+${fmtDuration(r.endT-r.startT)}</div>
-  <div class="miniClockWrap">${svgAnim}</div>
+  <div class="miniClockWrap"><div class="movementDuration">+${fmtDuration(r.endT-r.startT)}</div>${svgAnim}</div>
   <div class="miniClockWrap"><div class="${digitalClass}">${fmtTime(r.endT,r.startT)}</div>${svgEnd}</div>
 </div></div></div>${large?`<div class="winnerChart"><canvas id="chart"></canvas></div>`:(state.expanded===r?`<div class="inlineChart"><canvas class="inlineChartCanvas" data-chart="1"></canvas></div>`:"")}`;
 }
@@ -399,7 +385,7 @@ function render(){const panel=$("rankingPanel");const body=$("rows");if(!state.d
 
 function draw(r,canvas){const c=canvas||$("chart");if(!c)return;const dpr=devicePixelRatio||1,rect=c.getBoundingClientRect();const w=Math.max(1,rect.width),h=Math.max(1,rect.height);c.width=w*dpr;c.height=h*dpr;const x=c.getContext("2d");x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,w,h);const candles=r.candles;if(!candles.length)return;const view=candles,values=[];view.forEach(v=>values.push(v.h,v.l));let mn=Math.min(...values),mx=Math.max(...values);const margin=(mx-mn)*.08||Math.max(Math.abs(mx)*.001,1e-8);mn-=margin;mx+=margin;const p={l:58,r:18,t:28,b:70};const plotW=w-p.l-p.r,plotH=h-p.t-p.b;const sx=i=>p.l+i*plotW/Math.max(1,view.length-1);const sy=v=>h-p.b-(v-mn)*plotH/Math.max(1e-12,mx-mn);x.font="12px sans-serif";x.lineWidth=1;x.strokeStyle="#162a3e";x.fillStyle="#5a7088";const yTicks=[];for(let k=0;k<5;k++){const yy=p.t+k*plotH/4;const val=mx-k*(mx-mn)/4;yTicks.push({y:yy,value:val,label:fmt(val)});x.beginPath();x.moveTo(p.l,yy);x.lineTo(w-p.r,yy);x.stroke();x.textAlign="left";x.textBaseline="middle";x.fillStyle="#5a7088";x.fillText(fmt(val),6,yy);}const candleStep=plotW/Math.max(1,view.length-1),bodyW=Math.max(1,Math.min(12,candleStep*.62));view.forEach((v,i)=>{const xx=sx(i),yo=sy(v.o),yc=sy(v.c),yh=sy(v.h),yl=sy(v.l),rising=v.c>=v.o,col=rising?"#34d399":"#f87171";x.strokeStyle=col;x.fillStyle=col;x.lineWidth=1.2;x.beginPath();x.moveTo(xx,yh);x.lineTo(xx,yl);x.stroke();const top=Math.min(yo,yc),bh=Math.max(1,Math.abs(yc-yo));x.fillRect(xx-bodyW/2,top,bodyW,bh);});const axisY=h-p.b;x.textAlign="center";x.textBaseline="top";view.forEach((v,i)=>{const d=new Date(v.t),min=d.getMinutes(),sec=d.getSeconds();const hour=min===0&&sec<30,quarter=(min%15===0&&sec<30);const xx=sx(i);const len=hour?13:(quarter?9:5),width=hour?2.4:(quarter?1.7:1);x.strokeStyle=hour?"#c8d8e8":(quarter?"#7a8ea0":"#2a3e52");x.lineWidth=width;x.beginPath();x.moveTo(xx,axisY);x.lineTo(xx,axisY+len);x.stroke();});x.textAlign="start";x.textBaseline="alphabetic";const si=r.startI,ei=r.endI;if(si>=0&&ei>=0&&si<view.length&&ei<view.length){const sx0=sx(si),sy0=sy(r.startPrice),sx1=sx(ei),sy1=sy(r.endPrice);const color=r.direction==="up"?"#34d399":"#f87171";x.setLineDash([5,4]);x.strokeStyle=color;x.lineWidth=1.2;x.beginPath();x.moveTo(sx0,p.t);x.lineTo(sx0,axisY);x.stroke();x.beginPath();x.moveTo(sx1,p.t);x.lineTo(sx1,axisY);x.stroke();x.setLineDash([]);const drawEventPrice=(value,baseY)=>{const text=fmt(value);x.font="700 11px sans-serif";let yy=baseY;const conflicts=yTicks.filter(t=>Math.abs(t.y-yy)<14);if(conflicts.length){const above=baseY-18,below=baseY+18;const freeAbove=above>=p.t+7&&!yTicks.some(t=>Math.abs(t.y-above)<14);const freeBelow=below<=axisY-7&&!yTicks.some(t=>Math.abs(t.y-below)<14);if(freeAbove)yy=above;else if(freeBelow)yy=below;else yy=baseY<=(p.t+axisY)/2?below:above;}x.textAlign="right";x.textBaseline="middle";x.fillStyle=color;x.shadowColor="rgba(0,0,0,.9)";x.shadowBlur=3;x.fillText(text,p.l-8,yy);x.shadowColor="transparent";x.shadowBlur=0;};drawEventPrice(r.startPrice,sy0);drawEventPrice(r.endPrice,sy1);const label0=fmtTime(r.startT,r.endT),label1=fmtTime(r.endT,r.startT);x.font="bold 12px sans-serif";const pad=6,boxH=22,gap=8;const w0=x.measureText(label0).width+pad*2,w1=x.measureText(label1).width+pad*2;const useNewConnectors=$('newConnectors')?.checked;let c0=sx0,c1=sx1;if(useNewConnectors){const minGap=Math.max(7,Math.min(14,w*.010));const min0=p.l+w0/2,max0=w-p.r-w0/2;const min1=p.l+w1/2,max1=w-p.r-w1/2;c0=Math.max(min0,Math.min(max0,sx0));c1=Math.max(min1,Math.min(max1,sx1));const swap=c0>c1;const lW=swap?w1:w0,rW=swap?w0:w1;const lMinB=swap?min1:min0,lMaxB=swap?max1:max0,rMinB=swap?min0:min1,rMaxB=swap?max0:max1;const lC0=swap?c1:c0,rC0=swap?c0:c1;const requiredGap=lW/2+rW/2+minGap,currentGap=rC0-lC0;if(currentGap<requiredGap){const mid=(lC0+rC0)/2;let lC=mid-requiredGap/2,rC=mid+requiredGap/2;if(lC<lMinB){rC+=(lMinB-lC);lC=lMinB;}if(rC>rMaxB){lC-=(rC-rMaxB);rC=rMaxB;}lC=Math.max(lMinB,Math.min(lMaxB,lC));rC=Math.max(rMinB,Math.min(rMaxB,rC));if(swap){c1=lC;c0=rC;}else{c0=lC;c1=rC;}}}else{const minGap=Math.max(8,Math.min(18,w*.012));const min0=p.l+w0/2,max0=w-p.r-w0/2;const min1=p.l+w1/2,max1=w-p.r-w1/2;const sourceRight=sx1>=sx0;let c0=sx0,c1=sx1;const required=(w0+w1)/2+minGap;if(sourceRight){const low=Math.max(min0,min1-required),high=Math.min(max0,max1-required);if(low<=high){const ideal=(sx0+sx1-required)/2;c0=Math.max(low,Math.min(high,ideal));c1=c0+required;}else{const fallbackGap=Math.max(2,Math.min(minGap,Math.max(2,(w-p.l-p.r-w0-w1)*.5)));const req2=(w0+w1)/2+fallbackGap;const low2=Math.max(min0,min1-req2),high2=Math.min(max0,max1-req2);c0=Math.max(low2,Math.min(high2,(sx0+sx1-req2)/2));c1=c0+req2;}}else{const low=Math.max(min1,min0-required),high=Math.min(max1,max0-required);if(low<=high){const ideal=(sx1+sx0-required)/2;c1=Math.max(low,Math.min(high,ideal));c0=c1+required;}else{const fallbackGap=Math.max(2,Math.min(minGap,Math.max(2,(w-p.l-p.r-w0-w1)*.5)));const req2=(w0+w1)/2+fallbackGap;const low2=Math.max(min1,min0-req2),high2=Math.min(max1,max0-req2);c1=Math.max(low2,Math.min(high2,(sx1+sx0-req2)/2));c0=c1+req2;}}}const b0=c0-w0/2,b1=c1-w1/2;const labelY=axisY+34;const drawBottomLabel=(label,bx,by,boxW)=>{x.fillStyle="rgba(7,16,26,.96)";x.beginPath();x.roundRect(bx,by,boxW,boxH,6);x.fill();x.strokeStyle="rgba(56,189,248,.12)";x.lineWidth=1;x.stroke();x.fillStyle=color;x.textAlign="center";x.textBaseline="middle";x.fillText(label,bx+boxW/2,by+boxH/2);};const drawConnector=(sourceX,targetX)=>{const sourceY=axisY+14,targetY=labelY+boxH/2,dx=targetX-sourceX;x.strokeStyle=color;x.lineWidth=1.25;x.lineCap="round";x.beginPath();x.moveTo(sourceX,sourceY);if(Math.abs(dx)<0.5){x.lineTo(targetX,targetY);}else if($('newConnectors')?.checked){const totalDy=Math.max(1,targetY-sourceY),sign=dx>=0?1:-1;const y1=sourceY+totalDy*.20,y2=sourceY+totalDy*.90,aligned=Math.abs(dx)<0.5;if(aligned){x.lineTo(sourceX,y1);x.lineTo(targetX,y2);x.lineTo(targetX,targetY);}else{const mainDy=Math.max(1,y2-y1);const offset=Math.max(7,Math.min(Math.abs(dx)*.30,32));const bend=Math.max(3,Math.min(mainDy*.12,10));const startX=sourceX+sign*offset,endX=targetX-sign*offset,startY=y1+bend,endY=y2-bend;const vx=endX-startX,vy=endY-startY,vlen=Math.max(1,Math.hypot(vx,vy)),tx=vx/vlen,ty=vy/vlen;const tangent=Math.max(4,Math.min(offset*.90,mainDy*.14));x.lineTo(sourceX,y1);x.bezierCurveTo(sourceX,y1+bend*.35,startX-tx*tangent,startY-ty*tangent,startX,startY);x.lineTo(endX,endY);x.bezierCurveTo(endX+tx*tangent,endY+ty*tangent,targetX,y2-bend*.35,targetX,y2);x.lineTo(targetX,targetY);}}else{const lead=Math.max(10,Math.min(18,(targetY-sourceY)*.22));const startCurveY=sourceY+lead,endCurveY=targetY-lead;const curve=Math.max(12,Math.min(42,Math.abs(dx)*.42));x.lineTo(sourceX,startCurveY);x.bezierCurveTo(sourceX,startCurveY+curve,targetX,endCurveY-curve,targetX,endCurveY);x.lineTo(targetX,targetY);}x.stroke();};drawConnector(sx0,c0);drawConnector(sx1,c1);drawBottomLabel(label0,b0,labelY,w0);drawBottomLabel(label1,b1,labelY,w1);}}
 
-async function scan(){state.cancel=false;state.finishEarly=false;state.scanning=true;state.expanded=null;state.selected=null;state.displayRanking=false;scanAbortController=new AbortController();$("finishNow").hidden=false;$("showRankingEarly").hidden=false;$('error').textContent="";state.selected=null;if(!state.cache){if(!(await diagnostics())){state.scanning=false;$("finishNow").hidden=true;return}}const hours=Math.max(1,Math.min(48,+$('hours').value||6)),interval=$('interval').value;const conc=Math.max(1,Math.min(8,+$('concurrency').value||4));let markets=state.cache.universe.filter(x=>!x.isDelisted&&Number(x.maxLeverage)>0);const now=Date.now(),start=now-hours*3600000;state.results=[];state.expanded=null;render();scanStats={requested:markets.length,success:0,retries:0,failed:0,failedCoins:[],started:0,finished:0};requestSequence=0;setStatus(`Scan de ${markets.length} perps…`,0);logEvent("INFO","SCAN START",new Error(`${markets.length} perps — ${interval} — ${hours}h`),{markets:markets.length,interval,hours,concurrency:conc,maxRetries:MAX_RETRIES});let next=0,done=0;async function worker(){while(true){if(state.cancel||state.finishEarly)return;const i=next++;if(i>=markets.length)return;const m=markets[i];scanStats.started++;try{const raw=await api("candles",{coin:m.name,interval,startTime:start,endTime:now},{signal:scanAbortController.signal});const moves=calcMovements(m.name,+m.maxLeverage,parseCandles(raw));for(const r of moves)state.results.push(r);}catch(e){if(e&&e.name==="AbortError")return;logEvent("ERROR","Scan candles",e,{coin:m.name,interval,marketIndex:i});}done++;scanStats.finished=done;setStatus(`Scan ${done}/${markets.length} — ${m.name}`,done/markets.length*100);}}await Promise.all(Array.from({length:Math.min(conc,markets.length)},worker));state.results.sort((a,b)=>b.score-a.score);state.expanded=null;state.displayRanking=true;render();const missing=markets.length-scanStats.success;const incomplete=missing>0;if(state.finishEarly)setStatus(`Classement terminé avec les données disponibles — ${scanStats.success}/${markets.length} marchés récupérés — ${missing} non récupérés`,100);else if(state.cancel)setStatus(`Scan annulé — ${scanStats.success}/${markets.length} marchés récupérés`,100);else if(incomplete)setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${missing} manquants`,100);else setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${state.results.length} mouvements`,100);logEvent(incomplete?"WARN":"INFO","SCAN END",new Error(`${scanStats.success}/${markets.length} marchés récupérés`),{markets:markets.length,success:scanStats.success,failed:scanStats.failed,retries:scanStats.retries,missing,failedCoins:scanStats.failedCoins.join(", "),movements:state.results.length,finishEarly:state.finishEarly,cancelled:state.cancel});state.scanning=false;$("finishNow").hidden=true;$("showRankingEarly").hidden=true;scanAbortController=null;}
+async function scan(){state.cancel=false;state.finishEarly=false;state.scanning=true;state.expanded=null;state.selected=null;state.displayRanking=false;scanAbortController=new AbortController();$("finishNow").hidden=false;$("showRankingEarly").hidden=false;$('error').textContent="";state.selected=null;if(!state.cache){if(!(await diagnostics())){state.scanning=false;$("finishNow").hidden=true;return}}const hours=Math.max(1,Math.min(48,+$('hours').value||6)),interval=$('interval').value;const conc=Math.max(1,Math.min(8,+$('concurrency').value||4));let markets=state.cache.universe.filter(x=>!x.isDelisted&&Number(x.maxLeverage)>0);const now=Date.now(),start=now-hours*3600000;state.results=[];state.expanded=null;render();scanStats={requested:markets.length,success:0,retries:0,failed:0,failedCoins:[],started:0,finished:0};requestSequence=0;setStatus(`Scan de ${markets.length} perps…`,0);logEvent("INFO","SCAN START",new Error(`${markets.length} perps — ${interval} — ${hours}h`),{markets:markets.length,interval,hours,concurrency:conc,maxRetries:MAX_RETRIES});let next=0,done=0;async function worker(){while(true){if(state.cancel||state.finishEarly)return;const i=next++;if(i>=markets.length)return;const m=markets[i];scanStats.started++;try{const raw=await api("candles",{coin:m.name,interval,startTime:start,endTime:now},{signal:scanAbortController.signal});const moves=calcMovements(m.name,+m.maxLeverage,parseCandles(raw));for(const r of moves)state.results.push(r);}catch(e){if(e&&e.name==="AbortError")return;logEvent("ERROR","Scan candles",e,{coin:m.name,interval,marketIndex:i});}done++;scanStats.finished=done;setStatus(`Scan ${done}/${markets.length}`,done/markets.length*100);}}await Promise.all(Array.from({length:Math.min(conc,markets.length)},worker));state.results.sort((a,b)=>b.score-a.score);state.expanded=null;state.displayRanking=true;render();const missing=markets.length-scanStats.success;const incomplete=missing>0;if(state.finishEarly)setStatus(`Classement terminé avec les données disponibles — ${scanStats.success}/${markets.length} marchés récupérés — ${missing} non récupérés`,100);else if(state.cancel)setStatus(`Scan annulé — ${scanStats.success}/${markets.length} marchés récupérés`,100);else if(incomplete)setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${missing} manquants`,100);else setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${state.results.length} mouvements`,100);logEvent(incomplete?"WARN":"INFO","SCAN END",new Error(`${scanStats.success}/${markets.length} marchés récupérés`),{markets:markets.length,success:scanStats.success,failed:scanStats.failed,retries:scanStats.retries,missing,failedCoins:scanStats.failedCoins.join(", "),movements:state.results.length,finishEarly:state.finishEarly,cancelled:state.cancel});state.scanning=false;$("finishNow").hidden=true;$("showRankingEarly").hidden=true;scanAbortController=null;}
 $("downloadLog").onclick=()=>{const text=readLog().map(formatLogEntry).join("\n\n")||"Aucune erreur enregistrée.";const blob=new Blob([text+"\n"],{type:"text/plain;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`hyperliquid-scanner-log-${new Date().toISOString().replace(/[:.]/g,"-")}.txt`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);};
 $("copyLog").onclick=async()=>{const text=readLog().map(formatLogEntry).join("\n\n")||"Aucune erreur enregistrée.";try{await navigator.clipboard.writeText(text);setStatus("Log copié dans le presse-papiers");}catch(e){err(e,"Copie du log");}};
 $("clearLog").onclick=()=>{localStorage.removeItem(LOG_KEY);renderLog();$("error").textContent="";};

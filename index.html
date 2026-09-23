@@ -3,33 +3,289 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#091019">
+<meta name="theme-color" content="#050a12">
 <title>Hyperliquid Scanner V3.3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:dark;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-*{box-sizing:border-box}body{margin:0;background:#091019;color:#eaf1f8}
-main{max-width:1100px;margin:auto;padding:18px}
-h1{font-size:28px;margin:8px 0 4px}.sub{color:#9eacba;margin-bottom:18px}
-.card{background:#101923;border:1px solid #263646;border-radius:18px;padding:16px;margin:14px 0;box-shadow:0 10px 30px #0003}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:end}
-label{display:block;color:#aebbc7;font-size:13px}.perpControl{display:flex;align-items:center;gap:8px;min-height:48px}.perpControl input{width:auto;min-height:auto;margin:0}input,select,button{width:100%;min-height:48px;border-radius:12px;border:1px solid #2d4052;background:#111d28;color:#eef5fb;padding:10px;font-size:16px}
-button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#2998ed}.danger{background:#512126;border-color:#9c4a54}
-.diag{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.diag div{padding:10px;border-radius:10px;background:#0b141d}.ok{color:#55df9b}.bad{color:#ff7b83}.wait{color:#f1c75b}
-.status{margin-top:10px;color:#aebbc7;min-height:24px}.logPanel{margin-top:12px}.logVersion{margin-top:-4px;margin-bottom:8px;color:#55df9b;font-size:13px;font-weight:750;letter-spacing:.02em}.logVersion b{font-weight:850}.logActions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}.logActions button{min-height:42px}.logFollow{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12px;color:#9eacb9}.logFollow input{width:auto}.logBox{margin:10px 0 0;background:#071018;border:1px solid #263646;border-radius:10px;padding:10px;max-height:260px;overflow:auto;font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;color:#d7e2ec}.logHint{font-size:12px;color:#8fa0af;margin-top:7px}.bar{height:8px;background:#172431;border-radius:99px;overflow:hidden;margin-top:8px}.bar>i{display:block;height:100%;width:0;background:#2b9bea}
-.rankingToggle{margin-top:10px}.rankingToggle button{min-height:44px}.floatingLogs{position:fixed;right:12px;top:auto;bottom:max(88px,calc(60px + env(safe-area-inset-bottom)));z-index:50;width:42px;min-height:42px;height:42px;padding:0;border-radius:50%;background:transparent;border:1px solid rgba(255,255,255,.18);box-shadow:none;color:transparent;font-size:0;backdrop-filter:none;-webkit-backdrop-filter:none}.connectorToggle{position:fixed;left:10px;top:auto;bottom:max(88px,calc(60px + env(safe-area-inset-bottom)));z-index:55;display:flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid rgba(255,255,255,.18);border-radius:12px;background:transparent!important;box-shadow:none!important;color:#d7e2ec;font-size:12px;font-weight:700;line-height:1;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}.connectorToggle input{width:18px!important;min-height:18px!important;height:18px!important;margin:0!important;padding:0!important;background:transparent!important;accent-color:#d7e2ec}.connectorToggle small{display:block;color:#8fa0af;font-size:10px;font-weight:600;margin-top:2px}.connectorToggleText{display:flex;flex-direction:column;gap:2px}@media(max-width:700px){.connectorToggle{left:8px;width:38px;height:38px;padding:0;justify-content:center;border-radius:50%}.connectorToggleText{display:none}.connectorToggle input{width:18px!important;height:18px!important}}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.preRankingAction{margin-top:12px;text-align:center}.preRankingAction button{width:100%}.ranking{display:grid;grid-template-columns:1fr;gap:10px}.rankCard{width:100%;text-align:left;background:#0b141d;border:1px solid #263646;border-radius:14px;padding:14px;cursor:pointer;transition:background .15s,border-color .15s,transform .08s}.rankCard:hover{background:#14212d}.rankCard:active{transform:scale(.995)}.rankCard.selected{background:#142433;border-color:#3a789f}.rankTop{display:flex;justify-content:space-between;align-items:center;gap:12px}.rankCoin{font-size:19px;font-weight:800;display:flex;align-items:center;gap:6px}.levBadge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:7px;background:#155b55;color:#8ef0d2;font-size:13px;font-weight:800;line-height:1.25}.rankMove{font-size:20px;font-weight:800}.rankArrow{font-size:12px;font-weight:850;letter-spacing:.03em;margin-left:2px;padding:3px 7px;border-radius:7px;background:#155b55;color:#8ef0d2;line-height:1.2}.rankArrow.down{background:#5a252c;color:#ff9ba1}.rankRaw{font-size:13px;font-weight:700;margin-top:4px}.rankMeta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.rankCell{background:#101c27;border-radius:10px;padding:9px}.rankLabel{display:block;color:#8fa0af;font-size:11px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}.rankValue{font-size:14px;font-weight:650}.up{color:#55df9b}.down{color:#ff7b83}.winnerUp{color:#55df9b}.winnerDown{color:#ff7b83}
-.hero{display:block}.winnerCard{padding:20px}.winnerMain{display:grid;grid-template-columns:1fr;gap:14px}.winnerInfo{display:block}.winnerInfo .rankTop{align-items:center}.winnerInfo .rankCoin{font-size:28px}.winnerInfo .rankMove{font-size:25px}.winnerInfo .rankRaw{font-size:14px}.winnerInfo .rankMeta{margin-top:12px;grid-template-columns:1fr}.winnerInfo .rankCell{padding:12px}.winnerInfo .miniClockWrap{min-width:0;flex:0 0 auto}.winnerInfo .rankClockPair{width:100%;gap:0;justify-content:space-between}.winnerInfo .miniDigital{font-size:22px}.winnerInfo .miniClock{width:150px;height:150px}.winnerChart{height:390px}.winnerChart canvas{width:100%;height:100%;display:block;background:#0b141d;border-radius:12px}.metric{font-size:34px;font-weight:800}.winnerHead{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:6px}.winnerCoin{font-size:28px;font-weight:850}.winnerLev{display:inline-flex;align-items:center;padding:3px 8px;border-radius:7px;background:#155b55;color:#8ef0d2;font-size:15px;font-weight:800}.winnerArrow{font-size:28px;font-weight:900;margin-left:1px}.clocks{display:flex;gap:18px;margin-top:16px;align-items:center;justify-content:flex-start}.clockWrap{text-align:center}.clock{width:96px;height:96px;display:block}.clockLabel{font-size:11px;color:#8fa0af;margin-top:4px}.digitalTime{font-size:25px;font-weight:850;letter-spacing:.02em;margin-bottom:5px}.miniClockWrap{text-align:center;min-width:0;flex:0 0 auto}.miniDigital{font-size:18px;font-weight:850;line-height:1.05;margin-bottom:4px}.miniClock{width:116px;height:116px;display:block;margin:0 auto}.rankClockPair{position:relative;display:flex;width:100%;gap:0;justify-content:space-between;align-items:center}.movementDuration{position:absolute;left:50%;top:34px;transform:translate(-50%,-50%);z-index:6;pointer-events:none;color:#d7e2ec;font-size:16px;font-weight:800;line-height:1;white-space:nowrap;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.95);background:rgba(7,16,24,.62);padding:3px 6px;border-radius:6px}.muted{color:#9eacba}.chartbox{height:320px}.inlineChart{height:320px;margin-top:14px}.inlineChart canvas{width:100%;height:100%;display:block;background:#071018;border-radius:10px}.chartbox canvas{width:100%;height:100%;display:block;background:#0b141d;border-radius:12px}
+:root{
+  color-scheme:dark;
+  --bg-primary:#050a12;
+  --bg-secondary:#0a1321;
+  --bg-card:#0c1825;
+  --bg-card-hover:#112233;
+  --bg-input:#081420;
+  --bg-inner:#07101a;
+  --border-primary:#162a3e;
+  --border-secondary:#1c3050;
+  --border-glow:rgba(56,189,248,.25);
+  --text-primary:#e8f0fa;
+  --text-secondary:#8ba0b8;
+  --text-muted:#5a7088;
+  --accent-cyan:#38bdf8;
+  --accent-blue:#2563eb;
+  --accent-purple:#8b5cf6;
+  --green:#34d399;
+  --green-bg:rgba(52,211,153,.1);
+  --green-border:rgba(52,211,153,.25);
+  --red:#f87171;
+  --red-bg:rgba(248,113,113,.1);
+  --red-border:rgba(248,113,113,.25);
+  --yellow:#fbbf24;
+  --yellow-bg:rgba(251,191,36,.08);
+  --radius-sm:8px;
+  --radius-md:12px;
+  --radius-lg:16px;
+  --radius-xl:20px;
+  --shadow-card:0 4px 24px rgba(0,0,0,.35),0 0 0 1px var(--border-primary);
+  --shadow-glow:0 0 20px rgba(56,189,248,.08);
+  --transition:all .25s cubic-bezier(.4,0,.2,1);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg-primary);color:var(--text-primary);min-height:100vh;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -20%,rgba(37,99,235,.08),transparent),
+    radial-gradient(ellipse 60% 40% at 80% 80%,rgba(139,92,246,.05),transparent);
+}
+main{position:relative;z-index:1;max-width:1100px;margin:auto;padding:24px 16px}
+@media(min-width:768px){main{padding:32px 24px}}
+@media(min-width:1024px){main{padding:40px 32px}}
+h1{
+  font-size:clamp(22px,4vw,32px);font-weight:800;letter-spacing:-.02em;margin:8px 0 6px;
+  background:linear-gradient(135deg,#e8f0fa 0%,#38bdf8 50%,#8b5cf6 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sub{color:var(--text-secondary);font-size:14px;line-height:1.5;margin-bottom:20px}
+h2{font-size:16px;font-weight:700;letter-spacing:-.01em;margin-bottom:10px;color:var(--text-primary)}
+.card{
+  background:var(--bg-card);border:1px solid var(--border-primary);border-radius:var(--radius-lg);
+  padding:20px;margin:14px 0;box-shadow:var(--shadow-card);transition:var(--transition);
+  position:relative;overflow:hidden;
+}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(56,189,248,.2),transparent)}
+@media(min-width:768px){.card{padding:24px}}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}
+@media(min-width:600px){.grid{grid-template-columns:repeat(4,1fr)}}
+label{display:block;color:var(--text-secondary);font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:2px}
+input,select,button{
+  width:100%;min-height:46px;border-radius:var(--radius-md);border:1px solid var(--border-secondary);
+  background:var(--bg-input);color:var(--text-primary);padding:10px 14px;font-size:15px;
+  font-family:inherit;transition:var(--transition);outline:none;
+}
+input:focus,select:focus{border-color:var(--accent-cyan);box-shadow:0 0 0 3px rgba(56,189,248,.1)}
+select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238ba0b8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+input[type="checkbox"]{width:auto;min-height:auto;margin:0;accent-color:var(--accent-cyan)}
+input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{opacity:.4}
+.perpControl{display:flex;align-items:center;gap:10px;min-height:48px;text-transform:none;font-size:13px;letter-spacing:0;cursor:pointer}
+.perpControl input{width:auto;min-height:auto;margin:0;cursor:pointer}
+button{
+  cursor:pointer;font-weight:700;font-size:14px;letter-spacing:.01em;position:relative;overflow:hidden;
+  border:1px solid var(--border-secondary);background:var(--bg-input);transition:var(--transition);
+}
+button:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.2)}
+button:active{transform:translateY(0) scale(.98)}
+button.primary{background:linear-gradient(135deg,var(--accent-blue),var(--accent-cyan));border-color:rgba(56,189,248,.3);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.2)}
+button.primary:hover{box-shadow:0 4px 20px rgba(56,189,248,.25);border-color:rgba(56,189,248,.5)}
+button.danger{background:var(--red-bg);border-color:var(--red-border);color:var(--red)}
+button.danger:hover{background:rgba(248,113,113,.15);box-shadow:0 4px 16px rgba(248,113,113,.15)}
+button:not(.primary):not(.danger):hover{border-color:var(--border-glow);background:var(--bg-card-hover)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.actions button[hidden]{display:none}
+.actions button:last-child:only-child{grid-column:span 2}
+@media(min-width:600px){.actions{grid-template-columns:1fr 1fr 1fr}.actions button:last-child:only-child{grid-column:auto}}
+.status{margin-top:14px;color:var(--text-secondary);min-height:24px;font-size:13px;font-family:'JetBrains Mono',monospace}
+.bar{height:6px;background:var(--bg-inner);border-radius:99px;overflow:hidden;margin-top:10px;border:1px solid var(--border-primary)}
+.bar>i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent-blue),var(--accent-cyan),var(--accent-purple));transition:width .3s ease;box-shadow:0 0 8px rgba(56,189,248,.3)}
+.diag{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(min-width:600px){.diag{grid-template-columns:repeat(3,1fr)}}
+.diag div{padding:10px 12px;border-radius:var(--radius-sm);background:var(--bg-inner);border:1px solid var(--border-primary);font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--text-secondary)}
+.diag div b{font-weight:600}
+.ok{color:var(--green)}.bad{color:var(--red)}.wait{color:var(--yellow)}
+.logPanel{margin-top:14px}
+.logVersion{margin-top:-4px;margin-bottom:10px;color:var(--green);font-size:12px;font-weight:700;letter-spacing:.06em;font-family:'JetBrains Mono',monospace}
+.logVersion b{font-weight:800}
+.logPanel .muted{color:var(--text-secondary);font-size:13px;line-height:1.5;margin-bottom:8px}
+.logActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+@media(min-width:500px){.logActions{grid-template-columns:1fr 1fr 1fr}}
+.logActions button{min-height:42px;font-size:13px}
+.logFollow{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--text-secondary);text-transform:none;letter-spacing:0;cursor:pointer;font-weight:500}
+.logFollow input{width:auto;cursor:pointer}
+.logBox{
+  margin:10px 0 0;background:var(--bg-inner);border:1px solid var(--border-primary);border-radius:var(--radius-md);
+  padding:14px;max-height:280px;overflow:auto;font:12px/1.5 'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  white-space:pre-wrap;overflow-wrap:anywhere;color:var(--text-secondary);scrollbar-width:thin;scrollbar-color:var(--border-secondary) transparent;
+}
+.logBox::-webkit-scrollbar{width:6px}.logBox::-webkit-scrollbar-track{background:transparent}.logBox::-webkit-scrollbar-thumb{background:var(--border-secondary);border-radius:99px}
+.logHint{font-size:11px;color:var(--text-muted);margin-top:8px;font-family:'JetBrains Mono',monospace}
+.winnerCard{padding:24px;border:1px solid var(--border-glow);box-shadow:var(--shadow-card),var(--shadow-glow)}
+.winnerCard::before{background:linear-gradient(90deg,transparent,rgba(56,189,248,.3),rgba(139,92,246,.2),transparent)}
+.winnerMain{display:grid;grid-template-columns:1fr;gap:16px}
+.winnerInfo{display:block}
+.winnerInfo .rankTop{align-items:center}
+.winnerInfo .rankCoin{font-size:28px}
+.winnerInfo .rankMove{font-size:25px}
+.winnerInfo .rankRaw{font-size:14px}
+.winnerInfo .rankMeta{margin-top:14px;grid-template-columns:1fr}
+.winnerInfo .rankCell{padding:14px}
+.winnerInfo .miniClockWrap{min-width:0;flex:0 0 auto}
+.winnerInfo .rankClockPair{width:100%;gap:0;justify-content:space-between}
+.winnerInfo .miniDigital{font-size:22px}
+.winnerInfo .miniClock{width:150px;height:150px}
+.winnerChart{height:390px}
+.winnerChart canvas{width:100%;height:100%;display:block;background:var(--bg-inner);border-radius:var(--radius-md);border:1px solid var(--border-primary)}
+.ranking{display:grid;grid-template-columns:1fr;gap:10px}
+.rankCard{width:100%;text-align:left;background:var(--bg-inner);border:1px solid var(--border-primary);border-radius:var(--radius-md);padding:16px;cursor:pointer;transition:var(--transition);min-height:unset;min-width:unset}
+.rankCard:hover{background:var(--bg-card-hover);border-color:var(--border-secondary);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.rankCard:active{transform:scale(.995)}
+.rankCard.selected{background:rgba(56,189,248,.06);border-color:var(--accent-cyan);box-shadow:0 0 16px rgba(56,189,248,.08)}
+.rankTop{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.rankCoin{font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px;letter-spacing:-.01em}
+.levBadge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:var(--radius-sm);background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);font-size:12px;font-weight:800;line-height:1.25;font-family:'JetBrains Mono',monospace}
+.rankMove{font-size:20px;font-weight:800;font-family:'JetBrains Mono',monospace;letter-spacing:-.01em}
+.rankArrow{font-size:11px;font-weight:850;letter-spacing:.06em;margin-left:2px;padding:4px 8px;border-radius:var(--radius-sm);background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);line-height:1.2;font-family:'JetBrains Mono',monospace}
+.rankArrow.down{background:var(--red-bg);border:1px solid var(--red-border);color:var(--red)}
+.rankRaw{font-size:13px;font-weight:700;margin-top:4px;font-family:'JetBrains Mono',monospace}
+.rankMeta{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
+@media(min-width:500px){.rankMeta{grid-template-columns:1fr 1fr}}
+.rankCell{background:var(--bg-card);border:1px solid var(--border-primary);border-radius:var(--radius-sm);padding:10px 12px}
+.rankLabel{display:block;color:var(--text-muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;font-weight:600}
+.rankValue{font-size:14px;font-weight:650;font-family:'JetBrains Mono',monospace}
+.up,.winnerUp{color:var(--green)}.down,.winnerDown{color:var(--red)}
+.rankingToggle{margin-top:12px}.rankingToggle button{min-height:44px;font-size:13px}
+.preRankingAction{margin-top:14px;text-align:center}.preRankingAction button{width:100%}
+.metric{font-size:34px;font-weight:800;font-family:'JetBrains Mono',monospace}
+.hero{display:block}
+.winnerHead{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.winnerCoin{font-size:28px;font-weight:850;letter-spacing:-.01em}
+.winnerLev{display:inline-flex;align-items:center;padding:3px 9px;border-radius:var(--radius-sm);background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);font-size:14px;font-weight:800;font-family:'JetBrains Mono',monospace}
+.winnerArrow{font-size:28px;font-weight:900;margin-left:1px}
+.clocks{display:flex;gap:18px;margin-top:16px;align-items:center;justify-content:flex-start}
+.clockWrap{text-align:center}
+.clock{width:96px;height:96px;display:block;border-radius:50%}
+.clockLabel{font-size:10px;color:var(--text-muted);margin-top:4px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.digitalTime{font-size:25px;font-weight:850;letter-spacing:.02em;margin-bottom:5px;font-family:'JetBrains Mono',monospace}
+.miniClockWrap{text-align:center;min-width:0;flex:0 0 auto}
+.miniDigital{font-size:18px;font-weight:850;line-height:1.05;margin-bottom:4px;font-family:'JetBrains Mono',monospace}
+.miniClock{width:116px;height:116px;display:block;margin:0 auto;border-radius:50%}
+.rankClockPair{position:relative;display:flex;width:100%;gap:0;justify-content:space-between;align-items:center}
+.movementDuration{
+  position:absolute;left:50%;top:34px;transform:translate(-50%,-50%);z-index:6;pointer-events:none;
+  color:var(--text-primary);font-size:15px;font-weight:800;line-height:1;white-space:nowrap;text-align:center;
+  text-shadow:0 1px 4px rgba(0,0,0,.95);background:rgba(5,10,18,.7);padding:4px 8px;border-radius:var(--radius-sm);
+  font-family:'JetBrains Mono',monospace;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+}
+.muted{color:var(--text-secondary)}
+.chartbox{height:320px}
+.chartbox canvas{width:100%;height:100%;display:block;background:var(--bg-inner);border-radius:var(--radius-md);border:1px solid var(--border-primary)}
+.inlineChart{height:320px;margin-top:14px}
+.inlineChart canvas{width:100%;height:100%;display:block;background:var(--bg-inner);border-radius:var(--radius-md);border:1px solid var(--border-primary)}
 .chartLegend{display:none}
-@media(max-width:700px){.logActions{grid-template-columns:1fr}.perpControl{grid-column:span 1}.grid{grid-template-columns:1fr 1fr}main{padding:10px}.grid{grid-template-columns:1fr 1fr}.diag{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.actions{grid-template-columns:1fr 1fr}.metric{font-size:30px}h1{font-size:24px}.chartbox{height:300px}.winnerChart{height:330px}.inlineChart{height:290px}.winnerInfo{display:block}.winnerInfo .rankMeta{grid-template-columns:1fr}.rankMeta{grid-template-columns:1fr}.miniClock{width:min(36vw,150px);height:min(36vw,150px)}.winnerInfo .miniClock{width:min(39vw,150px);height:min(39vw,150px)}.miniDigital{font-size:19px}.winnerInfo .miniDigital{font-size:22px}.rankClockPair{padding:0 2px}.clock{width:82px;height:82px}.clocks{gap:10px}}
+.floatingLogs{
+  position:fixed;right:12px;top:auto;bottom:max(88px,calc(60px + env(safe-area-inset-bottom)));z-index:50;
+  width:44px;min-height:44px;height:44px;padding:0;border-radius:50%;
+  background:rgba(12,24,37,.85);border:1px solid rgba(56,189,248,.25);
+  box-shadow:0 2px 12px rgba(0,0,0,.3);color:transparent;font-size:0;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.floatingLogs::before{content:'📋';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px}
+.floatingLogs:hover{border-color:var(--accent-cyan);box-shadow:0 0 16px rgba(56,189,248,.15)}
+.connectorToggle{
+  position:fixed;left:10px;top:auto;bottom:max(88px,calc(60px + env(safe-area-inset-bottom)));z-index:55;
+  display:flex;align-items:center;gap:8px;padding:8px 12px;
+  border:1px solid rgba(56,189,248,.2);border-radius:var(--radius-md);
+  background:rgba(12,24,37,.85)!important;box-shadow:0 2px 12px rgba(0,0,0,.3)!important;
+  color:var(--text-primary);font-size:12px;font-weight:700;line-height:1;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);min-height:unset;cursor:pointer;
+}
+.connectorToggle input{width:18px!important;min-height:18px!important;height:18px!important;margin:0!important;padding:0!important;background:transparent!important;accent-color:var(--accent-cyan);cursor:pointer}
+.connectorToggle small{display:block;color:var(--text-muted);font-size:10px;font-weight:600;margin-top:2px}
+.connectorToggleText{display:flex;flex-direction:column;gap:2px}
+@media(max-width:700px){
+  .connectorToggle{left:8px;width:40px;height:40px;padding:0;justify-content:center;border-radius:50%;min-height:unset}
+  .connectorToggleText{display:none}
+  .connectorToggle input{width:18px!important;height:18px!important;min-height:unset!important}
+}
+#error{
+  white-space:pre-wrap;color:var(--red);font-family:'JetBrains Mono',monospace;font-size:11px;
+  margin-top:10px;padding:10px;background:var(--red-bg);border:1px solid var(--red-border);
+  border-radius:var(--radius-sm);max-height:200px;overflow:auto;
+}
+
+/* ── FILE HINT (affiché uniquement en mode fichier local) ── */
+.fileHint{
+  margin-top:14px;padding:16px;background:var(--yellow-bg);
+  border:1px solid rgba(251,191,36,.2);border-radius:var(--radius-md);
+  font-size:13px;line-height:1.7;color:var(--yellow);
+}
+.fileHint strong{color:var(--yellow);font-size:14px;display:block;margin-bottom:6px}
+.fileHint p{margin:6px 0;color:var(--text-secondary);font-size:12px}
+.fileHint code{
+  display:inline-block;padding:5px 10px;background:var(--bg-inner);border:1px solid var(--border-primary);
+  border-radius:var(--radius-sm);font-family:'JetBrains Mono',monospace;font-size:12px;
+  color:var(--accent-cyan);margin:4px 2px;
+}
+.fileHint a{color:var(--accent-cyan);text-decoration:none;font-weight:600}
+.fileHint a:hover{text-decoration:underline}
+.fileHint .hintSteps{margin-top:8px;padding-left:0;list-style:none}
+.fileHint .hintSteps li{margin:4px 0;font-size:12px;color:var(--text-secondary)}
+.fileHint .hintSteps li strong{color:var(--text-primary);display:inline;font-size:12px}
+
+@media(max-width:700px){
+  .logActions{grid-template-columns:1fr}
+  .perpControl{grid-column:span 1}
+  .grid{grid-template-columns:1fr 1fr}
+  main{padding:14px 12px}
+  .diag{grid-template-columns:1fr 1fr}
+  .hero{grid-template-columns:1fr}
+  .actions{grid-template-columns:1fr 1fr}
+  .metric{font-size:28px}
+  h1{font-size:24px}
+  .chartbox{height:280px}
+  .winnerChart{height:320px}
+  .inlineChart{height:280px}
+  .winnerInfo{display:block}
+  .winnerInfo .rankMeta{grid-template-columns:1fr}
+  .rankMeta{grid-template-columns:1fr}
+  .miniClock{width:min(36vw,140px);height:min(36vw,140px)}
+  .winnerInfo .miniClock{width:min(38vw,140px);height:min(38vw,140px)}
+  .miniDigital{font-size:17px}
+  .winnerInfo .miniDigital{font-size:21px}
+  .rankClockPair{padding:0 2px}
+  .clock{width:78px;height:78px}
+  .clocks{gap:10px}
+  .winnerCoin{font-size:24px}
+  .rankCoin{font-size:16px}
+  .rankMove{font-size:18px}
+  .card{padding:14px;border-radius:14px}
+  .winnerCard{padding:16px}
+}
+@media(max-width:420px){
+  .grid{grid-template-columns:1fr}
+  .diag{grid-template-columns:1fr}
+  .actions{grid-template-columns:1fr}
+  .logActions{grid-template-columns:1fr}
+}
+@media(min-width:768px) and (max-width:1024px){.winnerChart{height:380px}}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:var(--bg-primary)}
+::-webkit-scrollbar-thumb{background:var(--border-secondary);border-radius:99px}
+::-webkit-scrollbar-thumb:hover{background:var(--text-muted)}
+::selection{background:rgba(56,189,248,.2);color:var(--text-primary)}
 </style>
 </head>
 <body>
 <main>
-<h1></h1>
-<div class="sub"></div>
+<h1>⚡ Hyperliquid Scanner</h1>
+<div class="sub">Détection des plus grands mouvements de prix pondérés par le levier sur les marchés perpétuels Hyperliquid.</div>
 
 <section class="card">
-
 <div class="grid">
 <label>Heures
 <input id="hours" type="number" min="1" max="48" value="6"></label>
@@ -42,14 +298,14 @@ button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#
 </div>
 
 <div class="actions">
-<button class="primary" id="scan">Lancer le scan</button>
-<button class="danger" id="cancel">Annuler</button>
-<button id="finishNow" hidden>Terminer maintenant avec les données disponibles</button>
+<button class="primary" id="scan">🚀 Lancer le scan</button>
+<button class="danger" id="cancel">✕ Annuler</button>
+<button id="finishNow" hidden>⚡ Terminer maintenant</button>
 </div>
-<div class="status" id="status">Initialisation…</div><div class="bar"><i id="progress"></i></div>
+<div class="status" id="status">Initialisation…</div>
+<div class="bar"><i id="progress"></i></div>
 </section>
 
-<!-- Le gagnant est volontairement placé AVANT le classement. -->
 <section class="card winnerCard" id="detail" hidden>
 <div id="winnerContent"></div>
 </section>
@@ -61,20 +317,19 @@ button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#
 </section>
 
 <section class="card logPanel" id="logPanel">
-<h2>🧾 Journal d’activité & erreurs</h2>
-<div class="logVersion">Version de l’outil : <b id="toolVersion">V33</b></div>
-<div class="muted">Les erreurs sont détaillées avec leur source. Les requêtes réussies sont enregistrées succinctement (heure, ordre, coin, durée) pour reconstituer l’ordre du scan et identifier précisément les données manquantes.</div>
+<h2>🧾 Journal d'activité & erreurs</h2>
+<div class="logVersion">Version de l'outil : <b id="toolVersion">V33</b></div>
+<div class="muted">Les erreurs sont détaillées avec leur source. Les requêtes réussies sont enregistrées succinctement (heure, ordre, coin, durée) pour reconstituer l'ordre du scan et identifier précisément les données manquantes.</div>
 <div class="logActions">
-<button id="downloadLog">Télécharger le log</button>
-<button id="copyLog">Copier le log</button>
-<button class="danger" id="clearLog">Vider le log</button>
+<button id="downloadLog">📥 Télécharger le log</button>
+<button id="copyLog">📋 Copier le log</button>
+<button class="danger" id="clearLog">🗑 Vider le log</button>
 </div>
 <div class="logHint" id="logCount">0 événement</div>
 <label class="logFollow"><input id="followLog" type="checkbox" checked> Suivre automatiquement les derniers événements en direct</label>
 <pre class="logBox" id="logBox">Aucune erreur enregistrée.</pre>
 </section>
 
-<!-- Le diagnostic est placé sous le journal d’activité. -->
 <section class="card" id="diagnosticPanel">
 <h2>📱 Diagnostic connexion</h2>
 <div class="diag">
@@ -82,11 +337,23 @@ button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#
 <div>Origine : <b id="dorigin">…</b></div>
 <div>fetch : <b id="dfetch">…</b></div>
 <div>IndexedDB : <b id="didb">…</b></div>
-<div>Hyperliquid API : <b id="dproxy">…</b></div>
-<div>Hyperliquid : <b id="dhl">…</b></div>
+<div>Connexion : <b id="dproxy">…</b></div>
+<div>Hyperliquid API : <b id="dhl">…</b></div>
 </div>
 <pre id="error" style="white-space:pre-wrap;color:#ff9ba1"></pre>
 </section>
+
+<!-- Astuce affichée uniquement en mode fichier local (file://) -->
+<div id="fileHint" class="fileHint" hidden>
+  <strong>📌 Mode fichier local détecté</strong>
+  <p>La connexion à l'API se fait en direct (sans proxy). Si elle échoue à cause des restrictions CORS du navigateur, servez le fichier via un serveur local :</p>
+  <ul class="hintSteps">
+    <li><strong>1.</strong> Ouvrez un terminal dans le dossier du fichier</li>
+    <li><strong>2.</strong> Exécutez : <code>python3 -m http.server 8000</code> (ou <code>py -m http.server 8000</code> sur Windows)</li>
+    <li><strong>3.</strong> Ouvrez <a href="http://localhost:8000">http://localhost:8000</a> dans votre navigateur</li>
+  </ul>
+  <p>💡 Alternative : utilisez la version en ligne sur GitHub Pages.</p>
+</div>
 
 <div class="preRankingAction"><button id="showRankingEarly" hidden>Afficher le classement avec les données disponibles</button></div>
 
@@ -109,7 +376,12 @@ const LOG_KEY="hyperliquid_scanner_error_log_v1";
 const MAX_LOG_ENTRIES=1000;
 let requestSequence=0;
 let scanStats={requested:0,success:0,retries:0,failed:0,failedCoins:[]};
-const endpoint=()=>location.protocol==="file:" ? null : (location.origin+"/.netlify/functions/hyperliquid");
+
+/* ── AFFICHER L'ASTUCE FILE:// SI NÉCESSAIRE ── */
+if(location.protocol==="file:"){
+  const hint=document.getElementById("fileHint");
+  if(hint)hint.hidden=false;
+}
 
 function mark(id,text,cls){const e=$(id);e.textContent=text;e.className=cls||""}
 function setStatus(s,p){$("status").textContent=s;if(Number.isFinite(p))$("progress").style.width=Math.max(0,Math.min(100,p))+"%"}
@@ -167,9 +439,7 @@ function fmtDate(ms){
 }
 function sameCalendarDay(a,b){
  const da=new Date(a),db=new Date(b);
- return da.getFullYear()===db.getFullYear() &&
-        da.getMonth()===db.getMonth() &&
-        da.getDate()===db.getDate();
+ return da.getFullYear()===db.getFullYear() && da.getMonth()===db.getMonth() && da.getDate()===db.getDate();
 }
 function fmtTime(ms,otherMs){
  return sameCalendarDay(ms,otherMs) ? fmtClock(ms) : fmtClock(ms)+" · "+fmtDate(ms);
@@ -181,7 +451,6 @@ function fmtDuration(ms){
  return m ? `${h}h ${String(m).padStart(2,"0")}` : `${h}h`;
 }
 function fmt(n){return Number(n).toLocaleString("fr-FR",{maximumFractionDigits:8})}
-
 function sleep(ms){return new Promise(resolve=>setTimeout(resolve,ms))}
 
 async function api(op, params = {}, options = {}) {
@@ -214,24 +483,52 @@ async function api(op, params = {}, options = {}) {
   }
   throw lastError||new Error("Requête API échouée");
 }
+
+/* ── DIAGNOSTIC : fonctionne en file:// ET en ligne ── */
 async function diagnostics(){
- mark("djs","OK","ok");
- mark("dorigin",location.origin||"file://","wait");
- mark("dfetch",typeof fetch==="function"?"OK":"ABSENT",typeof fetch==="function"?"ok":"bad");
- try{const x=window.indexedDB;mark("didb",x?"OK":"ABSENT",x?"ok":"bad")}catch(e){mark("didb","ERREUR","bad")}
- if(!endpoint()){mark("dproxy","ABSENT (file://)","bad");mark("dhl","NON TESTÉ","wait");return false}
- try{await api("ping");mark("dproxy","OK","ok")}catch(e){mark("dproxy","ERREUR","bad");err(e,"Diagnostic API");return false}
- try{const meta=await api("meta");mark("dhl","OK — "+meta.universe.length+" perps","ok");state.cache=meta;return true}catch(e){mark("dhl","ERREUR","bad");err(e,"Diagnostic Hyperliquid");return false}
+  const isFile = location.protocol === "file:";
+  mark("djs","OK","ok");
+  mark("dorigin", isFile ? "fichier local (file://)" : location.origin, isFile ? "wait" : "ok");
+  mark("dfetch", typeof fetch === "function" ? "OK" : "ABSENT", typeof fetch === "function" ? "ok" : "bad");
+  try{const x=window.indexedDB;mark("didb",x?"OK":"ABSENT",x?"ok":"bad")}catch(e){mark("didb","ERREUR","bad")}
+
+  // Connexion directe à l'API Hyperliquid (pas de proxy nécessaire)
+  mark("dproxy", isFile ? "Direct (local)" : "Direct (en ligne)", "wait");
+  try{
+    await api("ping");
+    mark("dproxy", isFile ? "OK — direct local" : "OK — direct", "ok");
+  }catch(e){
+    mark("dproxy","ERREUR","bad");
+    err(e,"Diagnostic API");
+    // Astuce CORS pour les fichiers locaux
+    if(isFile){
+      const hint = "\n\n💡 Erreur de connexion depuis un fichier local (file://).\n" +
+        "Cela peut être causé par les restrictions CORS du navigateur.\n\n" +
+        "Solutions :\n" +
+        "1. Servez le fichier via un serveur local :\n" +
+        "   • Windows : py -m http.server 8000\n" +
+        "   • Mac/Linux : python3 -m http.server 8000\n" +
+        "   Puis ouvrir http://localhost:8000\n\n" +
+        "2. Ou utilisez la version en ligne (GitHub Pages)";
+      $("error").textContent += hint;
+    }
+    return false;
+  }
+
+  try{
+    const meta = await api("meta");
+    mark("dhl", "OK — " + meta.universe.length + " perps", "ok");
+    state.cache = meta;
+    return true;
+  }catch(e){
+    mark("dhl","ERREUR","bad");
+    err(e,"Diagnostic Hyperliquid");
+    return false;
+  }
 }
 
 function parseCandles(a){return (Array.isArray(a)?a:[]).map(c=>({t:+c.t,o:+c.o,h:+c.h,l:+c.l,c:+c.c})).filter(x=>[x.t,x.h,x.l,x.c].every(Number.isFinite)).sort((a,b)=>a.t-b.t)}
 
-/*
- * Cherche séparément :
- *  - le plus grand mouvement haussier : plus bas antérieur -> plus haut ultérieur
- *  - le plus grand mouvement baissier : plus haut antérieur -> plus bas ultérieur
- * Les deux mouvements sont donc conservés pour chaque perp.
- */
 function calcMovements(coin,lev,candles){
  if(candles.length<2)return [];
  const out=[];
@@ -273,25 +570,16 @@ function renderWinner(){
  if(!state.results.length){$("detail").hidden=true;box.innerHTML="";return}
  const r=state.results[0];$("detail").hidden=false;
  box.innerHTML=`<div class="winnerMain"><div class="winnerInfo">${cardHTML(r,true)}</div></div>`;
- requestAnimationFrame(()=>{
-   drawMiniClocks();
-   const c=$("chart"); if(c)draw(r,c);
- });
+ requestAnimationFrame(()=>{drawMiniClocks();const c=$("chart");if(c)draw(r,c);});
 }
 function render(){
  const panel=$("rankingPanel");
  const body=$("rows");
  if(!state.displayRanking){
-   panel.hidden=true;
-   body.innerHTML="";
-   $("count").textContent="";
-   $("toggleRanking").hidden=true;
-   $("detail").hidden=true;
-   $("winnerContent").innerHTML="";
-   return;
+   panel.hidden=true;body.innerHTML="";$("count").textContent="";$("toggleRanking").hidden=true;
+   $("detail").hidden=true;$("winnerContent").innerHTML="";return;
  }
- panel.hidden=false;
- body.innerHTML="";
+ panel.hidden=false;body.innerHTML="";
  const ranked=state.results.slice(1);
  const visible=state.showAll?ranked:ranked.slice(0,RANKING_LIMIT);
  visible.forEach(r=>{
@@ -300,17 +588,14 @@ function render(){
   card.innerHTML=cardHTML(r,false);
   card.onclick=()=>{state.expanded=(state.expanded===r?null:r);render();};
   body.appendChild(card);
-  if(state.expanded===r){
-    const canvas=card.querySelector(".inlineChartCanvas");
-    if(canvas) requestAnimationFrame(()=>draw(r,canvas));
-  }
+  if(state.expanded===r){const canvas=card.querySelector(".inlineChartCanvas");if(canvas)requestAnimationFrame(()=>draw(r,canvas));}
  });
  drawMiniClocks();
  $("count").textContent=Math.max(0,ranked.length)+" mouvement(s)";
  const toggle=$("toggleRanking");
  if(ranked.length>RANKING_LIMIT){
    toggle.hidden=false;
-   toggle.textContent=state.showAll ? "Afficher seulement les 30 premiers" : `Afficher tout le classement (${ranked.length})`;
+   toggle.textContent=state.showAll?"Afficher seulement les 30 premiers":`Afficher tout le classement (${ranked.length})`;
  }else toggle.hidden=true;
  renderWinner();
 }
@@ -330,393 +615,120 @@ function drawClock(canvas,ms,direction){
  const x=canvas.getContext("2d");x.setTransform(dpr,0,0,dpr,0,0);
  const cx=size/2,cy=size/2,R=size*.43;
  x.clearRect(0,0,size,size);
- x.fillStyle="#0b141d";x.beginPath();x.arc(cx,cy,R+5,0,Math.PI*2);x.fill();
- x.strokeStyle="#304252";x.lineWidth=2;x.beginPath();x.arc(cx,cy,R,0,Math.PI*2);x.stroke();
-
- // 60 minute graduations, no seconds hand.
+ x.fillStyle="#07101a";x.beginPath();x.arc(cx,cy,R+5,0,Math.PI*2);x.fill();
+ x.strokeStyle="#1c3050";x.lineWidth=2;x.beginPath();x.arc(cx,cy,R,0,Math.PI*2);x.stroke();
  for(let i=0;i<60;i++){
-   const a=i*Math.PI/30-Math.PI/2;
-   const major=i%5===0;
-   const r1=R-(major?8:5),r2=R-1;
-   x.strokeStyle=major?"#e6eef5":"#71808d";
-   x.lineWidth=major?2:1;
-   x.beginPath();
-   x.moveTo(cx+Math.cos(a)*r1,cy+Math.sin(a)*r1);
-   x.lineTo(cx+Math.cos(a)*r2,cy+Math.sin(a)*r2);
-   x.stroke();
+   const a=i*Math.PI/30-Math.PI/2;const major=i%5===0;const r1=R-(major?8:5),r2=R-1;
+   x.strokeStyle=major?"#c8d8e8":"#3a5068";x.lineWidth=major?2:1;
+   x.beginPath();x.moveTo(cx+Math.cos(a)*r1,cy+Math.sin(a)*r1);x.lineTo(cx+Math.cos(a)*r2,cy+Math.sin(a)*r2);x.stroke();
  }
- const d=new Date(ms);
- const minutes=d.getMinutes()+d.getSeconds()/60;
- const hours=(d.getHours()%12)+minutes/60;
- const hourA=hours*Math.PI/6-Math.PI/2;
- const minA=minutes*Math.PI/30-Math.PI/2;
-
- // Numéros des heures autour du cadran, à l'extérieur de la zone des aiguilles.
- x.fillStyle="rgba(230,238,245,.88)";
- x.font=`700 ${Math.max(7,size*.085)}px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif`;
+ const d=new Date(ms);const minutes=d.getMinutes()+d.getSeconds()/60;const hours=(d.getHours()%12)+minutes/60;
+ const hourA=hours*Math.PI/6-Math.PI/2;const minA=minutes*Math.PI/30-Math.PI/2;
+ x.fillStyle="rgba(200,216,232,.82)";x.font=`700 ${Math.max(7,size*.085)}px 'Inter',-apple-system,sans-serif`;
  x.textAlign="center";x.textBaseline="middle";
- for(let n=1;n<=12;n++){
-   const a=n*Math.PI/6-Math.PI/2;
-   const nr=R*1.06;
-   x.fillText(String(n),cx+Math.cos(a)*nr,cy+Math.sin(a)*nr);
- }
-
- const hand=(a,len,width)=>{
-   x.strokeStyle=direction==="up"?"#55df9b":"#ff7b83";
-   x.lineWidth=width;x.lineCap="round";
-   x.beginPath();x.moveTo(cx,cy);
-   x.lineTo(cx+Math.cos(a)*len,cy+Math.sin(a)*len);x.stroke();
- };
- hand(hourA,R*.62,4);
- hand(minA,R*.87,3);
- x.fillStyle=direction==="up"?"#55df9b":"#ff7b83";
- x.beginPath();x.arc(cx,cy,3.5,0,Math.PI*2);x.fill();
-
- // AM/PM est dessiné APRÈS les aiguilles pour rester au premier plan.
+ for(let n=1;n<=12;n++){const a=n*Math.PI/6-Math.PI/2;const nr=R*1.06;x.fillText(String(n),cx+Math.cos(a)*nr,cy+Math.sin(a)*nr);}
+ const hand=(a,len,width)=>{x.strokeStyle=direction==="up"?"#34d399":"#f87171";x.lineWidth=width;x.lineCap="round";x.beginPath();x.moveTo(cx,cy);x.lineTo(cx+Math.cos(a)*len,cy+Math.sin(a)*len);x.stroke();};
+ hand(hourA,R*.62,4);hand(minA,R*.87,3);
+ x.fillStyle=direction==="up"?"#34d399":"#f87171";x.beginPath();x.arc(cx,cy,3.5,0,Math.PI*2);x.fill();
  const ampm=d.getHours()<12?"AM":"PM";
- x.font=`800 ${Math.max(10,size*.12)}px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif`;
- x.fillStyle="rgba(255,255,255,.78)";
- x.shadowColor="rgba(0,0,0,.95)";x.shadowBlur=3;x.shadowOffsetY=1;
- x.fillText(ampm,cx,cy);
- x.shadowColor="transparent";x.shadowBlur=0;x.shadowOffsetY=0;
-
+ x.font=`800 ${Math.max(10,size*.12)}px 'Inter',-apple-system,sans-serif`;
+ x.fillStyle="rgba(255,255,255,.78)";x.shadowColor="rgba(0,0,0,.95)";x.shadowBlur=3;x.shadowOffsetY=1;
+ x.fillText(ampm,cx,cy);x.shadowColor="transparent";x.shadowBlur=0;x.shadowOffsetY=0;
 }
 function draw(r,canvas){
- const c=canvas||$("chart"); if(!c)return;
+ const c=canvas||$("chart");if(!c)return;
  const dpr=devicePixelRatio||1,rect=c.getBoundingClientRect();
  const w=Math.max(1,rect.width),h=Math.max(1,rect.height);c.width=w*dpr;c.height=h*dpr;
  const x=c.getContext("2d");x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,w,h);
  const candles=r.candles;if(!candles.length)return;
- // Afficher TOUTES les bougies récupérées pour la fenêtre demandée.
- const view=candles, values=[];view.forEach(v=>values.push(v.h,v.l));
+ const view=candles,values=[];view.forEach(v=>values.push(v.h,v.l));
  let mn=Math.min(...values),mx=Math.max(...values);const margin=(mx-mn)*.08||Math.max(Math.abs(mx)*.001,1e-8);mn-=margin;mx+=margin;
  const p={l:58,r:18,t:28,b:70};
  const plotW=w-p.l-p.r,plotH=h-p.t-p.b;
  const sx=i=>p.l+i*plotW/Math.max(1,view.length-1);
  const sy=v=>h-p.b-(v-mn)*plotH/Math.max(1e-12,mx-mn);
- x.font="12px sans-serif";x.lineWidth=1;x.strokeStyle="#20303d";x.fillStyle="#8fa0af";
+ x.font="12px sans-serif";x.lineWidth=1;x.strokeStyle="#162a3e";x.fillStyle="#5a7088";
  const yTicks=[];
- for(let k=0;k<5;k++){
-   const yy=p.t+k*plotH/4;
-   const val=mx-k*(mx-mn)/4;
-   yTicks.push({y:yy,value:val,label:fmt(val)});
-   x.beginPath();x.moveTo(p.l,yy);x.lineTo(w-p.r,yy);x.stroke();
-   x.textAlign="left";x.textBaseline="middle";x.fillStyle="#8fa0af";
-   x.fillText(fmt(val),6,yy);
- }
+ for(let k=0;k<5;k++){const yy=p.t+k*plotH/4;const val=mx-k*(mx-mn)/4;yTicks.push({y:yy,value:val,label:fmt(val)});x.beginPath();x.moveTo(p.l,yy);x.lineTo(w-p.r,yy);x.stroke();x.textAlign="left";x.textBaseline="middle";x.fillStyle="#5a7088";x.fillText(fmt(val),6,yy);}
  const candleStep=plotW/Math.max(1,view.length-1),bodyW=Math.max(1,Math.min(12,candleStep*.62));
- view.forEach((v,i)=>{const xx=sx(i),yo=sy(v.o),yc=sy(v.c),yh=sy(v.h),yl=sy(v.l),rising=v.c>=v.o,col=rising?"#55df9b":"#ff7b83";x.strokeStyle=col;x.fillStyle=col;x.lineWidth=1.2;x.beginPath();x.moveTo(xx,yh);x.lineTo(xx,yl);x.stroke();const top=Math.min(yo,yc),bh=Math.max(1,Math.abs(yc-yo));x.fillRect(xx-bodyW/2,top,bodyW,bh);});
- // Axe X : petite graduation à chaque bougie/minute, moyenne au quart d'heure, grosse à l'heure.
+ view.forEach((v,i)=>{const xx=sx(i),yo=sy(v.o),yc=sy(v.c),yh=sy(v.h),yl=sy(v.l),rising=v.c>=v.o,col=rising?"#34d399":"#f87171";x.strokeStyle=col;x.fillStyle=col;x.lineWidth=1.2;x.beginPath();x.moveTo(xx,yh);x.lineTo(xx,yl);x.stroke();const top=Math.min(yo,yc),bh=Math.max(1,Math.abs(yc-yo));x.fillRect(xx-bodyW/2,top,bodyW,bh);});
  const axisY=h-p.b;
  x.textAlign="center";x.textBaseline="top";
- view.forEach((v,i)=>{
-   const d=new Date(v.t),min=d.getMinutes(),sec=d.getSeconds();
-   const hour=min===0&&sec<30, quarter=(min%15===0&&sec<30), small=true;
-   const xx=sx(i);
-   const len=hour?13:(quarter?9:5), width=hour?2.4:(quarter?1.7:1);
-   x.strokeStyle=hour?"#e6eef5":(quarter?"#9eacba":"#526372");x.lineWidth=width;
-   x.beginPath();x.moveTo(xx,axisY);x.lineTo(xx,axisY+len);x.stroke();
- });
+ view.forEach((v,i)=>{const d=new Date(v.t),min=d.getMinutes(),sec=d.getSeconds();const hour=min===0&&sec<30,quarter=(min%15===0&&sec<30);const xx=sx(i);const len=hour?13:(quarter?9:5),width=hour?2.4:(quarter?1.7:1);x.strokeStyle=hour?"#c8d8e8":(quarter?"#7a8ea0":"#2a3e52");x.lineWidth=width;x.beginPath();x.moveTo(xx,axisY);x.lineTo(xx,axisY+len);x.stroke();});
  x.textAlign="start";x.textBaseline="alphabetic";
- // Repères du mouvement : heures affichées sous l'axe X, jamais directement dans le graphique.
  const si=r.startI,ei=r.endI;
  if(si>=0&&ei>=0&&si<view.length&&ei<view.length){
    const sx0=sx(si),sy0=sy(r.startPrice),sx1=sx(ei),sy1=sy(r.endPrice);
-   const color=r.direction==="up"?"#55df9b":"#ff7b83";
+   const color=r.direction==="up"?"#34d399":"#f87171";
    x.setLineDash([5,4]);x.strokeStyle=color;x.lineWidth=1.2;
    x.beginPath();x.moveTo(sx0,p.t);x.lineTo(sx0,axisY);x.stroke();
    x.beginPath();x.moveTo(sx1,p.t);x.lineTo(sx1,axisY);x.stroke();
    x.setLineDash([]);
-
-   // Prix de début/fin : à gauche de l’axe Y. Les graduations Y restent prioritaires.
    const drawEventPrice=(value,baseY)=>{
-     const text=fmt(value);
-     x.font="700 11px sans-serif";
-     const tw=x.measureText(text).width;
-     let yy=baseY;
+     const text=fmt(value);x.font="700 11px sans-serif";let yy=baseY;
      const conflicts=yTicks.filter(t=>Math.abs(t.y-yy)<14);
-     if(conflicts.length){
-       const above=baseY-18, below=baseY+18;
-       const freeAbove=above>=p.t+7 && !yTicks.some(t=>Math.abs(t.y-above)<14);
-       const freeBelow=below<=axisY-7 && !yTicks.some(t=>Math.abs(t.y-below)<14);
-       if(freeAbove) yy=above; else if(freeBelow) yy=below; else yy=baseY<=(p.t+axisY)/2?below:above;
-     }
-     x.textAlign="right";x.textBaseline="middle";
-     x.fillStyle=color;
-     x.shadowColor="rgba(0,0,0,.9)";x.shadowBlur=3;
-     x.fillText(text,p.l-8,yy);
-     x.shadowColor="transparent";x.shadowBlur=0;
+     if(conflicts.length){const above=baseY-18,below=baseY+18;const freeAbove=above>=p.t+7&&!yTicks.some(t=>Math.abs(t.y-above)<14);const freeBelow=below<=axisY-7&&!yTicks.some(t=>Math.abs(t.y-below)<14);if(freeAbove)yy=above;else if(freeBelow)yy=below;else yy=baseY<=(p.t+axisY)/2?below:above;}
+     x.textAlign="right";x.textBaseline="middle";x.fillStyle=color;x.shadowColor="rgba(0,0,0,.9)";x.shadowBlur=3;x.fillText(text,p.l-8,yy);x.shadowColor="transparent";x.shadowBlur=0;
    };
-   drawEventPrice(r.startPrice,sy0);
-   drawEventPrice(r.endPrice,sy1);
-
-   const label0=fmtTime(r.startT,r.endT), label1=fmtTime(r.endT,r.startT);
-   x.font="bold 12px sans-serif";
-   const pad=6, boxH=22, gap=8;
-   const w0=x.measureText(label0).width+pad*2, w1=x.measureText(label1).width+pad*2;
-
-   /*
-    * GESTION DES ÉTIQUETTES ET CONNECTEURS — NOTES POUR MODIFICATION
-    * ---------------------------------------------------------------
-    * sx0 / sx1 = positions X des graduations : elles sont TOUJOURS les
-    * points d'ancrage réels sur l'axe. Ne pas les déplacer.
-    * c0 / c1 = centres X des textes. Ils commencent alignés sur sx0 / sx1.
-    * Si les deux boîtes de texte se chevauchent ou dépassent les bords,
-    * on déplace uniquement c0/c1. Le connecteur compense alors ce décalage.
-    *
-    * Pour modifier l'algorithme de placement des heures, travailler dans
-    * le bloc c0/c1 ci-dessous. Pour modifier UNIQUEMENT la forme du trait,
-    * travailler dans drawConnector(), plus bas.
-    */
-   // V24 : positionnement responsive des heures.
-   // Chaque libellé est d'abord centré EXACTEMENT sur sa graduation.
-   // Il n'est déplacé que si les deux boîtes se chevauchent réellement.
-   // Dans ce cas seulement, les liaisons courbent de la graduation vers
-   // le centre réel du libellé. Le calcul se fait sur la largeur réelle
-   // du canvas afin de rester correct en portrait comme en paysage.
-   // V30 : placement conjoint robuste des deux libellés (référence décochée).
-   // Le bug des versions précédentes venait du clamp indépendant :
-   // lorsqu'une paire était proche du bord, chaque centre était ramené
-   // séparément dans le canvas, ce qui pouvait recréer un chevauchement.
-   // On traite désormais les deux libellés comme un seul bloc rigide :
-   // largeur0 + espace + largeur1, puis on déplace ce bloc au meilleur
-   // endroit possible. Les graduations restent toujours les sources exactes
-   // des connecteurs ; seuls les centres des textes peuvent être déplacés.
+   drawEventPrice(r.startPrice,sy0);drawEventPrice(r.endPrice,sy1);
+   const label0=fmtTime(r.startT,r.endT),label1=fmtTime(r.endT,r.startT);
+   x.font="bold 12px sans-serif";const pad=6,boxH=22,gap=8;
+   const w0=x.measureText(label0).width+pad*2,w1=x.measureText(label1).width+pad*2;
    const useNewConnectors=$('newConnectors')?.checked;
    let c0=sx0,c1=sx1;
-
    if(useNewConnectors){
-     /*
-      * V33.1 — Placement des heures sous l'axe X
-      * -------------------------------------------
-      * Objectif : les heures restent ALIGNÉES sur leurs graduations tant
-      * qu'elles ne se chevauchent pas. Dès qu'un chevauchement est détecté,
-      * elles sont écartées du minimum nécessaire, symétriquement autour de
-      * leur milieu, en respectant les bords du canvas.
-      *
-      * Les connecteurs partent toujours des graduations EXACTES (sx0, sx1)
-      * et arrivent au centre réel des libellés (c0, c1). Quand aucun
-      * chevauchement n'a lieu, c0 === sx0 et c1 === sx1 : les connecteurs
-      * sont purement verticaux.
-      */
-     const minGap = Math.max(7, Math.min(14, w * 0.010));
-     const min0 = p.l + w0/2, max0 = w - p.r - w0/2;
-     const min1 = p.l + w1/2, max1 = w - p.r - w1/2;
-
-     // 1. Alignement strict sur les graduations (borné au canvas).
-     c0 = Math.max(min0, Math.min(max0, sx0));
-     c1 = Math.max(min1, Math.min(max1, sx1));
-
-     // 2. Ordonner gauche/droite. En principe sx0 < sx1 (début avant fin),
-     //    mais un clamp sur canvas très étroit pourrait inverser l'ordre :
-     //    on protège ce cas via un swap explicite.
-     const swap = c0 > c1;
-     const lW = swap ? w1 : w0;
-     const rW = swap ? w0 : w1;
-     const lMinB = swap ? min1 : min0;
-     const lMaxB = swap ? max1 : max0;
-     const rMinB = swap ? min0 : min1;
-     const rMaxB = swap ? max0 : max1;
-     const lC0 = swap ? c1 : c0;
-     const rC0 = swap ? c0 : c1;
-
-     const requiredGap = lW/2 + rW/2 + minGap;
-     const currentGap = rC0 - lC0;
-
-     // 3. Chevauchement détecté : écart minimal symétrique autour du milieu.
-     if(currentGap < requiredGap){
-       const mid = (lC0 + rC0) / 2;
-       let lC = mid - requiredGap / 2;
-       let rC = mid + requiredGap / 2;
-
-       // 4. Bords atteints : on reporte le déficit sur l'autre côté
-       //    (glissement en bloc, ce qui préserve l'écart requis).
-       if(lC < lMinB){
-         rC += (lMinB - lC);
-         lC = lMinB;
-       }
-       if(rC > rMaxB){
-         lC -= (rC - rMaxB);
-         rC = rMaxB;
-       }
-
-       // 5. Bornes finales (ne casse l'écart que dans le cas extrême
-       //    où l'espace disponible est inférieur à l'écart requis).
-       lC = Math.max(lMinB, Math.min(lMaxB, lC));
-       rC = Math.max(rMinB, Math.min(rMaxB, rC));
-
-       if(swap){ c1 = lC; c0 = rC; }
-       else { c0 = lC; c1 = rC; }
+     const minGap=Math.max(7,Math.min(14,w*.010));
+     const min0=p.l+w0/2,max0=w-p.r-w0/2;const min1=p.l+w1/2,max1=w-p.r-w1/2;
+     c0=Math.max(min0,Math.min(max0,sx0));c1=Math.max(min1,Math.min(max1,sx1));
+     const swap=c0>c1;const lW=swap?w1:w0,rW=swap?w0:w1;
+     const lMinB=swap?min1:min0,lMaxB=swap?max1:max0,rMinB=swap?min0:min1,rMaxB=swap?max0:max1;
+     const lC0=swap?c1:c0,rC0=swap?c0:c1;
+     const requiredGap=lW/2+rW/2+minGap,currentGap=rC0-lC0;
+     if(currentGap<requiredGap){const mid=(lC0+rC0)/2;let lC=mid-requiredGap/2,rC=mid+requiredGap/2;
+       if(lC<lMinB){rC+=(lMinB-lC);lC=lMinB;}if(rC>rMaxB){lC-=(rC-rMaxB);rC=rMaxB;}
+       lC=Math.max(lMinB,Math.min(lMaxB,lC));rC=Math.max(rMinB,Math.min(rMaxB,rC));
+       if(swap){c1=lC;c0=rC;}else{c0=lC;c1=rC;}
      }
    }else{
-     // V30/V27 : bloc de placement conservé à l'identique lorsque la case
-     // est décochée. Ne pas modifier cette branche si le comportement de
-     // référence doit rester strictement inchangé.
-   const minGap=Math.max(8,Math.min(18,w*.012));
-   const min0=p.l+w0/2, max0=w-p.r-w0/2;
-   const min1=p.l+w1/2, max1=w-p.r-w1/2;
-   const sourceRight=sx1>=sx0;
-   let c0=sx0,c1=sx1;
-   const required=(w0+w1)/2+minGap;
-
-   if(sourceRight){
-     const low=Math.max(min0,min1-required);
-     const high=Math.min(max0,max1-required);
-     if(low<=high){
-       const ideal=(sx0+sx1-required)/2;
-       c0=Math.max(low,Math.min(high,ideal));
-       c1=c0+required;
-     }else{
-       // Cas extrême : la paire ne peut pas tenir avec la taille actuelle.
-       // On réduit légèrement l'espacement avant de choisir la meilleure
-       // position disponible, sans jamais laisser les boîtes se chevaucher.
-       const fallbackGap=Math.max(2,Math.min(minGap,Math.max(2,(w-p.l-p.r-w0-w1)*.5)));
-       const req2=(w0+w1)/2+fallbackGap;
-       const low2=Math.max(min0,min1-req2);
-       const high2=Math.min(max0,max1-req2);
-       c0=Math.max(low2,Math.min(high2,(sx0+sx1-req2)/2));
-       c1=c0+req2;
-     }
-   }else{
-     const low=Math.max(min1,min0-required);
-     const high=Math.min(max1,max0-required);
-     if(low<=high){
-       const ideal=(sx1+sx0-required)/2;
-       c1=Math.max(low,Math.min(high,ideal));
-       c0=c1+required;
-     }else{
-       const fallbackGap=Math.max(2,Math.min(minGap,Math.max(2,(w-p.l-p.r-w0-w1)*.5)));
-       const req2=(w0+w1)/2+fallbackGap;
-       const low2=Math.max(min1,min0-req2);
-       const high2=Math.min(max1,max0-req2);
-       c1=Math.max(low2,Math.min(high2,(sx1+sx0-req2)/2));
-       c0=c1+req2;
+     const minGap=Math.max(8,Math.min(18,w*.012));
+     const min0=p.l+w0/2,max0=w-p.r-w0/2;const min1=p.l+w1/2,max1=w-p.r-w1/2;
+     const sourceRight=sx1>=sx0;let c0=sx0,c1=sx1;const required=(w0+w1)/2+minGap;
+     if(sourceRight){const low=Math.max(min0,min1-required),high=Math.min(max0,max1-required);
+       if(low<=high){const ideal=(sx0+sx1-required)/2;c0=Math.max(low,Math.min(high,ideal));c1=c0+required;}
+       else{const fallbackGap=Math.max(2,Math.min(minGap,Math.max(2,(w-p.l-p.r-w0-w1)*.5)));const req2=(w0+w1)/2+fallbackGap;const low2=Math.max(min0,min1-req2),high2=Math.min(max0,max1-req2);c0=Math.max(low2,Math.min(high2,(sx0+sx1-req2)/2));c1=c0+req2;}
+     }else{const low=Math.max(min1,min0-required),high=Math.min(max1,max0-required);
+       if(low<=high){const ideal=(sx1+sx0-required)/2;c1=Math.max(low,Math.min(high,ideal));c0=c1+required;}
+       else{const fallbackGap=Math.max(2,Math.min(minGap,Math.max(2,(w-p.l-p.r-w0-w1)*.5)));const req2=(w0+w1)/2+fallbackGap;const low2=Math.max(min1,min0-req2),high2=Math.min(max1,max0-req2);c1=Math.max(low2,Math.min(high2,(sx1+sx0-req2)/2));c0=c1+req2;}
      }
    }
-
-   // Si le viewport est assez large et qu'il n'y a pas de chevauchement,
-   // c0/c1 sont strictement égaux à sx0/sx1 : aucune dérive horizontale.
-   }
-
-   const b0=c0-w0/2, b1=c1-w1/2;
-   const labelY=axisY+34;
-   const drawBottomLabel=(label,bx,by,boxW)=>{
-     x.fillStyle="rgba(11,20,29,.96)";x.beginPath();x.roundRect(bx,by,boxW,boxH,6);x.fill();
-     x.fillStyle=color;x.textAlign="center";x.textBaseline="middle";x.fillText(label,bx+boxW/2,by+boxH/2);
-   };
-
-   // Liaison responsive : source = graduation exacte, cible = milieu exact du texte.
+   const b0=c0-w0/2,b1=c1-w1/2;const labelY=axisY+34;
+   const drawBottomLabel=(label,bx,by,boxW)=>{x.fillStyle="rgba(7,16,26,.96)";x.beginPath();x.roundRect(bx,by,boxW,boxH,6);x.fill();x.strokeStyle="rgba(56,189,248,.12)";x.lineWidth=1;x.stroke();x.fillStyle=color;x.textAlign="center";x.textBaseline="middle";x.fillText(label,bx+boxW/2,by+boxH/2);};
    const drawConnector=(sourceX,targetX)=>{
-     const sourceY=axisY+14;
-     const targetY=labelY+boxH/2;
-     const dx=targetX-sourceX;
-     x.strokeStyle=color;x.lineWidth=1.25;x.lineCap="round";
-     x.beginPath();
-     x.moveTo(sourceX,sourceY);
-
-     /*
-      * DRAW CONNECTOR — GUIDE DE MODIFICATION
-      * ---------------------------------------
-      * sourceX = graduation exacte ; targetX = centre du texte.
-      * sourceY -> targetY est la HAUTEUR TOTALE PARCOURUE.
-      *
-      * Nouveau style : les pourcentages ci-dessous sont des FRACTIONS DE
-      * CETTE HAUTEUR, et non des longueurs de ligne :
-      *   20% : départ vertical depuis la graduation ;
-      *   70% : zone centrale, verticale si alignée ou oblique si le texte
-      *         a été déplacé ;
-      *   10% : arrivée verticale jusqu'au milieu du texte.
-      *
-      * Les deux changements de direction sont arrondis par des Bézier dont
-      * les tangentes correspondent aux segments voisins. C'est ce qui évite
-      * les angles saillants. Pour changer le style, les valeurs .20/.90 et
-      * les paramètres bend/curveX/tangentLen sont les principaux réglages.
-      *
-      * V27 reste volontairement intact dans le else final : décocher la case
-      * permet donc de revenir au comportement de référence.
-      */
-     // Deux styles sélectionnables : V27 (par défaut) ou le nouveau style.
-     if(Math.abs(dx)<0.5){
-       x.lineTo(targetX,targetY);
-     }else if($('newConnectors')?.checked){
-       // Nouveau style : connecteur basé sur la HAUTEUR VERTICALE disponible,
-       // et non sur la longueur géométrique de la ligne.
-       // 20% : départ vertical court.
-       // 70% : segment principal ; vertical si la cible est alignée,
-       // oblique si le libellé a dû être décalé.
-       // 10% : arrivée verticale très courte.
-       // Les transitions sont des Bézier tangentielles pour éviter tout angle saillant.
-       const totalDy=Math.max(1,targetY-sourceY);
-       const sign=dx>=0?1:-1;
-       // La hauteur parcourue est TOUJOURS la même : 20% + 70% + 10%.
-       // Seule la longueur/largeur géométrique du trait change selon dx.
-       const y1=sourceY+totalDy*.20;
-       const y2=sourceY+totalDy*.90;
-       const aligned=Math.abs(dx)<0.5;
-
-       if(aligned){
-         // Aligné : aucune déviation horizontale inutile.
-         x.lineTo(sourceX,y1);
-         x.lineTo(targetX,y2);
-         x.lineTo(targetX,targetY);
-       }else{
-         const mainDy=Math.max(1,y2-y1);
-         // Décalage horizontal progressif : plus le texte est éloigné,
-         // plus la courbe s'ouvre, mais elle reste bornée sur mobile.
-         const offset=Math.max(7,Math.min(Math.abs(dx)*.30,32));
-         // Petite zone de transition : elle reste courte par rapport aux
-         // 70% centraux afin que la diagonale soit visuellement dominante.
+     const sourceY=axisY+14,targetY=labelY+boxH/2,dx=targetX-sourceX;
+     x.strokeStyle=color;x.lineWidth=1.25;x.lineCap="round";x.beginPath();x.moveTo(sourceX,sourceY);
+     if(Math.abs(dx)<0.5){x.lineTo(targetX,targetY);}
+     else if($('newConnectors')?.checked){
+       const totalDy=Math.max(1,targetY-sourceY),sign=dx>=0?1:-1;
+       const y1=sourceY+totalDy*.20,y2=sourceY+totalDy*.90,aligned=Math.abs(dx)<0.5;
+       if(aligned){x.lineTo(sourceX,y1);x.lineTo(targetX,y2);x.lineTo(targetX,targetY);}
+       else{const mainDy=Math.max(1,y2-y1);const offset=Math.max(7,Math.min(Math.abs(dx)*.30,32));
          const bend=Math.max(3,Math.min(mainDy*.12,10));
-         const startX=sourceX+sign*offset;
-         const endX=targetX-sign*offset;
-         const startY=y1+bend;
-         const endY=y2-bend;
-         const vx=endX-startX, vy=endY-startY;
-         const vlen=Math.max(1,Math.hypot(vx,vy));
-         const tx=vx/vlen, ty=vy/vlen;
+         const startX=sourceX+sign*offset,endX=targetX-sign*offset,startY=y1+bend,endY=y2-bend;
+         const vx=endX-startX,vy=endY-startY,vlen=Math.max(1,Math.hypot(vx,vy)),tx=vx/vlen,ty=vy/vlen;
          const tangent=Math.max(4,Math.min(offset*.90,mainDy*.14));
-
-         // 20% vertical, puis courbe tangentielle vers la diagonale.
-         x.lineTo(sourceX,y1);
-         x.bezierCurveTo(
-           sourceX,y1+bend*.35,
-           startX-tx*tangent,startY-ty*tangent,
-           startX,startY
-         );
-
-         // Diagonale principale : elle occupe la zone verticale 20% -> 90%.
-         x.lineTo(endX,endY);
-
-         // Courbe tangentielle de sortie vers le dernier segment vertical.
-         x.bezierCurveTo(
-           endX+tx*tangent,endY+ty*tangent,
-           targetX,y2-bend*.35,
-           targetX,y2
-         );
-
-         // Derniers 10% strictement verticaux jusqu'au centre de l'étiquette.
+         x.lineTo(sourceX,y1);x.bezierCurveTo(sourceX,y1+bend*.35,startX-tx*tangent,startY-ty*tangent,startX,startY);
+         x.lineTo(endX,endY);x.bezierCurveTo(endX+tx*tangent,endY+ty*tangent,targetX,y2-bend*.35,targetX,y2);
          x.lineTo(targetX,targetY);
        }
      }else{
-       // V27 : liaison conservée telle quelle.
-       const lead=Math.max(10,Math.min(18,(targetY-sourceY)*.22));
-       const startCurveY=sourceY+lead;
-       const endCurveY=targetY-lead;
+       const lead=Math.max(10,Math.min(18,(targetY-sourceY)*.22));const startCurveY=sourceY+lead,endCurveY=targetY-lead;
        const curve=Math.max(12,Math.min(42,Math.abs(dx)*.42));
-       x.lineTo(sourceX,startCurveY);
-       x.bezierCurveTo(
-         sourceX,startCurveY+curve,
-         targetX,endCurveY-curve,
-         targetX,endCurveY
-       );
-       x.lineTo(targetX,targetY);
+       x.lineTo(sourceX,startCurveY);x.bezierCurveTo(sourceX,startCurveY+curve,targetX,endCurveY-curve,targetX,endCurveY);x.lineTo(targetX,targetY);
      }
      x.stroke();
    };
-   drawConnector(sx0,c0);
-   drawConnector(sx1,c1);
-   drawBottomLabel(label0,b0,labelY,w0);
-   drawBottomLabel(label1,b1,labelY,w1);
+   drawConnector(sx0,c0);drawConnector(sx1,c1);
+   drawBottomLabel(label0,b0,labelY,w0);drawBottomLabel(label1,b1,labelY,w1);
  }
 }
 
@@ -725,7 +737,7 @@ async function scan(){
  scanAbortController=new AbortController();
  $("finishNow").hidden=false;$("showRankingEarly").hidden=false;$('error').textContent="";state.selected=null;
  if(!state.cache){if(!(await diagnostics())){state.scanning=false;$("finishNow").hidden=true;return}}
- const hours=Math.max(1,Math.min(48,+$('hours').value||6)), interval=$('interval').value;
+ const hours=Math.max(1,Math.min(48,+$('hours').value||6)),interval=$('interval').value;
  const conc=Math.max(1,Math.min(8,+$('concurrency').value||4));
  let markets=state.cache.universe.filter(x=>!x.isDelisted&&Number(x.maxLeverage)>0);
  const now=Date.now(),start=now-hours*3600000;
@@ -744,26 +756,17 @@ async function scan(){
     const raw=await api("candles",{coin:m.name,interval,startTime:start,endTime:now},{signal:scanAbortController.signal});
     const moves=calcMovements(m.name,+m.maxLeverage,parseCandles(raw));
     for(const r of moves)state.results.push(r);
-   }catch(e){
-    if(e&&e.name==="AbortError") return;
-    logEvent("ERROR","Scan candles",e,{coin:m.name,interval,marketIndex:i});
-   }
+   }catch(e){if(e&&e.name==="AbortError")return;logEvent("ERROR","Scan candles",e,{coin:m.name,interval,marketIndex:i});}
    done++;scanStats.finished=done;setStatus(`Scan ${done}/${markets.length} — ${m.name}`,done/markets.length*100);
   }
  }
  await Promise.all(Array.from({length:Math.min(conc,markets.length)},worker));
  state.results.sort((a,b)=>b.score-a.score);state.expanded=null;state.displayRanking=true;render();
- const missing=markets.length-scanStats.success;
- const incomplete=missing>0;
- if(state.finishEarly){
-   setStatus(`Classement terminé avec les données disponibles — ${scanStats.success}/${markets.length} marchés récupérés — ${missing} non récupérés`,100);
- }else if(state.cancel){
-   setStatus(`Scan annulé — ${scanStats.success}/${markets.length} marchés récupérés`,100);
- }else if(incomplete){
-   setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${missing} manquants`,100);
- }else{
-   setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${state.results.length} mouvements`,100);
- }
+ const missing=markets.length-scanStats.success;const incomplete=missing>0;
+ if(state.finishEarly){setStatus(`Classement terminé avec les données disponibles — ${scanStats.success}/${markets.length} marchés récupérés — ${missing} non récupérés`,100);}
+ else if(state.cancel){setStatus(`Scan annulé — ${scanStats.success}/${markets.length} marchés récupérés`,100);}
+ else if(incomplete){setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${missing} manquants`,100);}
+ else{setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${state.results.length} mouvements`,100);}
  logEvent(incomplete?"WARN":"INFO","SCAN END",new Error(`${scanStats.success}/${markets.length} marchés récupérés`),{markets:markets.length,success:scanStats.success,failed:scanStats.failed,retries:scanStats.retries,missing,failedCoins:scanStats.failedCoins.join(", "),movements:state.results.length,finishEarly:state.finishEarly,cancelled:state.cancel});
  state.scanning=false;$("finishNow").hidden=true;$("showRankingEarly").hidden=true;scanAbortController=null;
 }
@@ -780,62 +783,40 @@ $("clearLog").onclick=()=>{localStorage.removeItem(LOG_KEY);renderLog();$("error
 $("toggleRanking").onclick=()=>{state.showAll=!state.showAll;render();};
 $("showRankingEarly").onclick=()=>{
  if(!state.results.length){setStatus("Aucune donnée de classement disponible pour le moment.");return;}
- state.displayRanking=true;
- state.showAll=false;
- state.expanded=null;
- render();
+ state.displayRanking=true;state.showAll=false;state.expanded=null;render();
  $("rankingPanel").scrollIntoView({behavior:"smooth",block:"start"});
 };
 $("jumpLogs").onclick=()=>{
- const log=$("logPanel");
- const logTop=log.getBoundingClientRect().top+window.scrollY;
+ const log=$("logPanel");const logTop=log.getBoundingClientRect().top+window.scrollY;
  const nearLog=Math.abs(window.scrollY-logTop)<220;
- if(nearLog){
-   window.scrollTo({top:0,behavior:"smooth"});
- }else{
-   log.scrollIntoView({behavior:"smooth",block:"start"});
- }
+ if(nearLog){window.scrollTo({top:0,behavior:"smooth"});}else{log.scrollIntoView({behavior:"smooth",block:"start"});}
  setTimeout(updateJumpButton,80);
 };
 function updateJumpButton(){
- const log=$("logPanel");
- if(!log)return;
- const logTop=log.getBoundingClientRect().top+window.scrollY;
- const nearLog=Math.abs(window.scrollY-logTop)<220;
+ const log=$("logPanel");if(!log)return;
+ const logTop=log.getBoundingClientRect().top+window.scrollY;const nearLog=Math.abs(window.scrollY-logTop)<220;
  $("jumpLogs").setAttribute("aria-label",nearLog?"Revenir en haut":"Aller au journal");
  $("jumpLogs").title=nearLog?"Haut":"Journal";
 }
 window.addEventListener("scroll",updateJumpButton,{passive:true});updateJumpButton();
 $("followLog").onchange=()=>{if($("followLog").checked){const box=$("logBox");box.scrollTop=box.scrollHeight}};
 renderLog();
-
 const connectorToggle=document.getElementById("newConnectors");
-connectorToggle.checked=localStorage.getItem("hyperliquid_connector_style") === "new";
+connectorToggle.checked=localStorage.getItem("hyperliquid_connector_style")==="new";
 connectorToggle.addEventListener("change",()=>{localStorage.setItem("hyperliquid_connector_style",connectorToggle.checked?"new":"v27");render();});
 $("scan").onclick=()=>{if(state.scanning)return;scan().catch(e=>{state.scanning=false;$("finishNow").hidden=true;$("showRankingEarly").hidden=true;err(e,"Scan")})};
 $("cancel").onclick=()=>{state.cancel=true;if(scanAbortController)scanAbortController.abort();setStatus("Annulation demandée…")};
 $("finishNow").onclick=()=>{if(!state.scanning)return;state.finishEarly=true;state.cancel=true;if(scanAbortController)scanAbortController.abort();setStatus("Finalisation du classement avec les données disponibles…")};
-// V25 : sur iOS/Safari, visualViewport.resize peut se déclencher pendant
-// le simple défilement (barre d'adresse qui apparaît/disparaît). Re-render
-// pendant le scroll provoquait un effet de glitch. On ne redessine donc que
-// lorsque la largeur de mise en page change réellement (orientation/resize).
-let resizeRaf=0;
-let lastLayoutWidth=document.documentElement.clientWidth;
+let resizeRaf=0;let lastLayoutWidth=document.documentElement.clientWidth;
 function handleViewportResize(){
   const currentWidth=document.documentElement.clientWidth;
   if(Math.abs(currentWidth-lastLayoutWidth)<1)return;
-  lastLayoutWidth=currentWidth;
-  cancelAnimationFrame(resizeRaf);
-  resizeRaf=requestAnimationFrame(()=>{
-    if(!state.scanning)render();
-    updateJumpButton();
-  });
+  lastLayoutWidth=currentWidth;cancelAnimationFrame(resizeRaf);
+  resizeRaf=requestAnimationFrame(()=>{if(!state.scanning)render();updateJumpButton();});
 }
 window.addEventListener("resize",handleViewportResize,{passive:true});
 if(window.visualViewport)window.visualViewport.addEventListener("resize",handleViewportResize,{passive:true});
-window.addEventListener("orientationchange",()=>{
-  setTimeout(()=>{lastLayoutWidth=document.documentElement.clientWidth;handleViewportResize();},120);
-},{passive:true});
+window.addEventListener("orientationchange",()=>{setTimeout(()=>{lastLayoutWidth=document.documentElement.clientWidth;handleViewportResize();},120);},{passive:true});
 diagnostics().then(ok=>setStatus(ok?"Prêt — Hyperliquid API opérationnelle":"Diagnostic en échec — voir le détail ci-dessus"));
 })();
 </script>

@@ -3,688 +3,53 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1a0a00">
-<title>🔥 HYPERLIQUID SCANNER V3.3 🔥</title>
+<meta name="theme-color" content="#091019">
+<title>Hyperliquid Scanner V3.3</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rock+Salt&family=Creepster&family=Bungee+Shade&display=swap');
-
-:root{
-  color-scheme:dark;
-  font-family:'Permanent Marker',cursive;
-  --bg:#1a0a00;
-  --card-bg:#2a1208;
-  --border-color:#ff3300;
-  --neon-green:#39ff14;
-  --neon-pink:#ff1493;
-  --neon-yellow:#ffff00;
-  --neon-orange:#ff6600;
-  --neon-cyan:#00ffff;
-  --spray-red:#ff2200;
-  --spray-blue:#2244ff;
-  --text:#ffdd88;
-  --muted:#cc8844;
-  --danger-red:#ff0033;
-  --ok-green:#39ff14;
-  --bad-red:#ff0033;
-  --wait-yellow:#ffff00;
-}
-
-*{box-sizing:border-box}
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  background-image:
-    repeating-linear-gradient(0deg,transparent,transparent 38px,rgba(255,50,0,.04) 38px,rgba(255,50,0,.04) 40px),
-    repeating-linear-gradient(90deg,transparent,transparent 38px,rgba(255,50,0,.04) 38px,rgba(255,50,0,.04) 40px),
-    radial-gradient(ellipse at 20% 50%,rgba(255,0,50,.08) 0%,transparent 50%),
-    radial-gradient(ellipse at 80% 30%,rgba(50,0,255,.06) 0%,transparent 50%);
-  background-attachment:fixed;
-}
-
-/* Graffiti splatter pseudo-elements */
-body::before{
-  content:'';
-  position:fixed;top:0;left:0;right:0;bottom:0;
-  pointer-events:none;z-index:0;
-  background:
-    radial-gradient(circle at 5% 15%,rgba(255,0,50,.12) 0%,transparent 8%),
-    radial-gradient(circle at 95% 8%,rgba(0,255,100,.1) 0%,transparent 6%),
-    radial-gradient(circle at 50% 95%,rgba(255,255,0,.08) 0%,transparent 10%),
-    radial-gradient(circle at 15% 85%,rgba(255,0,255,.1) 0%,transparent 7%),
-    radial-gradient(circle at 85% 60%,rgba(0,150,255,.08) 0%,transparent 9%);
-}
-
-main{max-width:1100px;margin:auto;padding:18px;position:relative;z-index:1}
-
-h1{
-  font-family:'Creepster',cursive;
-  font-size:42px;
-  margin:8px 0 4px;
-  text-transform:uppercase;
-  letter-spacing:.06em;
-  color:var(--neon-green);
-  text-shadow:
-    3px 3px 0 var(--spray-red),
-    -2px -2px 0 var(--spray-blue),
-    0 0 20px rgba(57,255,20,.5),
-    0 0 40px rgba(57,255,20,.2);
-  transform:rotate(-1.5deg);
-  position:relative;
-}
-h1::before{content:'⚡';margin-right:8px;filter:drop-shadow(0 0 8px #ff0)}
-h1::after{content:'⚡';margin-left:8px;filter:drop-shadow(0 0 8px #ff0)}
-
-.sub{
-  font-family:'Rock Salt',cursive;
-  color:var(--neon-pink);
-  font-size:14px;
-  margin-bottom:18px;
-  text-shadow:0 0 10px rgba(255,20,147,.4);
-  transform:rotate(.5deg);
-}
-
-h2{
-  font-family:'Creepster',cursive;
-  font-size:24px;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-  margin:0 0 10px;
-  color:var(--neon-orange);
-  text-shadow:2px 2px 0 rgba(0,0,0,.8),0 0 15px rgba(255,100,0,.4);
-}
-
-.card{
-  background:var(--card-bg);
-  border:3px solid var(--border-color);
-  border-radius:4px;
-  padding:18px;
-  margin:18px 0;
-  box-shadow:
-    6px 6px 0 rgba(0,0,0,.6),
-    inset 0 0 30px rgba(255,50,0,.05),
-    0 0 25px rgba(255,50,0,.1);
-  position:relative;
-  overflow:hidden;
-}
-.card::before{
-  content:'';
-  position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;
-  border:1px solid rgba(255,255,0,.1);
-  border-radius:4px;
-  pointer-events:none;
-}
-.card::after{
-  content:'';
-  position:absolute;
-  top:0;right:0;
-  width:60px;height:60px;
-  background:linear-gradient(135deg,transparent 50%,rgba(255,0,50,.15) 50%);
-  pointer-events:none;
-}
-
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:end}
-
-label{
-  display:block;
-  font-family:'Rock Salt',cursive;
-  color:var(--neon-yellow);
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.04em;
-  text-shadow:0 0 5px rgba(255,255,0,.3);
-}
-
-.perpControl{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  min-height:48px;
-}
-.perpControl input{width:auto;min-height:auto;margin:0}
-
-input,select,button{
-  width:100%;
-  min-height:48px;
-  border-radius:4px;
-  border:2px solid var(--neon-orange);
-  background:rgba(30,10,5,.9);
-  color:var(--text);
-  padding:10px;
-  font-family:'Permanent Marker',cursive;
-  font-size:15px;
-  transition:all .15s;
-}
-input:focus,select:focus{
-  outline:none;
-  border-color:var(--neon-green);
-  box-shadow:0 0 15px rgba(57,255,20,.3),inset 0 0 10px rgba(57,255,20,.05);
-}
-
-button{
-  cursor:pointer;
-  font-weight:700;
-  font-family:'Creepster',cursive;
-  font-size:18px;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-  border:3px solid;
-  text-shadow:1px 1px 0 rgba(0,0,0,.5);
-  transition:all .15s;
-  position:relative;
-}
-button:hover{
-  transform:translate(-1px,-1px) rotate(-.5deg);
-  box-shadow:4px 4px 0 rgba(0,0,0,.6);
-}
-button:active{
-  transform:translate(2px,2px);
-  box-shadow:none;
-}
-
-.primary{
-  background:var(--spray-red);
-  border-color:var(--neon-yellow);
-  color:#fff;
-  text-shadow:2px 2px 0 #000,0 0 10px rgba(255,255,0,.3);
-}
-.primary:hover{background:#ff3311}
-
-.danger{
-  background:var(--danger-red);
-  border-color:var(--neon-pink);
-  color:#fff;
-  text-shadow:2px 2px 0 #000;
-}
-.danger:hover{background:#ff1122}
-
-#finishNow,#showRankingEarly{
-  background:#331100;
-  border-color:var(--neon-cyan);
-  color:var(--neon-cyan);
-  text-shadow:0 0 8px rgba(0,255,255,.3);
-}
-
-.diag{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-.diag div{
-  padding:12px;
-  border-radius:4px;
-  background:rgba(20,8,2,.8);
-  border:1px solid rgba(255,50,0,.2);
-  font-family:'Permanent Marker',cursive;
-  font-size:13px;
-}
-.ok{color:var(--ok-green);text-shadow:0 0 8px rgba(57,255,20,.5);font-family:'Creepster',cursive;font-size:16px}
-.bad{color:var(--bad-red);text-shadow:0 0 8px rgba(255,0,51,.5);font-family:'Creepster',cursive;font-size:16px}
-.wait{color:var(--wait-yellow);text-shadow:0 0 8px rgba(255,255,0,.5);font-family:'Creepster',cursive;font-size:16px}
-
-.status{
-  margin-top:12px;
-  color:var(--neon-cyan);
-  min-height:24px;
-  font-family:'Rock Salt',cursive;
-  font-size:12px;
-  text-shadow:0 0 5px rgba(0,255,255,.3);
-}
-
-.logPanel{margin-top:14px}
-.logVersion{
-  margin-top:-4px;margin-bottom:10px;
-  color:var(--neon-green);
-  font-family:'Creepster',cursive;
-  font-size:16px;
-  letter-spacing:.05em;
-  text-shadow:0 0 10px rgba(57,255,20,.4);
-}
-.logVersion b{
-  font-weight:800;
-  color:var(--neon-yellow);
-  text-shadow:0 0 8px rgba(255,255,0,.5);
-}
-.logActions{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:10px;
-  margin-top:12px;
-}
-.logActions button{min-height:44px;font-size:15px}
-.logFollow{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin-top:10px;
-  font-family:'Rock Salt',cursive;
-  font-size:11px;
-  color:var(--muted);
-}
-.logFollow input{width:auto}
-
-.logBox{
-  margin:12px 0 0;
-  background:rgba(10,4,0,.95);
-  border:2px solid rgba(255,50,0,.3);
-  border-radius:4px;
-  padding:12px;
-  max-height:260px;
-  overflow:auto;
-  font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;
-  white-space:pre-wrap;
-  overflow-wrap:anywhere;
-  color:#ffcc88;
-}
-
-.logHint{
-  font-family:'Rock Salt',cursive;
-  font-size:11px;
-  color:var(--muted);
-  margin-top:8px;
-}
-
-.bar{
-  height:12px;
-  background:rgba(30,10,5,.8);
-  border:2px solid var(--neon-orange);
-  border-radius:2px;
-  overflow:hidden;
-  margin-top:10px;
-}
-.bar>i{
-  display:block;
-  height:100%;
-  width:0;
-  background:linear-gradient(90deg,var(--spray-red),var(--neon-orange),var(--neon-yellow),var(--neon-green));
-  transition:width .3s;
-  box-shadow:0 0 10px rgba(57,255,20,.4);
-}
-
-.rankingToggle{margin-top:12px}
-.rankingToggle button{min-height:46px}
-
-.floatingLogs{
-  position:fixed;
-  right:12px;
-  bottom:max(88px,calc(60px + env(safe-area-inset-bottom)));
-  z-index:50;
-  width:48px;
-  min-height:48px;
-  height:48px;
-  padding:0;
-  border-radius:2px;
-  background:var(--spray-red);
-  border:2px solid var(--neon-yellow);
-  box-shadow:3px 3px 0 rgba(0,0,0,.5);
-  color:#fff;
-  font-family:'Creepster',cursive;
-  font-size:22px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.floatingLogs::after{content:'📋'}
-
-.connectorToggle{
-  position:fixed;
-  left:10px;
-  bottom:max(88px,calc(60px + env(safe-area-inset-bottom)));
-  z-index:55;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:10px 12px;
-  border:2px solid var(--neon-cyan);
-  border-radius:4px;
-  background:rgba(30,10,5,.95);
-  box-shadow:3px 3px 0 rgba(0,0,0,.5);
-  color:var(--neon-cyan);
-  font-family:'Creepster',cursive;
-  font-size:13px;
-  font-weight:700;
-  line-height:1;
-}
-.connectorToggle input{
-  width:20px!important;
-  min-height:20px!important;
-  height:20px!important;
-  margin:0!important;
-  padding:0!important;
-  background:transparent!important;
-  accent-color:var(--neon-cyan);
-}
-.connectorToggle small{
-  display:block;
-  color:var(--muted);
-  font-family:'Rock Salt',cursive;
-  font-size:9px;
-  font-weight:600;
-  margin-top:3px;
-}
-.connectorToggleText{display:flex;flex-direction:column;gap:2px}
-
-@media(max-width:700px){
-  .connectorToggle{
-    left:8px;width:42px;height:42px;
-    padding:0;justify-content:center;border-radius:50%;
-  }
-  .connectorToggleText{display:none}
-  .connectorToggle input{width:20px!important;height:20px!important}
-}
-
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
-.preRankingAction{margin-top:14px;text-align:center}
-.preRankingAction button{width:100%}
-
-.ranking{display:grid;grid-template-columns:1fr;gap:12px}
-.rankCard{
-  width:100%;
-  text-align:left;
-  background:rgba(20,8,2,.85);
-  border:2px solid rgba(255,50,0,.4);
-  border-radius:4px;
-  padding:16px;
-  cursor:pointer;
-  transition:all .15s;
-  position:relative;
-  overflow:hidden;
-}
-.rankCard::before{
-  content:'';
-  position:absolute;
-  top:0;left:0;
-  width:4px;height:100%;
-  background:linear-gradient(to bottom,var(--spray-red),var(--neon-orange),var(--neon-yellow));
-}
-.rankCard:hover{
-  background:rgba(40,15,5,.9);
-  border-color:var(--neon-green);
-  box-shadow:0 0 15px rgba(57,255,20,.15),4px 4px 0 rgba(0,0,0,.4);
-  transform:translate(-1px,-1px);
-}
-.rankCard:active{transform:scale(.99)}
-.rankCard.selected{
-  background:rgba(30,50,20,.85);
-  border-color:var(--neon-green);
-  box-shadow:0 0 25px rgba(57,255,20,.2);
-}
-
-.rankTop{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-}
-.rankCoin{
-  font-family:'Creepster',cursive;
-  font-size:24px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  color:var(--neon-yellow);
-  text-shadow:2px 2px 0 rgba(0,0,0,.6);
-}
-
-.levBadge{
-  display:inline-flex;
-  align-items:center;
-  padding:3px 10px;
-  border-radius:2px;
-  background:var(--spray-red);
-  border:2px solid var(--neon-yellow);
-  color:#fff;
-  font-family:'Creepster',cursive;
-  font-size:14px;
-  font-weight:800;
-  line-height:1.25;
-  text-shadow:1px 1px 0 #000;
-}
-
-.rankMove{
-  font-family:'Bungee Shade',cursive;
-  font-size:22px;
-  font-weight:800;
-}
-
-.rankArrow{
-  font-family:'Creepster',cursive;
-  font-size:14px;
-  font-weight:800;
-  letter-spacing:.05em;
-  margin-left:4px;
-  padding:4px 10px;
-  border-radius:2px;
-  background:var(--spray-red);
-  border:2px solid var(--neon-green);
-  color:#fff;
-  line-height:1.2;
-  text-shadow:1px 1px 0 #000;
-}
-.rankArrow.down{
-  background:#220000;
-  border-color:var(--neon-pink);
-  color:var(--neon-pink);
-}
-
-.rankRaw{
-  font-family:'Rock Salt',cursive;
-  font-size:12px;
-  font-weight:700;
-  margin-top:5px;
-}
-
-.rankMeta{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin-top:12px;
-}
-.rankCell{
-  background:rgba(30,10,5,.7);
-  border:1px solid rgba(255,50,0,.15);
-  border-radius:3px;
-  padding:10px;
-}
-.rankLabel{
-  display:block;
-  color:var(--muted);
-  font-family:'Rock Salt',cursive;
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:.06em;
-  margin-bottom:4px;
-}
-.rankValue{font-family:'Permanent Marker',cursive;font-size:14px;font-weight:650}
-
-.up{color:var(--ok-green);text-shadow:0 0 6px rgba(57,255,20,.4)}
-.down{color:var(--bad-red);text-shadow:0 0 6px rgba(255,0,51,.4)}
-.winnerUp{color:var(--ok-green);text-shadow:0 0 8px rgba(57,255,20,.5)}
-.winnerDown{color:var(--bad-red);text-shadow:0 0 8px rgba(255,0,51,.5)}
-
-.hero{display:block}
-.winnerCard{
-  padding:24px;
-  border:4px solid var(--neon-yellow);
-  box-shadow:
-    0 0 40px rgba(255,255,0,.15),
-    8px 8px 0 rgba(0,0,0,.6),
-    inset 0 0 40px rgba(255,255,0,.03);
-}
-.winnerCard::before{
-  content:'👑 WINNER 👑';
-  position:absolute;
-  top:-4px;left:50%;
-  transform:translateX(-50%) rotate(-2deg);
-  background:var(--spray-red);
-  border:2px solid var(--neon-yellow);
-  padding:4px 18px;
-  border-radius:0 0 8px 8px;
-  font-family:'Creepster',cursive;
-  font-size:14px;
-  color:#fff;
-  text-shadow:2px 2px 0 #000;
-  letter-spacing:.15em;
-  z-index:2;
-}
-
-.winnerMain{display:grid;grid-template-columns:1fr;gap:16px}
-.winnerInfo{display:block}
-.winnerInfo .rankTop{align-items:center}
-.winnerInfo .rankCoin{font-size:32px;color:var(--neon-yellow);text-shadow:3px 3px 0 rgba(0,0,0,.8),0 0 15px rgba(255,255,0,.3)}
-.winnerInfo .rankMove{font-size:28px}
-.winnerInfo .rankRaw{font-size:14px}
-.winnerInfo .rankMeta{margin-top:14px;grid-template-columns:1fr}
-.winnerInfo .rankCell{padding:14px}
-.winnerInfo .miniClockWrap{min-width:0;flex:0 0 auto}
-.winnerInfo .rankClockPair{width:100%;gap:0;justify-content:space-between}
-.winnerInfo .miniDigital{font-size:24px}
-.winnerInfo .miniClock{width:150px;height:150px}
-.winnerChart{height:390px;margin-top:14px}
-.winnerChart canvas{
-  width:100%;height:100%;display:block;
-  background:rgba(10,4,0,.8);
-  border:2px solid rgba(255,50,0,.3);
-  border-radius:4px;
-}
-
-.metric{font-family:'Bungee Shade',cursive;font-size:36px;font-weight:800}
-
-.winnerHead{
-  display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px;
-}
-.winnerCoin{font-family:'Creepster',cursive;font-size:32px;font-weight:850;color:var(--neon-yellow)}
-.winnerLev{
-  display:inline-flex;align-items:center;
-  padding:4px 12px;border-radius:2px;
-  background:var(--spray-red);border:2px solid var(--neon-yellow);
-  color:#fff;font-family:'Creepster',cursive;font-size:16px;font-weight:800;
-  text-shadow:1px 1px 0 #000;
-}
-.winnerArrow{font-family:'Creepster',cursive;font-size:30px;font-weight:900;margin-left:2px}
-
-.clocks{display:flex;gap:20px;margin-top:18px;align-items:center;justify-content:flex-start}
-.clockWrap{text-align:center}
-.clock{width:96px;height:96px;display:block}
-.clockLabel{font-family:'Rock Salt',cursive;font-size:10px;color:var(--muted);margin-top:5px}
-.digitalTime{font-family:'Creepster',cursive;font-size:26px;font-weight:850;letter-spacing:.03em;margin-bottom:6px;color:var(--neon-cyan);text-shadow:0 0 10px rgba(0,255,255,.3)}
-
-.miniClockWrap{text-align:center;min-width:0;flex:0 0 auto}
-.miniDigital{
-  font-family:'Creepster',cursive;
-  font-size:19px;font-weight:850;line-height:1.05;margin-bottom:5px;
-  color:var(--neon-cyan);text-shadow:0 0 6px rgba(0,255,255,.3);
-}
-.miniClock{width:116px;height:116px;display:block;margin:0 auto}
-
-.rankClockPair{
-  position:relative;display:flex;width:100%;gap:0;justify-content:space-between;align-items:center;
-}
-
-.movementDuration{
-  position:absolute;left:50%;top:34px;
-  transform:translate(-50%,-50%);z-index:6;pointer-events:none;
-  color:var(--neon-yellow);
-  font-family:'Creepster',cursive;
-  font-size:17px;font-weight:800;line-height:1;white-space:nowrap;text-align:center;
-  text-shadow:2px 2px 0 rgba(0,0,0,.9);
-  background:rgba(26,10,0,.8);
-  padding:5px 10px;
-  border:2px solid rgba(255,255,0,.3);
-  border-radius:2px;
-}
-
-.muted{color:var(--muted)}
-.chartbox{height:320px}
-.inlineChart{height:320px;margin-top:16px}
-.inlineChart canvas{
-  width:100%;height:100%;display:block;
-  background:rgba(10,4,0,.8);
-  border:2px solid rgba(255,50,0,.3);
-  border-radius:4px;
-}
-.chartbox canvas{
-  width:100%;height:100%;display:block;
-  background:rgba(10,4,0,.8);
-  border:2px solid rgba(255,50,0,.3);
-  border-radius:4px;
-}
+:root{color-scheme:dark;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+*{box-sizing:border-box}body{margin:0;background:#091019;color:#eaf1f8}
+main{max-width:1100px;margin:auto;padding:18px}
+h1{font-size:28px;margin:8px 0 4px}.sub{color:#9eacba;margin-bottom:18px}
+.card{background:#101923;border:1px solid #263646;border-radius:18px;padding:16px;margin:14px 0;box-shadow:0 10px 30px #0003}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:end}
+label{display:block;color:#aebbc7;font-size:13px}.perpControl{display:flex;align-items:center;gap:8px;min-height:48px}.perpControl input{width:auto;min-height:auto;margin:0}input,select,button{width:100%;min-height:48px;border-radius:12px;border:1px solid #2d4052;background:#111d28;color:#eef5fb;padding:10px;font-size:16px}
+button{cursor:pointer;font-weight:650}.primary{background:#1766a3;border-color:#2998ed}.danger{background:#512126;border-color:#9c4a54}
+.diag{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.diag div{padding:10px;border-radius:10px;background:#0b141d}.ok{color:#55df9b}.bad{color:#ff7b83}.wait{color:#f1c75b}
+.status{margin-top:10px;color:#aebbc7;min-height:24px}.logPanel{margin-top:12px}.logVersion{margin-top:-4px;margin-bottom:8px;color:#55df9b;font-size:13px;font-weight:750;letter-spacing:.02em}.logVersion b{font-weight:850}.logActions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}.logActions button{min-height:42px}.logFollow{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12px;color:#9eacb9}.logFollow input{width:auto}.logBox{margin:10px 0 0;background:#071018;border:1px solid #263646;border-radius:10px;padding:10px;max-height:260px;overflow:auto;font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;color:#d7e2ec}.logHint{font-size:12px;color:#8fa0af;margin-top:7px}.bar{height:8px;background:#172431;border-radius:99px;overflow:hidden;margin-top:8px}.bar>i{display:block;height:100%;width:0;background:#2b9bea}
+.rankingToggle{margin-top:10px}.rankingToggle button{min-height:44px}.floatingLogs{position:fixed;right:12px;top:auto;bottom:max(88px,calc(60px + env(safe-area-inset-bottom)));z-index:50;width:42px;min-height:42px;height:42px;padding:0;border-radius:50%;background:transparent;border:1px solid rgba(255,255,255,.18);box-shadow:none;color:transparent;font-size:0;backdrop-filter:none;-webkit-backdrop-filter:none}.connectorToggle{position:fixed;left:10px;top:auto;bottom:max(88px,calc(60px + env(safe-area-inset-bottom)));z-index:55;display:flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid rgba(255,255,255,.18);border-radius:12px;background:transparent!important;box-shadow:none!important;color:#d7e2ec;font-size:12px;font-weight:700;line-height:1;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}.connectorToggle input{width:18px!important;min-height:18px!important;height:18px!important;margin:0!important;padding:0!important;background:transparent!important;accent-color:#d7e2ec}.connectorToggle small{display:block;color:#8fa0af;font-size:10px;font-weight:600;margin-top:2px}.connectorToggleText{display:flex;flex-direction:column;gap:2px}@media(max-width:700px){.connectorToggle{left:8px;width:38px;height:38px;padding:0;justify-content:center;border-radius:50%}.connectorToggleText{display:none}.connectorToggle input{width:18px!important;height:18px!important}}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.preRankingAction{margin-top:12px;text-align:center}.preRankingAction button{width:100%}.ranking{display:grid;grid-template-columns:1fr;gap:10px}.rankCard{width:100%;text-align:left;background:#0b141d;border:1px solid #263646;border-radius:14px;padding:14px;cursor:pointer;transition:background .15s,border-color .15s,transform .08s}.rankCard:hover{background:#14212d}.rankCard:active{transform:scale(.995)}.rankCard.selected{background:#142433;border-color:#3a789f}.rankTop{display:flex;justify-content:space-between;align-items:center;gap:12px}.rankCoin{font-size:19px;font-weight:800;display:flex;align-items:center;gap:6px}.levBadge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:7px;background:#155b55;color:#8ef0d2;font-size:13px;font-weight:800;line-height:1.25}.rankMove{font-size:20px;font-weight:800}.rankArrow{font-size:12px;font-weight:850;letter-spacing:.03em;margin-left:2px;padding:3px 7px;border-radius:7px;background:#155b55;color:#8ef0d2;line-height:1.2}.rankArrow.down{background:#5a252c;color:#ff9ba1}.rankRaw{font-size:13px;font-weight:700;margin-top:4px}.rankMeta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.rankCell{background:#101c27;border-radius:10px;padding:9px}.rankLabel{display:block;color:#8fa0af;font-size:11px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}.rankValue{font-size:14px;font-weight:650}.up{color:#55df9b}.down{color:#ff7b83}.winnerUp{color:#55df9b}.winnerDown{color:#ff7b83}
+.hero{display:block}.winnerCard{padding:20px}.winnerMain{display:grid;grid-template-columns:1fr;gap:14px}.winnerInfo{display:block}.winnerInfo .rankTop{align-items:center}.winnerInfo .rankCoin{font-size:28px}.winnerInfo .rankMove{font-size:25px}.winnerInfo .rankRaw{font-size:14px}.winnerInfo .rankMeta{margin-top:12px;grid-template-columns:1fr}.winnerInfo .rankCell{padding:12px}.winnerInfo .miniClockWrap{min-width:0;flex:0 0 auto}.winnerInfo .rankClockPair{width:100%;gap:0;justify-content:space-between}.winnerInfo .miniDigital{font-size:22px}.winnerInfo .miniClock{width:150px;height:150px}.winnerChart{height:390px}.winnerChart canvas{width:100%;height:100%;display:block;background:#0b141d;border-radius:12px}.metric{font-size:34px;font-weight:800}.winnerHead{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:6px}.winnerCoin{font-size:28px;font-weight:850}.winnerLev{display:inline-flex;align-items:center;padding:3px 8px;border-radius:7px;background:#155b55;color:#8ef0d2;font-size:15px;font-weight:800}.winnerArrow{font-size:28px;font-weight:900;margin-left:1px}.clocks{display:flex;gap:18px;margin-top:16px;align-items:center;justify-content:flex-start}.clockWrap{text-align:center}.clock{width:96px;height:96px;display:block}.clockLabel{font-size:11px;color:#8fa0af;margin-top:4px}.digitalTime{font-size:25px;font-weight:850;letter-spacing:.02em;margin-bottom:5px}.miniClockWrap{text-align:center;min-width:0;flex:0 0 auto}.miniDigital{font-size:18px;font-weight:850;line-height:1.05;margin-bottom:4px}.miniClock{width:116px;height:116px;display:block;margin:0 auto}.rankClockPair{position:relative;display:flex;width:100%;gap:0;justify-content:space-between;align-items:center}.movementDuration{position:absolute;left:50%;top:34px;transform:translate(-50%,-50%);z-index:6;pointer-events:none;color:#d7e2ec;font-size:16px;font-weight:800;line-height:1;white-space:nowrap;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.95);background:rgba(7,16,24,.62);padding:3px 6px;border-radius:6px}.muted{color:#9eacba}.chartbox{height:320px}.inlineChart{height:320px;margin-top:14px}.inlineChart canvas{width:100%;height:100%;display:block;background:#071018;border-radius:10px}.chartbox canvas{width:100%;height:100%;display:block;background:#0b141d;border-radius:12px}
 .chartLegend{display:none}
-
-/* Scrollbar styling */
-::-webkit-scrollbar{width:10px;height:10px}
-::-webkit-scrollbar-track{background:rgba(30,10,5,.5)}
-::-webkit-scrollbar-thumb{background:var(--spray-red);border:1px solid var(--neon-orange);border-radius:2px}
-
-@media(max-width:700px){
-  h1{font-size:30px}
-  .logActions{grid-template-columns:1fr}
-  .perpControl{grid-column:span 1}
-  .grid{grid-template-columns:1fr 1fr}
-  main{padding:10px}
-  .diag{grid-template-columns:1fr}
-  .hero{grid-template-columns:1fr}
-  .actions{grid-template-columns:1fr 1fr}
-  .metric{font-size:28px}
-  .chartbox{height:300px}
-  .winnerChart{height:330px}
-  .inlineChart{height:290px}
-  .winnerInfo{display:block}
-  .winnerInfo .rankMeta{grid-template-columns:1fr}
-  .rankMeta{grid-template-columns:1fr}
-  .miniClock{width:min(36vw,150px);height:min(36vw,150px)}
-  .winnerInfo .miniClock{width:min(39vw,150px);height:min(39vw,150px)}
-  .miniDigital{font-size:19px}
-  .winnerInfo .miniDigital{font-size:22px}
-  .rankClockPair{padding:0 2px}
-  .clock{width:82px;height:82px}
-  .clocks{gap:10px}
-}
-
-/* Graffiti tag animation on title */
-@keyframes glitch{
-  0%,100%{transform:rotate(-1.5deg) translate(0)}
-  20%{transform:rotate(-1.5deg) translate(-2px,1px)}
-  40%{transform:rotate(-1.5deg) translate(2px,-1px)}
-  60%{transform:rotate(-1.5deg) translate(-1px,2px)}
-  80%{transform:rotate(-1.5deg) translate(1px,-2px)}
-}
-h1:hover{animation:glitch .3s infinite}
-
-/* Neon pulse for winner card */
-@keyframes neonPulse{
-  0%,100%{box-shadow:0 0 20px rgba(255,255,0,.15),8px 8px 0 rgba(0,0,0,.6)}
-  50%{box-shadow:0 0 45px rgba(255,255,0,.3),8px 8px 0 rgba(0,0,0,.6),0 0 60px rgba(255,200,0,.1)}
-}
-.winnerCard:not([hidden]){animation:neonPulse 2s infinite}
+@media(max-width:700px){.logActions{grid-template-columns:1fr}.perpControl{grid-column:span 1}.grid{grid-template-columns:1fr 1fr}main{padding:10px}.grid{grid-template-columns:1fr 1fr}.diag{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.actions{grid-template-columns:1fr 1fr}.metric{font-size:30px}h1{font-size:24px}.chartbox{height:300px}.winnerChart{height:330px}.inlineChart{height:290px}.winnerInfo{display:block}.winnerInfo .rankMeta{grid-template-columns:1fr}.rankMeta{grid-template-columns:1fr}.miniClock{width:min(36vw,150px);height:min(36vw,150px)}.winnerInfo .miniClock{width:min(39vw,150px);height:min(39vw,150px)}.miniDigital{font-size:19px}.winnerInfo .miniDigital{font-size:22px}.rankClockPair{padding:0 2px}.clock{width:82px;height:82px}.clocks{gap:10px}}
 </style>
 </head>
 <body>
 <main>
-<h1>HYPERLIQUID SCANNER V3.3</h1>
-<div class="sub">💥 LE PLUS CRAZY SCANNER DE PERPS 💥</div>
+<h1></h1>
+<div class="sub"></div>
 
 <section class="card">
 
 <div class="grid">
-<label>⏱ HEURES
+<label>Heures
 <input id="hours" type="number" min="1" max="48" value="6"></label>
-<label>📊 BOUGIES
+<label>Bougies
 <select id="interval"><option>1m</option><option>3m</option><option selected>5m</option><option>15m</option><option>30m</option><option>1h</option><option>2h</option><option>4h</option><option>8h</option><option>12h</option><option>1d</option></select></label>
-<label>⚡ CONCURRENCE
+<label>Concurrence
 <input id="concurrency" type="number" min="1" max="8" value="4"></label>
-<label class="perpControl">PERPS UNIQUEMENT
+<label class="perpControl">Perpétuels uniquement
 <input id="perpsOnly" type="checkbox" checked style="width:auto;min-height:auto;margin-right:8px"></label>
 </div>
 
 <div class="actions">
-<button class="primary" id="scan">🔥 LANCER LE SCAN</button>
-<button class="danger" id="cancel">💀 ANNULER</button>
-<button id="finishNow" hidden>🏁 TERMINER MAINTENANT</button>
+<button class="primary" id="scan">Lancer le scan</button>
+<button class="danger" id="cancel">Annuler</button>
+<button id="finishNow" hidden>Terminer maintenant avec les données disponibles</button>
 </div>
-<div class="status" id="status">Initialisation...</div><div class="bar"><i id="progress"></i></div>
+<div class="status" id="status">Initialisation…</div><div class="bar"><i id="progress"></i></div>
 </section>
 
+<!-- Le gagnant est volontairement placé AVANT le classement. -->
 <section class="card winnerCard" id="detail" hidden>
 <div id="winnerContent"></div>
 </section>
@@ -692,25 +57,26 @@ h1:hover{animation:glitch .3s infinite}
 <section class="card" id="rankingPanel" hidden>
 <div id="count" class="muted">Aucun résultat</div>
 <div id="rows" class="ranking"></div>
-<div class="rankingToggle"><button id="toggleRanking">🔥 AFFICHER TOUT LE CLASSEMENT</button></div>
+<div class="rankingToggle"><button id="toggleRanking">Afficher tout le classement</button></div>
 </section>
 
 <section class="card logPanel" id="logPanel">
-<h2>📋 JOURNAL D'ACTIVITÉ & ERREURS</h2>
-<div class="logVersion">Version de l'outil : <b id="toolVersion">V33</b></div>
-<div class="muted">Les erreurs sont détaillées avec leur source. Les requêtes réussies sont enregistrées succinctement (heure, ordre, coin, durée) pour reconstituer l'ordre du scan et identifier précisément les données manquantes.</div>
+<h2>🧾 Journal d’activité & erreurs</h2>
+<div class="logVersion">Version de l’outil : <b id="toolVersion">V33</b></div>
+<div class="muted">Les erreurs sont détaillées avec leur source. Les requêtes réussies sont enregistrées succinctement (heure, ordre, coin, durée) pour reconstituer l’ordre du scan et identifier précisément les données manquantes.</div>
 <div class="logActions">
-<button id="downloadLog">📥 TÉLÉCHARGER</button>
-<button id="copyLog">📋 COPIER</button>
-<button class="danger" id="clearLog">🗑 VIDER</button>
+<button id="downloadLog">Télécharger le log</button>
+<button id="copyLog">Copier le log</button>
+<button class="danger" id="clearLog">Vider le log</button>
 </div>
 <div class="logHint" id="logCount">0 événement</div>
 <label class="logFollow"><input id="followLog" type="checkbox" checked> Suivre automatiquement les derniers événements en direct</label>
 <pre class="logBox" id="logBox">Aucune erreur enregistrée.</pre>
 </section>
 
+<!-- Le diagnostic est placé sous le journal d’activité. -->
 <section class="card" id="diagnosticPanel">
-<h2>🔌 DIAGNOSTIC CONNEXION</h2>
+<h2>📱 Diagnostic connexion</h2>
 <div class="diag">
 <div>JavaScript : <b id="djs">…</b></div>
 <div>Origine : <b id="dorigin">…</b></div>
@@ -719,12 +85,12 @@ h1:hover{animation:glitch .3s infinite}
 <div>Hyperliquid API : <b id="dproxy">…</b></div>
 <div>Hyperliquid : <b id="dhl">…</b></div>
 </div>
-<pre id="error" style="white-space:pre-wrap;color:#ff0033;text-shadow:0 0 5px rgba(255,0,51,.3)"></pre>
+<pre id="error" style="white-space:pre-wrap;color:#ff9ba1"></pre>
 </section>
 
-<div class="preRankingAction"><button id="showRankingEarly" hidden>🏁 AFFICHER LE CLASSEMENT</button></div>
+<div class="preRankingAction"><button id="showRankingEarly" hidden>Afficher le classement avec les données disponibles</button></div>
 
-<label class="connectorToggle" title="Choisir le style des connecteurs"><input id="newConnectors" type="checkbox" aria-label="Activer les nouveaux connecteurs"><span class="connectorToggleText"><span>🔗 NOUVEAUX CONNECT.</span><small>Décochée = V27</small></span></label>
+<label class="connectorToggle" title="Choisir le style des connecteurs"><input id="newConnectors" type="checkbox" aria-label="Activer les nouveaux connecteurs"><span class="connectorToggleText"><span>Nouveaux connecteurs</span><small>Décoché = V27</small></span></label>
 <button class="floatingLogs" id="jumpLogs" type="button" aria-label="Aller au journal" title="Journal"></button>
 </main>
 
@@ -843,7 +209,7 @@ async function api(op, params = {}, options = {}) {
       throw e;
     }
     let data;try{data=await response.json()}catch(e){logEvent("ERROR","API JSON",e,{operation:op,coin:params.coin||"",attempt:attempt+1,requestNo});if(op === "candles"){scanStats.failed++;if(params.coin&&!scanStats.failedCoins.includes(params.coin))scanStats.failedCoins.push(params.coin)}throw e}
-    if(op === "candles"){scanStats.success++;logEvent("INFO","REQUEST OK",new Error(`${params.coin} → ${params.interval}`),{operation:op,coin:params.coin||"",interval:params.interval||"",requestNo,attempt:attempt+1,retries:attempt,durationMs:Date.now()-started})}
+    if(op === "candles"){scanStats.success++;logEvent("INFO","REQUEST OK",new Error(`${params.coin} — ${params.interval}`),{operation:op,coin:params.coin||"",interval:params.interval||"",requestNo,attempt:attempt+1,retries:attempt,durationMs:Date.now()-started})}
     if(op === "ping")return {ok:true,direct:true};return data;
   }
   throw lastError||new Error("Requête API échouée");
@@ -855,11 +221,17 @@ async function diagnostics(){
  try{const x=window.indexedDB;mark("didb",x?"OK":"ABSENT",x?"ok":"bad")}catch(e){mark("didb","ERREUR","bad")}
  if(!endpoint()){mark("dproxy","ABSENT (file://)","bad");mark("dhl","NON TESTÉ","wait");return false}
  try{await api("ping");mark("dproxy","OK","ok")}catch(e){mark("dproxy","ERREUR","bad");err(e,"Diagnostic API");return false}
- try{const meta=await api("meta");mark("dhl","OK · "+meta.universe.length+" perps","ok");state.cache=meta;return true}catch(e){mark("dhl","ERREUR","bad");err(e,"Diagnostic Hyperliquid");return false}
+ try{const meta=await api("meta");mark("dhl","OK — "+meta.universe.length+" perps","ok");state.cache=meta;return true}catch(e){mark("dhl","ERREUR","bad");err(e,"Diagnostic Hyperliquid");return false}
 }
 
 function parseCandles(a){return (Array.isArray(a)?a:[]).map(c=>({t:+c.t,o:+c.o,h:+c.h,l:+c.l,c:+c.c})).filter(x=>[x.t,x.h,x.l,x.c].every(Number.isFinite)).sort((a,b)=>a.t-b.t)}
 
+/*
+ * Cherche séparément :
+ *  - le plus grand mouvement haussier : plus bas antérieur -> plus haut ultérieur
+ *  - le plus grand mouvement baissier : plus haut antérieur -> plus bas ultérieur
+ * Les deux mouvements sont donc conservés pour chaque perp.
+ */
 function calcMovements(coin,lev,candles){
  if(candles.length<2)return [];
  const out=[];
@@ -888,7 +260,7 @@ function cardHTML(r, large=false){
  const clockClass=large?"miniClock winnerMiniClock":"miniClock";
  const digitalClass=large?"miniDigital winnerDigital":"miniDigital";
  const chartClass=large?"winnerChart":"inlineChart";
- return `<div class="rankTop"><div class="rankCoin">${r.coin}<span class="levBadge">${r.leverage}x</span><span class="rankArrow ${up?"up":"down"}">${up?"LONG":"SHORT"}</span></div><div class="rankMove ${up?"up":"down"}">${r.score.toFixed(2)}%<div class="rankRaw ${up?"up":"down"}">${up?"+":"−"}${r.move.toFixed(2)}%</div></div></div><div class="rankMeta">
+ return `<div class="rankTop"><div class="rankCoin">${r.coin}<span class="levBadge">${r.leverage}×</span><span class="rankArrow ${up?"up":"down"}">${up?"LONG":"SHORT"}</span></div><div class="rankMove ${up?"up":"down"}">${r.score.toFixed(2)}%<div class="rankRaw ${up?"up":"down"}">${up?"+":"−"}${r.move.toFixed(2)}%</div></div></div><div class="rankMeta">
   <div class="rankCell"><div class="rankClockPair">
     <div class="miniClockWrap"><div class="${digitalClass}">${fmtTime(r.startT,r.endT)}</div><canvas class="${clockClass}" data-clock-time="${r.startT}" data-direction="${up?"up":"down"}" width="160" height="160"></canvas></div>
     <div class="movementDuration">${fmtDuration(r.endT-r.startT)}</div>
@@ -938,7 +310,7 @@ function render(){
  const toggle=$("toggleRanking");
  if(ranked.length>RANKING_LIMIT){
    toggle.hidden=false;
-   toggle.textContent=state.showAll ? "🔥 AFFICHER SEULEMENT LES 30 PREMIERS" : `🔥 AFFICHER TOUT LE CLASSEMENT (${ranked.length})`;
+   toggle.textContent=state.showAll ? "Afficher seulement les 30 premiers" : `Afficher tout le classement (${ranked.length})`;
  }else toggle.hidden=true;
  renderWinner();
 }
@@ -958,14 +330,15 @@ function drawClock(canvas,ms,direction){
  const x=canvas.getContext("2d");x.setTransform(dpr,0,0,dpr,0,0);
  const cx=size/2,cy=size/2,R=size*.43;
  x.clearRect(0,0,size,size);
- x.fillStyle="#1a0a00";x.beginPath();x.arc(cx,cy,R+5,0,Math.PI*2);x.fill();
- x.strokeStyle="#ff3300";x.lineWidth=3;x.beginPath();x.arc(cx,cy,R,0,Math.PI*2);x.stroke();
+ x.fillStyle="#0b141d";x.beginPath();x.arc(cx,cy,R+5,0,Math.PI*2);x.fill();
+ x.strokeStyle="#304252";x.lineWidth=2;x.beginPath();x.arc(cx,cy,R,0,Math.PI*2);x.stroke();
 
+ // 60 minute graduations, no seconds hand.
  for(let i=0;i<60;i++){
    const a=i*Math.PI/30-Math.PI/2;
    const major=i%5===0;
    const r1=R-(major?8:5),r2=R-1;
-   x.strokeStyle=major?"#ffff00":"#ff6600";
+   x.strokeStyle=major?"#e6eef5":"#71808d";
    x.lineWidth=major?2:1;
    x.beginPath();
    x.moveTo(cx+Math.cos(a)*r1,cy+Math.sin(a)*r1);
@@ -978,8 +351,9 @@ function drawClock(canvas,ms,direction){
  const hourA=hours*Math.PI/6-Math.PI/2;
  const minA=minutes*Math.PI/30-Math.PI/2;
 
- x.fillStyle="rgba(255,221,136,.88)";
- x.font=`700 ${Math.max(7,size*.085)}px 'Permanent Marker',cursive`;
+ // Numéros des heures autour du cadran, à l'extérieur de la zone des aiguilles.
+ x.fillStyle="rgba(230,238,245,.88)";
+ x.font=`700 ${Math.max(7,size*.085)}px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif`;
  x.textAlign="center";x.textBaseline="middle";
  for(let n=1;n<=12;n++){
    const a=n*Math.PI/6-Math.PI/2;
@@ -988,74 +362,76 @@ function drawClock(canvas,ms,direction){
  }
 
  const hand=(a,len,width)=>{
-   x.strokeStyle=direction==="up"?"#39ff14":"#ff0033";
+   x.strokeStyle=direction==="up"?"#55df9b":"#ff7b83";
    x.lineWidth=width;x.lineCap="round";
-   x.shadowColor=direction==="up"?"rgba(57,255,20,.5)":"rgba(255,0,51,.5)";
-   x.shadowBlur=4;
    x.beginPath();x.moveTo(cx,cy);
    x.lineTo(cx+Math.cos(a)*len,cy+Math.sin(a)*len);x.stroke();
-   x.shadowBlur=0;
  };
- hand(hourA,R*.62,5);
- hand(minA,R*.87,3.5);
- x.fillStyle=direction==="up"?"#39ff14":"#ff0033";
- x.beginPath();x.arc(cx,cy,4,0,Math.PI*2);x.fill();
+ hand(hourA,R*.62,4);
+ hand(minA,R*.87,3);
+ x.fillStyle=direction==="up"?"#55df9b":"#ff7b83";
+ x.beginPath();x.arc(cx,cy,3.5,0,Math.PI*2);x.fill();
 
+ // AM/PM est dessiné APRÈS les aiguilles pour rester au premier plan.
  const ampm=d.getHours()<12?"AM":"PM";
- x.font=`800 ${Math.max(10,size*.12)}px 'Creepster',cursive`;
+ x.font=`800 ${Math.max(10,size*.12)}px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif`;
  x.fillStyle="rgba(255,255,255,.78)";
  x.shadowColor="rgba(0,0,0,.95)";x.shadowBlur=3;x.shadowOffsetY=1;
  x.fillText(ampm,cx,cy);
  x.shadowColor="transparent";x.shadowBlur=0;x.shadowOffsetY=0;
-}
 
+}
 function draw(r,canvas){
  const c=canvas||$("chart"); if(!c)return;
  const dpr=devicePixelRatio||1,rect=c.getBoundingClientRect();
  const w=Math.max(1,rect.width),h=Math.max(1,rect.height);c.width=w*dpr;c.height=h*dpr;
  const x=c.getContext("2d");x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,w,h);
  const candles=r.candles;if(!candles.length)return;
+ // Afficher TOUTES les bougies récupérées pour la fenêtre demandée.
  const view=candles, values=[];view.forEach(v=>values.push(v.h,v.l));
  let mn=Math.min(...values),mx=Math.max(...values);const margin=(mx-mn)*.08||Math.max(Math.abs(mx)*.001,1e-8);mn-=margin;mx+=margin;
  const p={l:58,r:18,t:28,b:70};
  const plotW=w-p.l-p.r,plotH=h-p.t-p.b;
  const sx=i=>p.l+i*plotW/Math.max(1,view.length-1);
  const sy=v=>h-p.b-(v-mn)*plotH/Math.max(1e-12,mx-mn);
- x.font="12px 'Permanent Marker',cursive";x.lineWidth=1;x.strokeStyle="#3a1a0a";x.fillStyle="#cc8844";
+ x.font="12px sans-serif";x.lineWidth=1;x.strokeStyle="#20303d";x.fillStyle="#8fa0af";
  const yTicks=[];
  for(let k=0;k<5;k++){
    const yy=p.t+k*plotH/4;
    const val=mx-k*(mx-mn)/4;
    yTicks.push({y:yy,value:val,label:fmt(val)});
    x.beginPath();x.moveTo(p.l,yy);x.lineTo(w-p.r,yy);x.stroke();
-   x.textAlign="left";x.textBaseline="middle";x.fillStyle="#cc8844";
+   x.textAlign="left";x.textBaseline="middle";x.fillStyle="#8fa0af";
    x.fillText(fmt(val),6,yy);
  }
  const candleStep=plotW/Math.max(1,view.length-1),bodyW=Math.max(1,Math.min(12,candleStep*.62));
- view.forEach((v,i)=>{const xx=sx(i),yo=sy(v.o),yc=sy(v.c),yh=sy(v.h),yl=sy(v.l),rising=v.c>=v.o,col=rising?"#39ff14":"#ff0033";x.strokeStyle=col;x.fillStyle=col;x.lineWidth=1.2;x.beginPath();x.moveTo(xx,yh);x.lineTo(xx,yl);x.stroke();const top=Math.min(yo,yc),bh=Math.max(1,Math.abs(yc-yo));x.fillRect(xx-bodyW/2,top,bodyW,bh);});
+ view.forEach((v,i)=>{const xx=sx(i),yo=sy(v.o),yc=sy(v.c),yh=sy(v.h),yl=sy(v.l),rising=v.c>=v.o,col=rising?"#55df9b":"#ff7b83";x.strokeStyle=col;x.fillStyle=col;x.lineWidth=1.2;x.beginPath();x.moveTo(xx,yh);x.lineTo(xx,yl);x.stroke();const top=Math.min(yo,yc),bh=Math.max(1,Math.abs(yc-yo));x.fillRect(xx-bodyW/2,top,bodyW,bh);});
+ // Axe X : petite graduation à chaque bougie/minute, moyenne au quart d'heure, grosse à l'heure.
  const axisY=h-p.b;
  x.textAlign="center";x.textBaseline="top";
  view.forEach((v,i)=>{
    const d=new Date(v.t),min=d.getMinutes(),sec=d.getSeconds();
-   const hour=min===0&&sec<30, quarter=(min%15===0&&sec<30);
+   const hour=min===0&&sec<30, quarter=(min%15===0&&sec<30), small=true;
    const xx=sx(i);
    const len=hour?13:(quarter?9:5), width=hour?2.4:(quarter?1.7:1);
-   x.strokeStyle=hour?"#ffff00":(quarter?"#ff6600":"#663311");x.lineWidth=width;
+   x.strokeStyle=hour?"#e6eef5":(quarter?"#9eacba":"#526372");x.lineWidth=width;
    x.beginPath();x.moveTo(xx,axisY);x.lineTo(xx,axisY+len);x.stroke();
  });
  x.textAlign="start";x.textBaseline="alphabetic";
+ // Repères du mouvement : heures affichées sous l'axe X, jamais directement dans le graphique.
  const si=r.startI,ei=r.endI;
  if(si>=0&&ei>=0&&si<view.length&&ei<view.length){
    const sx0=sx(si),sy0=sy(r.startPrice),sx1=sx(ei),sy1=sy(r.endPrice);
-   const color=r.direction==="up"?"#39ff14":"#ff0033";
+   const color=r.direction==="up"?"#55df9b":"#ff7b83";
    x.setLineDash([5,4]);x.strokeStyle=color;x.lineWidth=1.2;
    x.beginPath();x.moveTo(sx0,p.t);x.lineTo(sx0,axisY);x.stroke();
    x.beginPath();x.moveTo(sx1,p.t);x.lineTo(sx1,axisY);x.stroke();
    x.setLineDash([]);
 
+   // Prix de début/fin : à gauche de l’axe Y. Les graduations Y restent prioritaires.
    const drawEventPrice=(value,baseY)=>{
      const text=fmt(value);
-     x.font="700 11px 'Permanent Marker',cursive";
+     x.font="700 11px sans-serif";
      const tw=x.measureText(text).width;
      let yy=baseY;
      const conflicts=yTicks.filter(t=>Math.abs(t.y-yy)<14);
@@ -1075,21 +451,65 @@ function draw(r,canvas){
    drawEventPrice(r.endPrice,sy1);
 
    const label0=fmtTime(r.startT,r.endT), label1=fmtTime(r.endT,r.startT);
-   x.font="bold 12px 'Permanent Marker',cursive";
+   x.font="bold 12px sans-serif";
    const pad=6, boxH=22, gap=8;
    const w0=x.measureText(label0).width+pad*2, w1=x.measureText(label1).width+pad*2;
 
+   /*
+    * GESTION DES ÉTIQUETTES ET CONNECTEURS — NOTES POUR MODIFICATION
+    * ---------------------------------------------------------------
+    * sx0 / sx1 = positions X des graduations : elles sont TOUJOURS les
+    * points d'ancrage réels sur l'axe. Ne pas les déplacer.
+    * c0 / c1 = centres X des textes. Ils commencent alignés sur sx0 / sx1.
+    * Si les deux boîtes de texte se chevauchent ou dépassent les bords,
+    * on déplace uniquement c0/c1. Le connecteur compense alors ce décalage.
+    *
+    * Pour modifier l'algorithme de placement des heures, travailler dans
+    * le bloc c0/c1 ci-dessous. Pour modifier UNIQUEMENT la forme du trait,
+    * travailler dans drawConnector(), plus bas.
+    */
+   // V24 : positionnement responsive des heures.
+   // Chaque libellé est d'abord centré EXACTEMENT sur sa graduation.
+   // Il n'est déplacé que si les deux boîtes se chevauchent réellement.
+   // Dans ce cas seulement, les liaisons courbent de la graduation vers
+   // le centre réel du libellé. Le calcul se fait sur la largeur réelle
+   // du canvas afin de rester correct en portrait comme en paysage.
+   // V30 : placement conjoint robuste des deux libellés (référence décochée).
+   // Le bug des versions précédentes venait du clamp indépendant :
+   // lorsqu'une paire était proche du bord, chaque centre était ramené
+   // séparément dans le canvas, ce qui pouvait recréer un chevauchement.
+   // On traite désormais les deux libellés comme un seul bloc rigide :
+   // largeur0 + espace + largeur1, puis on déplace ce bloc au meilleur
+   // endroit possible. Les graduations restent toujours les sources exactes
+   // des connecteurs ; seuls les centres des textes peuvent être déplacés.
    const useNewConnectors=$('newConnectors')?.checked;
    let c0=sx0,c1=sx1;
 
    if(useNewConnectors){
+     /*
+      * V33.1 — Placement des heures sous l'axe X
+      * -------------------------------------------
+      * Objectif : les heures restent ALIGNÉES sur leurs graduations tant
+      * qu'elles ne se chevauchent pas. Dès qu'un chevauchement est détecté,
+      * elles sont écartées du minimum nécessaire, symétriquement autour de
+      * leur milieu, en respectant les bords du canvas.
+      *
+      * Les connecteurs partent toujours des graduations EXACTES (sx0, sx1)
+      * et arrivent au centre réel des libellés (c0, c1). Quand aucun
+      * chevauchement n'a lieu, c0 === sx0 et c1 === sx1 : les connecteurs
+      * sont purement verticaux.
+      */
      const minGap = Math.max(7, Math.min(14, w * 0.010));
      const min0 = p.l + w0/2, max0 = w - p.r - w0/2;
      const min1 = p.l + w1/2, max1 = w - p.r - w1/2;
 
+     // 1. Alignement strict sur les graduations (borné au canvas).
      c0 = Math.max(min0, Math.min(max0, sx0));
      c1 = Math.max(min1, Math.min(max1, sx1));
 
+     // 2. Ordonner gauche/droite. En principe sx0 < sx1 (début avant fin),
+     //    mais un clamp sur canvas très étroit pourrait inverser l'ordre :
+     //    on protège ce cas via un swap explicite.
      const swap = c0 > c1;
      const lW = swap ? w1 : w0;
      const rW = swap ? w0 : w1;
@@ -1103,11 +523,14 @@ function draw(r,canvas){
      const requiredGap = lW/2 + rW/2 + minGap;
      const currentGap = rC0 - lC0;
 
+     // 3. Chevauchement détecté : écart minimal symétrique autour du milieu.
      if(currentGap < requiredGap){
        const mid = (lC0 + rC0) / 2;
        let lC = mid - requiredGap / 2;
        let rC = mid + requiredGap / 2;
 
+       // 4. Bords atteints : on reporte le déficit sur l'autre côté
+       //    (glissement en bloc, ce qui préserve l'écart requis).
        if(lC < lMinB){
          rC += (lMinB - lC);
          lC = lMinB;
@@ -1117,6 +540,8 @@ function draw(r,canvas){
          rC = rMaxB;
        }
 
+       // 5. Bornes finales (ne casse l'écart que dans le cas extrême
+       //    où l'espace disponible est inférieur à l'écart requis).
        lC = Math.max(lMinB, Math.min(lMaxB, lC));
        rC = Math.max(rMinB, Math.min(rMaxB, rC));
 
@@ -1124,6 +549,9 @@ function draw(r,canvas){
        else { c0 = lC; c1 = rC; }
      }
    }else{
+     // V30/V27 : bloc de placement conservé à l'identique lorsque la case
+     // est décochée. Ne pas modifier cette branche si le comportement de
+     // référence doit rester strictement inchangé.
    const minGap=Math.max(8,Math.min(18,w*.012));
    const min0=p.l+w0/2, max0=w-p.r-w0/2;
    const min1=p.l+w1/2, max1=w-p.r-w1/2;
@@ -1139,6 +567,9 @@ function draw(r,canvas){
        c0=Math.max(low,Math.min(high,ideal));
        c1=c0+required;
      }else{
+       // Cas extrême : la paire ne peut pas tenir avec la taille actuelle.
+       // On réduit légèrement l'espacement avant de choisir la meilleure
+       // position disponible, sans jamais laisser les boîtes se chevaucher.
        const fallbackGap=Math.max(2,Math.min(minGap,Math.max(2,(w-p.l-p.r-w0-w1)*.5)));
        const req2=(w0+w1)/2+fallbackGap;
        const low2=Math.max(min0,min1-req2);
@@ -1162,43 +593,79 @@ function draw(r,canvas){
        c0=c1+req2;
      }
    }
+
+   // Si le viewport est assez large et qu'il n'y a pas de chevauchement,
+   // c0/c1 sont strictement égaux à sx0/sx1 : aucune dérive horizontale.
    }
 
    const b0=c0-w0/2, b1=c1-w1/2;
    const labelY=axisY+34;
    const drawBottomLabel=(label,bx,by,boxW)=>{
-     x.fillStyle="rgba(26,10,0,.96)";
-     x.strokeStyle=color;
-     x.lineWidth=1;
-     x.beginPath();x.roundRect(bx,by,boxW,boxH,3);x.fill();x.stroke();
+     x.fillStyle="rgba(11,20,29,.96)";x.beginPath();x.roundRect(bx,by,boxW,boxH,6);x.fill();
      x.fillStyle=color;x.textAlign="center";x.textBaseline="middle";x.fillText(label,bx+boxW/2,by+boxH/2);
    };
 
+   // Liaison responsive : source = graduation exacte, cible = milieu exact du texte.
    const drawConnector=(sourceX,targetX)=>{
      const sourceY=axisY+14;
      const targetY=labelY+boxH/2;
      const dx=targetX-sourceX;
-     x.strokeStyle=color;x.lineWidth=1.5;x.lineCap="round";
-     x.shadowColor=color;x.shadowBlur=3;
+     x.strokeStyle=color;x.lineWidth=1.25;x.lineCap="round";
      x.beginPath();
      x.moveTo(sourceX,sourceY);
 
+     /*
+      * DRAW CONNECTOR — GUIDE DE MODIFICATION
+      * ---------------------------------------
+      * sourceX = graduation exacte ; targetX = centre du texte.
+      * sourceY -> targetY est la HAUTEUR TOTALE PARCOURUE.
+      *
+      * Nouveau style : les pourcentages ci-dessous sont des FRACTIONS DE
+      * CETTE HAUTEUR, et non des longueurs de ligne :
+      *   20% : départ vertical depuis la graduation ;
+      *   70% : zone centrale, verticale si alignée ou oblique si le texte
+      *         a été déplacé ;
+      *   10% : arrivée verticale jusqu'au milieu du texte.
+      *
+      * Les deux changements de direction sont arrondis par des Bézier dont
+      * les tangentes correspondent aux segments voisins. C'est ce qui évite
+      * les angles saillants. Pour changer le style, les valeurs .20/.90 et
+      * les paramètres bend/curveX/tangentLen sont les principaux réglages.
+      *
+      * V27 reste volontairement intact dans le else final : décocher la case
+      * permet donc de revenir au comportement de référence.
+      */
+     // Deux styles sélectionnables : V27 (par défaut) ou le nouveau style.
      if(Math.abs(dx)<0.5){
        x.lineTo(targetX,targetY);
      }else if($('newConnectors')?.checked){
+       // Nouveau style : connecteur basé sur la HAUTEUR VERTICALE disponible,
+       // et non sur la longueur géométrique de la ligne.
+       // 20% : départ vertical court.
+       // 70% : segment principal ; vertical si la cible est alignée,
+       // oblique si le libellé a dû être décalé.
+       // 10% : arrivée verticale très courte.
+       // Les transitions sont des Bézier tangentielles pour éviter tout angle saillant.
        const totalDy=Math.max(1,targetY-sourceY);
        const sign=dx>=0?1:-1;
+       // La hauteur parcourue est TOUJOURS la même : 20% + 70% + 10%.
+       // Seule la longueur/largeur géométrique du trait change selon dx.
        const y1=sourceY+totalDy*.20;
        const y2=sourceY+totalDy*.90;
        const aligned=Math.abs(dx)<0.5;
 
        if(aligned){
+         // Aligné : aucune déviation horizontale inutile.
          x.lineTo(sourceX,y1);
          x.lineTo(targetX,y2);
          x.lineTo(targetX,targetY);
        }else{
          const mainDy=Math.max(1,y2-y1);
+         // Décalage horizontal progressif : plus le texte est éloigné,
+         // plus la courbe s'ouvre, mais elle reste bornée sur mobile.
          const offset=Math.max(7,Math.min(Math.abs(dx)*.30,32));
+         // Petite zone de transition : elle reste courte par rapport aux
+         // 70% centraux afin que la diagonale soit visuellement dominante.
          const bend=Math.max(3,Math.min(mainDy*.12,10));
          const startX=sourceX+sign*offset;
          const endX=targetX-sign*offset;
@@ -1209,21 +676,29 @@ function draw(r,canvas){
          const tx=vx/vlen, ty=vy/vlen;
          const tangent=Math.max(4,Math.min(offset*.90,mainDy*.14));
 
+         // 20% vertical, puis courbe tangentielle vers la diagonale.
          x.lineTo(sourceX,y1);
          x.bezierCurveTo(
            sourceX,y1+bend*.35,
            startX-tx*tangent,startY-ty*tangent,
            startX,startY
          );
+
+         // Diagonale principale : elle occupe la zone verticale 20% -> 90%.
          x.lineTo(endX,endY);
+
+         // Courbe tangentielle de sortie vers le dernier segment vertical.
          x.bezierCurveTo(
            endX+tx*tangent,endY+ty*tangent,
            targetX,y2-bend*.35,
            targetX,y2
          );
+
+         // Derniers 10% strictement verticaux jusqu'au centre de l'étiquette.
          x.lineTo(targetX,targetY);
        }
      }else{
+       // V27 : liaison conservée telle quelle.
        const lead=Math.max(10,Math.min(18,(targetY-sourceY)*.22));
        const startCurveY=sourceY+lead;
        const endCurveY=targetY-lead;
@@ -1237,7 +712,6 @@ function draw(r,canvas){
        x.lineTo(targetX,targetY);
      }
      x.stroke();
-     x.shadowBlur=0;
    };
    drawConnector(sx0,c0);
    drawConnector(sx1,c1);
@@ -1258,8 +732,8 @@ async function scan(){
  state.results=[];state.expanded=null;render();
  scanStats={requested:markets.length,success:0,retries:0,failed:0,failedCoins:[],started:0,finished:0};
  requestSequence=0;
- setStatus(`🔥 Scan de ${markets.length} perps...`,0);
- logEvent("INFO","SCAN START",new Error(`${markets.length} perps · ${interval} · ${hours}h`),{markets:markets.length,interval,hours,concurrency:conc,maxRetries:MAX_RETRIES});
+ setStatus(`Scan de ${markets.length} perps…`,0);
+ logEvent("INFO","SCAN START",new Error(`${markets.length} perps — ${interval} — ${hours}h`),{markets:markets.length,interval,hours,concurrency:conc,maxRetries:MAX_RETRIES});
  let next=0,done=0;
  async function worker(){
   while(true){
@@ -1274,7 +748,7 @@ async function scan(){
     if(e&&e.name==="AbortError") return;
     logEvent("ERROR","Scan candles",e,{coin:m.name,interval,marketIndex:i});
    }
-   done++;scanStats.finished=done;setStatus(`🔥 Scan ${done}/${markets.length} · ${m.name}`,done/markets.length*100);
+   done++;scanStats.finished=done;setStatus(`Scan ${done}/${markets.length} — ${m.name}`,done/markets.length*100);
   }
  }
  await Promise.all(Array.from({length:Math.min(conc,markets.length)},worker));
@@ -1282,13 +756,13 @@ async function scan(){
  const missing=markets.length-scanStats.success;
  const incomplete=missing>0;
  if(state.finishEarly){
-   setStatus(`🏁 Classement terminé avec les données disponibles · ${scanStats.success}/${markets.length} marchés récupérés · ${missing} non récupérés`,100);
+   setStatus(`Classement terminé avec les données disponibles — ${scanStats.success}/${markets.length} marchés récupérés — ${missing} non récupérés`,100);
  }else if(state.cancel){
-   setStatus(`💀 Scan annulé · ${scanStats.success}/${markets.length} marchés récupérés`,100);
+   setStatus(`Scan annulé — ${scanStats.success}/${markets.length} marchés récupérés`,100);
  }else if(incomplete){
-   setStatus(`⚠️ Terminé · ${scanStats.success}/${markets.length} marchés récupérés · ${missing} manquants`,100);
+   setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${missing} manquants`,100);
  }else{
-   setStatus(`✅ Terminé · ${scanStats.success}/${markets.length} marchés récupérés · ${state.results.length} mouvements`,100);
+   setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${state.results.length} mouvements`,100);
  }
  logEvent(incomplete?"WARN":"INFO","SCAN END",new Error(`${scanStats.success}/${markets.length} marchés récupérés`),{markets:markets.length,success:scanStats.success,failed:scanStats.failed,retries:scanStats.retries,missing,failedCoins:scanStats.failedCoins.join(", "),movements:state.results.length,finishEarly:state.finishEarly,cancelled:state.cancel});
  state.scanning=false;$("finishNow").hidden=true;$("showRankingEarly").hidden=true;scanAbortController=null;
@@ -1300,7 +774,7 @@ $("downloadLog").onclick=()=>{
 };
 $("copyLog").onclick=async()=>{
  const text=readLog().map(formatLogEntry).join("\n\n")||"Aucune erreur enregistrée.";
- try{await navigator.clipboard.writeText(text);setStatus("📋 Log copié dans le presse-papiers");}catch(e){err(e,"Copie du log");}
+ try{await navigator.clipboard.writeText(text);setStatus("Log copié dans le presse-papiers");}catch(e){err(e,"Copie du log");}
 };
 $("clearLog").onclick=()=>{localStorage.removeItem(LOG_KEY);renderLog();$("error").textContent="";};
 $("toggleRanking").onclick=()=>{state.showAll=!state.showAll;render();};
@@ -1339,9 +813,12 @@ const connectorToggle=document.getElementById("newConnectors");
 connectorToggle.checked=localStorage.getItem("hyperliquid_connector_style") === "new";
 connectorToggle.addEventListener("change",()=>{localStorage.setItem("hyperliquid_connector_style",connectorToggle.checked?"new":"v27");render();});
 $("scan").onclick=()=>{if(state.scanning)return;scan().catch(e=>{state.scanning=false;$("finishNow").hidden=true;$("showRankingEarly").hidden=true;err(e,"Scan")})};
-$("cancel").onclick=()=>{state.cancel=true;if(scanAbortController)scanAbortController.abort();setStatus("💀 Annulation demandée...")};
-$("finishNow").onclick=()=>{if(!state.scanning)return;state.finishEarly=true;state.cancel=true;if(scanAbortController)scanAbortController.abort();setStatus("🏁 Finalisation du classement avec les données disponibles...")};
-
+$("cancel").onclick=()=>{state.cancel=true;if(scanAbortController)scanAbortController.abort();setStatus("Annulation demandée…")};
+$("finishNow").onclick=()=>{if(!state.scanning)return;state.finishEarly=true;state.cancel=true;if(scanAbortController)scanAbortController.abort();setStatus("Finalisation du classement avec les données disponibles…")};
+// V25 : sur iOS/Safari, visualViewport.resize peut se déclencher pendant
+// le simple défilement (barre d'adresse qui apparaît/disparaît). Re-render
+// pendant le scroll provoquait un effet de glitch. On ne redessine donc que
+// lorsque la largeur de mise en page change réellement (orientation/resize).
 let resizeRaf=0;
 let lastLayoutWidth=document.documentElement.clientWidth;
 function handleViewportResize(){
@@ -1359,7 +836,7 @@ if(window.visualViewport)window.visualViewport.addEventListener("resize",handleV
 window.addEventListener("orientationchange",()=>{
   setTimeout(()=>{lastLayoutWidth=document.documentElement.clientWidth;handleViewportResize();},120);
 },{passive:true});
-diagnostics().then(ok=>setStatus(ok?"🔥 Prêt · Hyperliquid API opérationnelle":"💀 Diagnostic en échec · voir le détail ci-dessus"));
+diagnostics().then(ok=>setStatus(ok?"Prêt — Hyperliquid API opérationnelle":"Diagnostic en échec — voir le détail ci-dessus"));
 })();
 </script>
 </body>

@@ -487,52 +487,66 @@ function draw(r,canvas){
 
    if(useNewConnectors){
      /*
-      * V33 — NOUVEAU PLACEMENT DES ÉTIQUETTES (case cochée uniquement)
-      * ----------------------------------------------------------------
-      * Chaque heure est d'abord INDIVIDUELLE et centrée sur sa graduation.
-      * On ne déplace donc rien tant qu'il n'y a pas de vrai chevauchement.
+      * V33.1 — Placement des heures sous l'axe X
+      * -------------------------------------------
+      * Objectif : les heures restent ALIGNÉES sur leurs graduations tant
+      * qu'elles ne se chevauchent pas. Dès qu'un chevauchement est détecté,
+      * elles sont écartées du minimum nécessaire, symétriquement autour de
+      * leur milieu, en respectant les bords du canvas.
       *
-      * Si les deux boîtes se chevauchent, on conserve d'abord leur écart
-      * relatif en recherchant un déplacement commun. Cela donne le cas
-      * souhaité : les deux heures bougent ensemble et leurs connecteurs
-      * continuent de pointer vers les graduations exactes.
-      *
-      * Si un déplacement commun ne suffit pas (cas extrême : très petites
-      * distances ou largeur importante des étiquettes), on ouvre alors la
-      * paire symétriquement autour de son milieu. C'est le dernier recours.
+      * Les connecteurs partent toujours des graduations EXACTES (sx0, sx1)
+      * et arrivent au centre réel des libellés (c0, c1). Quand aucun
+      * chevauchement n'a lieu, c0 === sx0 et c1 === sx1 : les connecteurs
+      * sont purement verticaux.
       */
-     const minGap=Math.max(7,Math.min(14,w*.010));
-     const min0=p.l+w0/2, max0=w-p.r-w0/2;
-     const min1=p.l+w1/2, max1=w-p.r-w1/2;
+     const minGap = Math.max(7, Math.min(14, w * 0.010));
+     const min0 = p.l + w0/2, max0 = w - p.r - w0/2;
+     const min1 = p.l + w1/2, max1 = w - p.r - w1/2;
 
-     // 1) Par défaut : chaque étiquette reste exactement sous sa graduation.
-     c0=Math.max(min0,Math.min(max0,sx0));
-     c1=Math.max(min1,Math.min(max1,sx1));
+     // 1. Alignement strict sur les graduations (borné au canvas).
+     c0 = Math.max(min0, Math.min(max0, sx0));
+     c1 = Math.max(min1, Math.min(max1, sx1));
 
-     const overlap=(c0+w0/2+minGap)>(c1-w1/2);
-     if(overlap){
-       // 2) Essai prioritaire : même déplacement horizontal pour les deux.
-       const requiredShift=(c0+w0/2+minGap)-(c1-w1/2);
-       const preferredDelta=c1>=c0 ? -requiredShift/2 : requiredShift/2;
-       const dMin=Math.max(min0-c0,min1-c1);
-       const dMax=Math.min(max0-c0,max1-c1);
-       const d=Math.max(dMin,Math.min(dMax,preferredDelta));
-       c0+=d;c1+=d;
+     // 2. Ordonner gauche/droite. En principe sx0 < sx1 (début avant fin),
+     //    mais un clamp sur canvas très étroit pourrait inverser l'ordre :
+     //    on protège ce cas via un swap explicite.
+     const swap = c0 > c1;
+     const lW = swap ? w1 : w0;
+     const rW = swap ? w0 : w1;
+     const lMinB = swap ? min1 : min0;
+     const lMaxB = swap ? max1 : max0;
+     const rMinB = swap ? min0 : min1;
+     const rMaxB = swap ? max0 : max1;
+     const lC0 = swap ? c1 : c0;
+     const rC0 = swap ? c0 : c1;
 
-       // 3) Si elles se chevauchent encore, séparation symétrique minimale.
-       if((c0+w0/2+minGap)>(c1-w1/2)){
-         const mid=(c0+c1)/2;
-         const half=(w0+w1)/4+minGap/2;
-         if(c1>=c0){
-           c0=mid-half;
-           c1=mid+half;
-         }else{
-           c1=mid-half;
-           c0=mid+half;
-         }
-         c0=Math.max(min0,Math.min(max0,c0));
-         c1=Math.max(min1,Math.min(max1,c1));
+     const requiredGap = lW/2 + rW/2 + minGap;
+     const currentGap = rC0 - lC0;
+
+     // 3. Chevauchement détecté : écart minimal symétrique autour du milieu.
+     if(currentGap < requiredGap){
+       const mid = (lC0 + rC0) / 2;
+       let lC = mid - requiredGap / 2;
+       let rC = mid + requiredGap / 2;
+
+       // 4. Bords atteints : on reporte le déficit sur l'autre côté
+       //    (glissement en bloc, ce qui préserve l'écart requis).
+       if(lC < lMinB){
+         rC += (lMinB - lC);
+         lC = lMinB;
        }
+       if(rC > rMaxB){
+         lC -= (rC - rMaxB);
+         rC = rMaxB;
+       }
+
+       // 5. Bornes finales (ne casse l'écart que dans le cas extrême
+       //    où l'espace disponible est inférieur à l'écart requis).
+       lC = Math.max(lMinB, Math.min(lMaxB, lC));
+       rC = Math.max(rMinB, Math.min(rMaxB, rC));
+
+       if(swap){ c1 = lC; c0 = rC; }
+       else { c0 = lC; c1 = rC; }
      }
    }else{
      // V30/V27 : bloc de placement conservé à l'identique lorsque la case

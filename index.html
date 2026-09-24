@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:dark;--bg-primary:#050a12;--bg-secondary:#0a1321;--bg-card:#0c1825;--bg-card-hover:#112233;--bg-input:#081420;--bg-inner:#07101a;--border-primary:#162a3e;--border-secondary:#1c3050;--border-glow:rgba(56,189,248,.25);--text-primary:#e8f0fa;--text-secondary:#8ba0b8;--text-muted:#5a7088;--accent-cyan:#38bdf8;--accent-blue:#2563eb;--accent-purple:#8b5cf6;--green:#34d399;--green-bg:rgba(52,211,153,.1);--green-border:rgba(52,211,153,.25);--red:#f87171;--red-bg:rgba(248,113,113,.1);--red-border:rgba(248,113,113,.25);--yellow:#fbbf24;--yellow-bg:rgba(251,191,36,.08);--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--shadow-card:0 4px 24px rgba(0,0,0,.35),0 0 0 1px var(--border-primary);--shadow-glow:0 0 20px rgba(56,189,248,.08);--transition:all .25s cubic-bezier(.4,0,.2,1);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+:root{color-scheme:dark;--bg-primary:#050a12;--bg-secondary:#0a1321;--bg-card:#0c1825;--bg-card-hover:#112233;--bg-input:#081420;--bg-inner:#07101a;--border-primary:#162a3e;--border-secondary:#1c3050;--border-glow:rgba(56,189,248,.25);--text-primary:#e8f0fa;--text-secondary:#8ba0b8;--text-muted:#5a7088;--accent-cyan:#38bdf8;--accent-blue:#2563eb;--accent-purple:#8b5cf6;--green:#34d399;--green-bg:rgba(52,211,153,.1);--green-border:rgba(52,211,153,.25);--red:#f87171;--red-bg:rgba(248,113,113,.1);--red-border:rgba(248,113,113,.25);--yellow:#fbbf24;--yellow-bg:rgba(251,191,36,.08);--yellow-border:rgba(251,191,36,.28);--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--shadow-card:0 4px 24px rgba(0,0,0,.35),0 0 0 1px var(--border-primary);--shadow-glow:0 0 20px rgba(56,189,248,.08);--transition:all .25s cubic-bezier(.4,0,.2,1);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg-primary);color:var(--text-primary);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(37,99,235,.08),transparent),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(139,92,246,.05),transparent)}
@@ -60,97 +60,52 @@ button:not(.primary):not(.danger):hover{border-color:var(--border-glow);backgrou
 .logBox{margin:10px 0 0;background:var(--bg-inner);border:1px solid var(--border-primary);border-radius:var(--radius-md);padding:14px;max-height:280px;overflow:auto;font:12px/1.5 'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--text-secondary);scrollbar-width:thin;scrollbar-color:var(--border-secondary) transparent}
 .logBox::-webkit-scrollbar{width:6px}.logBox::-webkit-scrollbar-track{background:transparent}.logBox::-webkit-scrollbar-thumb{background:var(--border-secondary);border-radius:99px}
 .logHint{font-size:11px;color:var(--text-muted);margin-top:8px;font-family:'JetBrains Mono',monospace}
-.watermark{position:absolute;inset:0;z-index:10;pointer-events:none;overflow:hidden;border-radius:inherit}
+.watermark{position:absolute;inset:0;z-index:10;pointer-events:none;overflow:hidden;border-radius:inherit;opacity:.7}
 .wm-half{height:50%;width:100%;overflow:hidden}.wm-svg{width:100%;height:100%;display:block}
 
-/* ── SVG CLOCKS ── */
 .svg-clock{display:block;margin:0 auto;border-radius:50%}
 .static-clock{width:116px;height:116px}
 .anim-clock{width:88px;height:88px}
-.winnerInfo .static-clock{width:150px;height:150px}
-.winnerInfo .anim-clock{width:120px;height:120px}
 .svg-clock .hour-hand{transition:transform 1.4s cubic-bezier(.45,0,.15,1)}
 .svg-clock .min-hand{transition:transform .8s cubic-bezier(.45,0,.15,1)}
 .svg-clock.anim-clock .hour-hand,.svg-clock.anim-clock .min-hand{transition:none!important}
 .svg-clock .dial-ring{filter:drop-shadow(0 0 6px rgba(45,212,191,.12))}
-.svg-clock.dir-up .hour-hand{filter:drop-shadow(0 0 3px rgba(52,211,153,.4))}
-.svg-clock.dir-up .min-hand{filter:drop-shadow(0 0 2px rgba(52,211,153,.3))}
-.svg-clock.dir-up .pivot{filter:drop-shadow(0 0 4px rgba(52,211,153,.5))}
-.svg-clock.dir-down .hour-hand{filter:drop-shadow(0 0 3px rgba(248,113,113,.4))}
-.svg-clock.dir-down .min-hand{filter:drop-shadow(0 0 2px rgba(248,113,113,.3))}
-.svg-clock.dir-down .pivot{filter:drop-shadow(0 0 4px rgba(248,113,113,.5))}
 @keyframes pulseGlowUp{0%,100%{filter:drop-shadow(0 0 3px rgba(52,211,153,.35))}50%{filter:drop-shadow(0 0 8px rgba(52,211,153,.6))}}
 @keyframes pulseGlowDown{0%,100%{filter:drop-shadow(0 0 3px rgba(248,113,113,.35))}50%{filter:drop-shadow(0 0 8px rgba(248,113,113,.6))}}
 .svg-clock.anim-clock.dir-up .pivot{animation:pulseGlowUp 2.5s ease-in-out infinite}
 .svg-clock.anim-clock.dir-down .pivot{animation:pulseGlowDown 2.5s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){.svg-clock .hour-hand,.svg-clock .min-hand{transition:none!important}.svg-clock.anim-clock .pivot{animation:none!important}}
 
-.winnerCard{padding:24px;border:1px solid var(--border-glow);box-shadow:var(--shadow-card),var(--shadow-glow);overflow:hidden}
-.winnerCard::before{background:linear-gradient(90deg,transparent,rgba(56,189,248,.3),rgba(139,92,246,.2),transparent)}
-.winnerMain{display:grid;grid-template-columns:1fr;gap:16px}
-.winnerInfo{display:block}
-.winnerInfo .rankTop{align-items:center}.winnerInfo .rankCoin{font-size:28px}
-.winnerInfo .rankMove{font-size:25px}.winnerInfo .rankRaw{font-size:14px}
-.winnerInfo .rankMeta{margin-top:14px;grid-template-columns:1fr}
-.winnerInfo .rankCell{padding:14px}
-.winnerInfo .miniClockWrap{min-width:0;flex:0 0 auto}
-.winnerInfo .rankClockPair{width:100%;gap:0;justify-content:space-between}
-.winnerInfo .miniDigital{font-size:22px}
-.winnerChart{height:390px}
-.winnerChart canvas{width:100%;height:100%;display:block;background:var(--bg-inner);border-radius:var(--radius-md);border:1px solid var(--border-primary)}
 .ranking{display:grid;grid-template-columns:1fr;gap:10px}
-.rankCard{width:100%;text-align:left;background:var(--bg-inner);border:1px solid var(--border-primary);border-radius:var(--radius-md);padding:16px;cursor:pointer;transition:var(--transition);min-height:unset;min-width:unset;position:relative;overflow:hidden}
-.rankCard:hover{background:var(--bg-card-hover);border-color:var(--border-secondary);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
-.rankCard:active{transform:scale(.995)}
+.rankCard{width:100%;text-align:left;background:var(--bg-inner);border:1px solid var(--border-primary);border-radius:var(--radius-md);padding:14px;cursor:pointer;transition:var(--transition);min-height:unset;min-width:unset;position:relative;overflow:hidden}
+.rankCard:hover{background:var(--bg-card-hover);border-color:var(--border-secondary);box-shadow:0 4px 12px rgba(0,0,0,.15)}
 .rankCard.selected{background:rgba(56,189,248,.06);border-color:var(--accent-cyan);box-shadow:0 0 16px rgba(56,189,248,.08)}
-.rankTop{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.rankCoin{font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px;letter-spacing:-.01em}
-.levBadge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:var(--radius-sm);background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);font-size:12px;font-weight:800;line-height:1.25;font-family:'JetBrains Mono',monospace}
-.rankMove{font-size:20px;font-weight:800;font-family:'JetBrains Mono',monospace;letter-spacing:-.01em}
-.rankArrow{font-size:14px;font-weight:850;letter-spacing:.06em;padding:4px 9px;border-radius:var(--radius-sm);background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);line-height:1.2;font-family:'JetBrains Mono',monospace}
+.miniLayout{display:flex;align-items:center;justify-content:flex-start;gap:24px;flex-wrap:wrap}
+.miniText{flex:0 1 auto;min-width:0}
+.miniText .rankCoin{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.coinName{font-size:40px;font-weight:850;letter-spacing:-.02em;line-height:1}
+.coinName.up{color:var(--green)}.coinName.down{color:var(--red)}
+.miniCompass{flex:0 0 auto;display:flex;align-items:center;justify-content:center}
+.rankArrow{font-size:13px;font-weight:850;letter-spacing:.06em;padding:4px 9px;border-radius:var(--radius-sm);background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);line-height:1.2;font-family:'JetBrains Mono',monospace}
 .rankArrow.down{background:var(--red-bg);border:1px solid var(--red-border);color:var(--red)}
-.winnerInfo .rankArrow{font-size:24px;padding:5px 14px;border-radius:var(--radius-sm)}
-.rankRaw{font-size:13px;font-weight:700;margin-top:4px;font-family:'JetBrains Mono',monospace}
-.rankMeta{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
-@media(min-width:500px){.rankMeta{grid-template-columns:1fr 1fr}}
-.rankCell{background:var(--bg-card);border:1px solid var(--border-primary);border-radius:var(--radius-sm);padding:10px 12px}
-.rankLabel{display:block;color:var(--text-muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;font-weight:600}
-.rankValue{font-size:14px;font-weight:650;font-family:'JetBrains Mono',monospace}
-.up,.winnerUp{color:var(--green)}.down,.winnerDown{color:var(--red)}
-.rankingToggle{margin-top:12px}.rankingToggle button{min-height:44px;font-size:13px}
-.preRankingAction{margin-top:14px;text-align:center}.preRankingAction button{width:100%}
-.metric{font-size:34px;font-weight:800;font-family:'JetBrains Mono',monospace}
-.hero{display:block}
-.winnerHead{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
-.winnerCoin{font-size:28px;font-weight:850;letter-spacing:-.01em}
-.winnerLev{display:inline-flex;align-items:center;padding:3px 9px;border-radius:var(--radius-sm);background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);font-size:14px;font-weight:800;font-family:'JetBrains Mono',monospace}
-.winnerArrow{font-size:28px;font-weight:900;margin-left:1px}
-.clocks{display:flex;gap:18px;margin-top:16px;align-items:center;justify-content:flex-start}
-.clockWrap{text-align:center}
-.clockLabel{font-size:10px;color:var(--text-muted);margin-top:4px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
-.digitalTime{font-size:25px;font-weight:850;letter-spacing:.02em;margin-bottom:5px;font-family:'JetBrains Mono',monospace}
+.levBadge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:var(--radius-sm);background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);font-size:12px;font-weight:800;line-height:1.25;font-family:'JetBrains Mono',monospace}
+
+.expandedBody{margin-top:16px;padding-top:16px;border-top:1px dashed var(--border-primary);cursor:default;display:flex;flex-direction:column;gap:16px}
+.expandedChart{height:320px}
+.expandedChart canvas{width:100%;height:100%;display:block;background:var(--bg-inner);border-radius:var(--radius-md);border:1px solid var(--border-primary)}
+.expandedClocks .rankClockPair{display:flex;width:100%;gap:4px;justify-content:space-between;align-items:flex-start}
+.expandedCompass{display:flex;justify-content:center;align-items:center}
+.expandedScore{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;justify-content:flex-start}
+.expandedScore .metric{font-size:32px;font-weight:800;font-family:'JetBrains Mono',monospace;line-height:1}
+.expandedScore .metricRaw{font-size:18px;font-weight:800;font-family:'JetBrains Mono',monospace;opacity:.8}
+
 .miniClockWrap{text-align:center;min-width:0;flex:0 0 auto}
 .miniDigital{font-size:16px;font-weight:850;line-height:1.05;margin-bottom:4px;font-family:'JetBrains Mono',monospace}
-.rankClockPair{position:relative;display:flex;width:100%;gap:4px;justify-content:space-between;align-items:flex-start}
+.movementDuration{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:800;color:var(--text-primary);text-align:center;margin-bottom:4px;line-height:1.2;white-space:nowrap}
 
-/* ── DURATION: above animated clock, in normal flow ── */
-.movementDuration{
-  font-family:'JetBrains Mono',monospace;
-  font-size:13px;font-weight:800;
-  color:var(--text-primary);
-  text-align:center;
-  margin-bottom:4px;
-  line-height:1.2;
-  white-space:nowrap;
-}
-.winnerInfo .movementDuration{font-size:16px}
-
+.rankingToggle{margin-top:12px}.rankingToggle button{min-height:44px;font-size:13px}
+.preRankingAction{margin-top:14px;text-align:center}.preRankingAction button{width:100%}
 .muted{color:var(--text-secondary)}
-.chartbox{height:320px}
-.chartbox canvas{width:100%;height:100%;display:block;background:var(--bg-inner);border-radius:var(--radius-md);border:1px solid var(--border-primary)}
-.inlineChart{height:320px;margin-top:14px}
-.inlineChart canvas{width:100%;height:100%;display:block;background:var(--bg-inner);border-radius:var(--radius-md);border:1px solid var(--border-primary)}
-.chartLegend{display:none}
 .floatingLogs{position:fixed;right:12px;top:auto;bottom:max(88px,calc(60px + env(safe-area-inset-bottom)));z-index:50;width:44px;min-height:44px;height:44px;padding:0;border-radius:50%;background:transparent!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:1.5px solid rgba(255,255,255,.15);color:transparent;font-size:0}
 .floatingLogs:hover{border-color:rgba(56,189,248,.4)!important;background:transparent!important;box-shadow:none!important;transform:none}
 .floatingLogs::before{content:'📋';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;opacity:.5;pointer-events:none}
@@ -168,24 +123,72 @@ button:not(.primary):not(.danger):hover{border-color:var(--border-glow);backgrou
 .fileHint .hintSteps{margin-top:8px;padding-left:0;list-style:none}
 .fileHint .hintSteps li{margin:4px 0;font-size:12px;color:var(--text-secondary)}
 .fileHint .hintSteps li strong{color:var(--text-primary);display:inline;font-size:12px}
+
+.compass{display:block;margin:0 auto;border-radius:50%}
+.rankCard .compass.small-compass{width:260px;height:260px}
+.expandedCompass .compass.small-compass{width:300px;height:300px}
+.compass-ray.active{animation:compassRayPulse 2.4s ease-in-out infinite}
+@keyframes compassRayPulse{0%,100%{stroke-opacity:1}50%{stroke-opacity:.55}}
+@media (prefers-reduced-motion:reduce){.compass-ray.active{animation:none}}
+
+.bigCompassPanel{padding:22px 20px}
+.bigCompassPanel h2{margin-bottom:4px}
+.compassIntro{color:var(--text-secondary);font-size:12px;margin-bottom:6px;line-height:1.5}
+.bigCompassWrap{position:relative;display:flex;align-items:center;justify-content:center;padding:22px 0 8px}
+.large-compass{display:block;width:min(96vw,780px);height:min(96vw,780px);touch-action:manipulation;user-select:none}
+.large-compass .compass-ray{transition:opacity .18s ease,stroke-width .18s ease}
+.large-compass.has-hover .compass-ray{opacity:.08!important}
+.large-compass.has-hover .compass-ray.hovered,.large-compass.has-hover .compass-ray.pinned{opacity:1!important;stroke-width:1.8!important;filter:drop-shadow(0 0 3px rgba(56,189,248,.8))}
+.compassTooltip{position:absolute;transform:translate(-50%,-50%);padding:9px 14px;background:rgba(8,20,32,.97);border:1px solid rgba(56,189,248,.6);border-radius:10px;font-size:17px;font-family:'JetBrains Mono',monospace;color:var(--accent-cyan);font-weight:800;pointer-events:none;white-space:nowrap;z-index:5;box-shadow:0 4px 16px rgba(0,0,0,.5)}
+.compassTooltip b{color:#e8f0fa;font-weight:900}
+.compassTooltip[hidden]{display:none}
+
+.pendingBanner{position:fixed;left:0;right:0;bottom:0;z-index:60;background:linear-gradient(180deg,rgba(251,191,36,.12),rgba(251,191,36,.06));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--yellow-border);padding:12px 16px;padding-bottom:max(12px,calc(12px + env(safe-area-inset-bottom)));display:flex;align-items:center;gap:14px;flex-wrap:wrap;box-shadow:0 -4px 20px rgba(0,0,0,.4)}
+.pendingBanner[hidden]{display:none}
+.pendingBannerText{flex:1 1 auto;min-width:200px;font-size:13px;line-height:1.4;color:var(--text-primary)}
+.pendingBannerText strong{color:var(--yellow);font-weight:800;display:block;margin-bottom:2px;font-size:14px}
+.pendingBannerText span{color:var(--text-secondary);font-size:12px}
+.pendingBanner button{width:auto;min-height:40px;padding:0 16px;font-size:13px;flex:0 0 auto;background:var(--yellow-bg);border-color:var(--yellow-border);color:var(--yellow);font-weight:800}
+.pendingBanner button:hover{background:rgba(251,191,36,.16);box-shadow:0 4px 16px rgba(251,191,36,.2)}
+body.has-banner{padding-bottom:90px}
+
+.modal{position:fixed;inset:0;z-index:100;background:rgba(5,10,18,.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px}
+.modal[hidden]{display:none}
+.modalContent{background:var(--bg-card);border:1px solid var(--border-secondary);border-radius:var(--radius-lg);padding:22px;max-width:820px;width:100%;max-height:88vh;display:flex;flex-direction:column;gap:12px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.modalContent h3{font-size:17px;font-weight:800;color:var(--text-primary)}
+.modalContent p{font-size:13px;color:var(--text-secondary);line-height:1.5}
+.modalContent textarea{width:100%;flex:1 1 auto;min-height:340px;background:var(--bg-inner);border:1px solid var(--border-primary);border-radius:var(--radius-md);color:var(--text-primary);font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.5;padding:12px;resize:vertical;outline:none}
+.modalContent textarea:focus{border-color:var(--accent-cyan);box-shadow:0 0 0 3px rgba(56,189,248,.1)}
+.modalActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modalActions button{min-height:44px;font-size:13px}
+
+@media(max-width:900px){
+  .rankCard .compass.small-compass{width:220px;height:220px}
+  .expandedCompass .compass.small-compass{width:260px;height:260px}
+  .coinName{font-size:34px}
+}
 @media(max-width:700px){
   .logActions{grid-template-columns:1fr}.perpControl{grid-column:span 1}.grid{grid-template-columns:1fr 1fr}
-  main{padding:14px 12px}.diag{grid-template-columns:1fr 1fr}.hero{grid-template-columns:1fr}
-  .actions{grid-template-columns:1fr 1fr}.metric{font-size:28px}h1{font-size:24px}
-  .chartbox{height:280px}.winnerChart{height:320px}.inlineChart{height:280px}
-  .winnerInfo{display:block}.winnerInfo .rankMeta{grid-template-columns:1fr}.rankMeta{grid-template-columns:1fr}
-  .static-clock{width:min(24vw,95px);height:min(24vw,95px)}
-  .anim-clock{width:min(17vw,70px);height:min(17vw,70px)}
-  .winnerInfo .static-clock{width:min(27vw,125px);height:min(27vw,125px)}
-  .winnerInfo .anim-clock{width:min(19vw,95px);height:min(19vw,95px)}
-  .miniDigital{font-size:13px}.winnerInfo .miniDigital{font-size:18px}
-  .rankClockPair{padding:0 2px}.clocks{gap:10px}
-  .winnerCoin{font-size:24px}.rankCoin{font-size:16px}.rankMove{font-size:18px}
-  .card{padding:14px;border-radius:14px}.winnerCard{padding:16px}
-  .winnerInfo .rankArrow{font-size:20px}
+  main{padding:14px 12px}.diag{grid-template-columns:1fr 1fr}
+  .actions{grid-template-columns:1fr 1fr}h1{font-size:24px}
+  .expandedChart{height:260px}
+  .rankCard .compass.small-compass{width:200px;height:200px}
+  .expandedCompass .compass.small-compass{width:230px;height:230px}
+  .miniLayout{flex-direction:column;align-items:stretch;gap:8px}
+  .miniText{width:100%}
+  .miniText .rankCoin{justify-content:center}
+  .miniCompass{justify-content:center}
+  .coinName{font-size:30px}
+  .card{padding:14px;border-radius:14px}
+  .large-compass{width:94vw;height:94vw}
+  .compassTooltip{font-size:15px;padding:7px 11px}
+  .expandedScore{justify-content:center}
+  .expandedScore .metric{font-size:26px}
+  .expandedScore .metricRaw{font-size:15px}
+  .pendingBanner{padding:10px 12px}
+  .pendingBannerText{font-size:12px}
 }
 @media(max-width:420px){.grid{grid-template-columns:1fr}.diag{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.logActions{grid-template-columns:1fr}}
-@media(min-width:768px) and (max-width:1024px){.winnerChart{height:380px}}
 ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:var(--bg-primary)}::-webkit-scrollbar-thumb{background:var(--border-secondary);border-radius:99px}::-webkit-scrollbar-thumb:hover{background:var(--text-muted)}
 ::selection{background:rgba(56,189,248,.2);color:var(--text-primary)}
 </style>
@@ -208,8 +211,14 @@ button:not(.primary):not(.danger):hover{border-color:var(--border-glow);backgrou
 </div>
 <div class="status" id="status">Initialisation…</div><div class="bar"><i id="progress"></i></div>
 </section>
-<section class="card winnerCard" id="detail" hidden><div id="winnerContent"></div></section>
 <section class="card" id="rankingPanel" hidden><div id="count" class="muted">Aucun résultat</div><div id="rows" class="ranking"></div><div class="rankingToggle"><button id="toggleRanking">Afficher tout le classement</button></div></section>
+<section class="card bigCompassPanel" id="bigCompassPanel" hidden>
+<h2>🧭 Boussole des perps</h2>
+<div class="compassIntro">Chaque perp occupe une position unique et fixe (angle entier 1–360°). Survolez pour identifier, cliquez/touchez pour figer la sélection (re-cliquez pour libérer).</div>
+<div class="bigCompassWrap" id="bigCompassWrap">
+<div class="compassTooltip" id="compassTooltip" hidden></div>
+</div>
+</section>
 <section class="card logPanel" id="logPanel">
 <h2>🧾 Journal d'activité & erreurs</h2>
 <div class="logVersion">Version de l'outil : <b id="toolVersion">V33</b></div>
@@ -230,16 +239,232 @@ button:not(.primary):not(.danger):hover{border-color:var(--border-glow);backgrou
 <button class="floatingLogs" id="jumpLogs" type="button" aria-label="Aller au journal" title="Journal"></button>
 </main>
 
+<div class="pendingBanner" id="pendingBanner" hidden>
+  <div class="pendingBannerText">
+    <strong>⚠️ <span id="pendingCount">0</span> nouveau(x) listing(s) détecté(s)</strong>
+    <span id="pendingList">—</span>
+  </div>
+  <button id="generateAngles" type="button">📋 Générer la liste</button>
+</div>
+
+<div class="modal" id="anglesModal" hidden>
+  <div class="modalContent">
+    <h3>🧭 Liste des angles des perps</h3>
+    <p>Sélectionnez tout le contenu ci-dessous, copiez-le, et envoyez-le pour intégration permanente dans la prochaine version.</p>
+    <textarea readonly id="anglesOutput" spellcheck="false"></textarea>
+    <div class="modalActions">
+      <button class="primary" id="copyAngles" type="button">📋 Copier tout</button>
+      <button id="closeAnglesModal" type="button">Fermer</button>
+    </div>
+  </div>
+</div>
+
 <script>
+/* ═══════════════════════════════════════════════════════════════════
+   COIN_ANGLES — Registre persistant des angles des perps sur la boussole
+   ─────────────────────────────────────────────────────────────────
+   Chaque entrée associe un nom de perp (ex: "BTC") à un angle entier
+   unique dans [1..360]. Cette liste est la source de vérité absolue :
+   elle garantit que chaque perp occupe EXACTEMENT la même position sur
+   la boussole, quel que soit l'appareil, le navigateur, le mode
+   (local / file:// / GitHub Pages).
+
+   Pour ajouter un nouveau listing :
+    1. Lancer l'outil → un bandeau jaune apparaît en bas de page
+    2. Cliquer sur « Générer la liste » → la liste complète s'affiche
+    3. Copier / coller cette liste dans le code source (ce bloc)
+   ═══════════════════════════════════════════════════════════════════ */
+const COIN_ANGLES = {
+  "0G": 188,
+  "2Z": 9,
+  "AAVE": 68,
+  "ACE": 291,
+  "ADA": 107,
+  "AERO": 53,
+  "AIXBT": 309,
+  "ALGO": 94,
+  "ALT": 54,
+  "ANIME": 28,
+  "APE": 131,
+  "APEX": 172,
+  "APT": 322,
+  "AR": 312,
+  "ARB": 29,
+  "ASTER": 40,
+  "ATOM": 63,
+  "AVAX": 26,
+  "AVNT": 193,
+  "AXS": 257,
+  "AZTEC": 88,
+  "BABY": 79,
+  "BANANA": 293,
+  "BCH": 300,
+  "BERA": 359,
+  "BIGTIME": 170,
+  "BIO": 307,
+  "BLUR": 292,
+  "BNB": 47,
+  "BOME": 192,
+  "BRETT": 51,
+  "BSV": 52,
+  "BTC": 106,
+  "CAKE": 244,
+  "CASHCAT": 264,
+  "CC": 162,
+  "CELO": 171,
+  "CFX": 45,
+  "CHIP": 146,
+  "COMP": 38,
+  "CRV": 178,
+  "DASH": 321,
+  "DOGE": 360,
+  "DOT": 295,
+  "DYDX": 326,
+  "DYM": 356,
+  "EIGEN": 55,
+  "ENA": 2,
+  "ENS": 237,
+  "ETC": 19,
+  "ETH": 249,
+  "ETHFI": 339,
+  "FARTCOIN": 173,
+  "FET": 320,
+  "FIL": 199,
+  "FOGO": 167,
+  "GALA": 344,
+  "GAS": 112,
+  "GMT": 30,
+  "GMX": 1,
+  "GOAT": 155,
+  "GRAM": 313,
+  "GRASS": 305,
+  "GRIFFAIN": 243,
+  "HBAR": 324,
+  "HEMI": 100,
+  "HMSTR": 207,
+  "HYPE": 70,
+  "HYPER": 160,
+  "ICP": 308,
+  "IMX": 142,
+  "INIT": 350,
+  "INJ": 213,
+  "IO": 24,
+  "IOTA": 163,
+  "JTO": 235,
+  "JUP": 56,
+  "KAITO": 141,
+  "KAS": 115,
+  "LAYER": 299,
+  "LDO": 32,
+  "LINEA": 159,
+  "LINK": 3,
+  "LIT": 201,
+  "LTC": 25,
+  "MANTA": 200,
+  "ME": 353,
+  "MEGA": 174,
+  "MELANIA": 137,
+  "MEME": 8,
+  "MERL": 297,
+  "MET": 104,
+  "MINA": 69,
+  "MNT": 354,
+  "MON": 294,
+  "MOODENG": 134,
+  "MORPHO": 298,
+  "MOVE": 124,
+  "NEAR": 10,
+  "NEO": 314,
+  "NIL": 338,
+  "NOT": 27,
+  "NXPC": 226,
+  "ONDO": 333,
+  "OP": 215,
+  "ORDI": 116,
+  "PAXG": 220,
+  "PENDLE": 74,
+  "PENGU": 358,
+  "PEOPLE": 296,
+  "PNUT": 247,
+  "POL": 355,
+  "POLYX": 77,
+  "PONS": 306,
+  "POPCAT": 241,
+  "PROVE": 284,
+  "PUMP": 175,
+  "PURR": 341,
+  "PYTH": 34,
+  "RENDER": 148,
+  "RESOLV": 57,
+  "REZ": 33,
+  "RSR": 248,
+  "RUNE": 245,
+  "S": 31,
+  "SAGA": 15,
+  "SAND": 46,
+  "SEI": 269,
+  "SKR": 58,
+  "SKY": 147,
+  "SNX": 44,
+  "SOL": 265,
+  "SOPH": 111,
+  "SPX": 261,
+  "STABLE": 176,
+  "STBL": 105,
+  "STRK": 357,
+  "STX": 227,
+  "SUI": 164,
+  "SUPER": 136,
+  "SUSHI": 59,
+  "SYRUP": 144,
+  "TAO": 310,
+  "TIA": 90,
+  "TNSR": 238,
+  "TRB": 4,
+  "TRUMP": 71,
+  "TRX": 161,
+  "TURBO": 301,
+  "UMA": 330,
+  "UNI": 5,
+  "USELESS": 211,
+  "USUAL": 165,
+  "VIRTUAL": 351,
+  "VVV": 60,
+  "W": 48,
+  "WCT": 6,
+  "WIF": 102,
+  "WLD": 66,
+  "WLFI": 108,
+  "XAI": 277,
+  "XLM": 325,
+  "XMR": 35,
+  "XPL": 262,
+  "XRP": 331,
+  "YGG": 132,
+  "ZEC": 156,
+  "ZEN": 91,
+  "ZETA": 89,
+  "ZK": 98,
+  "ZORA": 36,
+  "ZRO": 7,
+  "kBONK": 233,
+  "kFLOKI": 242,
+  "kLUNC": 177,
+  "kNEIRO": 311,
+  "kPEPE": 302,
+  "kSHIB": 246,
+};
 const TOOL_VERSION="V33";
 window.addEventListener("DOMContentLoaded",()=>{const v=document.getElementById("toolVersion");if(v)v.textContent=TOOL_VERSION;});
 "use strict";
 (() => {
 const $=id=>document.getElementById(id);
-const state={cancel:false,finishEarly:false,scanning:false,results:[],cache:null,selected:null,expanded:null,showAll:false,displayRanking:false};
+const state={cancel:false,finishEarly:false,scanning:false,results:[],cache:null,expandedIdx:null,showAll:false,displayRanking:false,angleMap:{},pendingCoins:[]};
 const RANKING_LIMIT=30;const MAX_RETRIES=6;const RETRY_DELAYS=[1000,2000,4000,8000,12000,20000];
 let scanAbortController=null;
 const LOG_KEY="hyperliquid_scanner_error_log_v1";const MAX_LOG_ENTRIES=1000;
+const CANDLE_CACHE=new Map();const CANDLE_TTL=5*60000;const CANDLE_STORE_KEY="hyperliquid_candle_cache_v1";
+const CANDLE_STORE_MAX_BYTES=3_500_000;
 let requestSequence=0;
 let scanStats={requested:0,success:0,retries:0,failed:0,failedCoins:[]};
 if(location.protocol==="file:"){const h=document.getElementById("fileHint");if(h)h.hidden=false;}
@@ -255,48 +480,230 @@ function err(e,context="Application"){return logEvent("ERROR",context,e)}
 window.onerror=(m,s,l,c,e)=>{logEvent("ERROR","window.onerror",e||new Error(String(m)),{source:s,line:l,column:c});};
 window.addEventListener("unhandledrejection",ev=>{logEvent("ERROR","unhandledrejection",ev.reason||new Error("Promise rejetée sans raison"))});
 function fmtClock(ms){return new Intl.DateTimeFormat("fr-FR",{hour:"2-digit",minute:"2-digit"}).format(new Date(ms));}
-function fmtDate(ms){return new Intl.DateTimeFormat("fr-FR",{day:"2-digit",month:"2-digit",year:"numeric"}).format(new Date(ms));}
+function fmtDateShort(ms){const d=new Date(ms);const dd=String(d.getDate()).padStart(2,"0");const mm=String(d.getMonth()+1).padStart(2,"0");return `${dd}/${mm}`;}
 function sameCalendarDay(a,b){const da=new Date(a),db=new Date(b);return da.getFullYear()===db.getFullYear()&&da.getMonth()===db.getMonth()&&da.getDate()===db.getDate();}
-function fmtTime(ms,o){return sameCalendarDay(ms,o)?fmtClock(ms):fmtClock(ms)+" · "+fmtDate(ms);}
+function fmtTime(ms,o){return sameCalendarDay(ms,o)?fmtClock(ms):fmtClock(ms)+" · "+fmtDateShort(ms);}
 function fmtDuration(ms){const t=Math.max(0,Math.round(Math.abs(Number(ms)||0)/60000));if(t<60)return `${t} min`;const h=Math.floor(t/60),m=t%60;return m?`${h}h ${String(m).padStart(2,"0")}`:`${h}h`;}
 function fmt(n){return Number(n).toLocaleString("fr-FR",{maximumFractionDigits:8})}
 function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);}
 
-async function api(op,params={},options={}){const payload=op==="ping"?{type:"meta"}:op==="meta"?{type:"meta"}:{type:"candleSnapshot",req:{coin:params.coin,interval:params.interval,startTime:params.startTime,endTime:params.endTime}};const maxRetries=op==="candles"?MAX_RETRIES:0;let lastError=null;for(let attempt=0;attempt<=maxRetries;attempt++){const requestNo=++requestSequence,started=Date.now();if(op==="candles")scanStats.requested++;let response;try{response=await fetch("https://api.hyperliquid.xyz/info",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),cache:"no-store",signal:options.signal})}catch(e){if(e&&e.name==="AbortError")throw e;logEvent("ERROR","API fetch",e,{operation:op,coin:params.coin||"",attempt:attempt+1,requestNo});throw e}if(!response.ok){const e=new Error(`Hyperliquid HTTP ${response.status} ${response.statusText||""}`.trim());lastError=e;if(response.status===429&&attempt<maxRetries){const delay=RETRY_DELAYS[attempt]||20000;scanStats.retries++;logEvent("WARN","API retry",e,{operation:op,coin:params.coin||"",attempt:attempt+1,retry:attempt+1,maxRetries,delayMs:delay,requestNo});await sleep(delay);continue;}logEvent("ERROR","API HTTP",e,{operation:op,coin:params.coin||"",status:response.status,attempt:attempt+1,requestNo,retries:attempt});if(op==="candles"){scanStats.failed++;if(params.coin&&!scanStats.failedCoins.includes(params.coin))scanStats.failedCoins.push(params.coin)}throw e;}let data;try{data=await response.json()}catch(e){logEvent("ERROR","API JSON",e,{operation:op,coin:params.coin||"",attempt:attempt+1,requestNo});if(op==="candles"){scanStats.failed++;if(params.coin&&!scanStats.failedCoins.includes(params.coin))scanStats.failedCoins.push(params.coin)}throw e}if(op==="candles"){scanStats.success++;logEvent("INFO","REQUEST OK",new Error(`${params.coin} — ${params.interval}`),{operation:op,coin:params.coin||"",interval:params.interval||"",requestNo,attempt:attempt+1,retries:attempt,durationMs:Date.now()-started})}if(op==="ping")return{ok:true,direct:true};return data;}throw lastError||new Error("Requête API échouée");}
+/* ── SHA-256 (pure JS, sync) ── */
+const SHA256_K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+function sha256(msg){
+  const H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  const rr=(v,n)=>(v>>>n)|(v<<(32-n));
+  const bytes=new TextEncoder().encode(msg);
+  const l=bytes.length,bitLen=l*8;
+  const withOne=l+1;
+  const padded=withOne+((56-withOne%64+64)%64)+8;
+  const buf=new Uint8Array(padded);buf.set(bytes);buf[l]=0x80;
+  const dv=new DataView(buf.buffer);
+  dv.setUint32(padded-8,Math.floor(bitLen/0x100000000));
+  dv.setUint32(padded-4,bitLen>>>0);
+  for(let cs=0;cs<padded;cs+=64){
+    const w=new Uint32Array(64);
+    for(let i=0;i<16;i++)w[i]=dv.getUint32(cs+i*4);
+    for(let i=16;i<64;i++){const s0=rr(w[i-15],7)^rr(w[i-15],18)^(w[i-15]>>>3);const s1=rr(w[i-2],17)^rr(w[i-2],19)^(w[i-2]>>>10);w[i]=(w[i-16]+s0+w[i-7]+s1)>>>0;}
+    let a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
+    for(let i=0;i<64;i++){const S1=rr(e,6)^rr(e,11)^rr(e,25);const ch=(e&f)^(~e&g);const t1=(h+S1+ch+SHA256_K[i]+w[i])>>>0;const S0=rr(a,2)^rr(a,13)^rr(a,22);const maj=(a&b)^(a&c)^(b&c);const t2=(S0+maj)>>>0;h=g;g=f;f=e;e=(d+t1)>>>0;d=c;c=b;b=a;a=(t1+t2)>>>0;}
+    H[0]=(H[0]+a)>>>0;H[1]=(H[1]+b)>>>0;H[2]=(H[2]+c)>>>0;H[3]=(H[3]+d)>>>0;H[4]=(H[4]+e)>>>0;H[5]=(H[5]+f)>>>0;H[6]=(H[6]+g)>>>0;H[7]=(H[7]+h)>>>0;
+  }
+  return H.map(x=>x.toString(16).padStart(8,"0")).join("");
+}
 
-async function diagnostics(){const isFile=location.protocol==="file:";mark("djs","OK","ok");mark("dorigin",isFile?"fichier local (file://)":location.origin,isFile?"wait":"ok");mark("dfetch",typeof fetch==="function"?"OK":"ABSENT",typeof fetch==="function"?"ok":"bad");try{const x=window.indexedDB;mark("didb",x?"OK":"ABSENT",x?"ok":"bad")}catch(e){mark("didb","ERREUR","bad")}mark("dproxy",isFile?"Direct (local)":"Direct (en ligne)","wait");try{await api("ping");mark("dproxy",isFile?"OK — direct local":"OK — direct","ok");}catch(e){mark("dproxy","ERREUR","bad");err(e,"Diagnostic API");if(isFile){$("error").textContent+="\n\n💡 Erreur de connexion depuis un fichier local (file://).\nSolutions :\n1. py -m http.server 8000 (ou python3)\n2. Puis ouvrir http://localhost:8000";}return false;}try{const meta=await api("meta");mark("dhl","OK — "+meta.universe.length+" perps","ok");state.cache=meta;return true;}catch(e){mark("dhl","ERREUR","bad");err(e,"Diagnostic Hyperliquid");return false;}}
+const ANGLE_SALT="hyperliquid-compass-v1";
+function assignAngles(coinNames){
+  const map={};const taken=new Set();const pending=[];
+  for(const name of coinNames){
+    const a=COIN_ANGLES[name];
+    if(Number.isInteger(a)&&a>=1&&a<=360&&!taken.has(a)){map[name]=a;taken.add(a);}
+  }
+  for(const [name,a] of Object.entries(COIN_ANGLES)){
+    if(Number.isInteger(a)&&a>=1&&a<=360&&!coinNames.includes(name))taken.add(a);
+  }
+  const remaining=coinNames.filter(n=>map[n]==null).sort();
+  for(const name of remaining){
+    const hex=sha256(name+ANGLE_SALT);
+    const num=parseInt(hex.slice(0,8),16);
+    let angle=(num%360)+1;
+    let probe=0;
+    while(taken.has(angle)&&probe<360){angle=(angle%360)+1;probe++;}
+    map[name]=angle;taken.add(angle);pending.push(name);
+  }
+  return {map,pending};
+}
 
-function parseCandles(a){return (Array.isArray(a)?a:[]).map(c=>({t:+c.t,o:+c.o,h:+c.h,l:+c.l,c:+c.c})).filter(x=>[x.t,x.h,x.l,x.c].every(Number.isFinite)).sort((a,b)=>a.t-b.t)}
-function calcMovements(coin,lev,candles){if(candles.length<2)return [];const out=[];let minLow=candles[0].l,minLowI=0,maxHigh=candles[0].h,maxHighI=0;let bestUp=null,bestDown=null;for(let i=1;i<candles.length;i++){const c=candles[i];const up=(c.h-minLow)/minLow*100;if(!bestUp||up>bestUp.move)bestUp={direction:"up",startPrice:minLow,endPrice:c.h,startT:candles[minLowI].t,endT:c.t,startI:minLowI,endI:i,move:up};const down=(maxHigh-c.l)/maxHigh*100;if(!bestDown||down>bestDown.move)bestDown={direction:"down",startPrice:maxHigh,endPrice:c.l,startT:candles[maxHighI].t,endT:c.t,startI:maxHighI,endI:i,move:down};if(c.l<minLow){minLow=c.l;minLowI=i}if(c.h>maxHigh){maxHigh=c.h;maxHighI=i}}for(const m of [bestUp,bestDown]){if(m&&m.move>0&&m.startI!==m.endI)out.push({coin,leverage:lev,score:m.move*lev,candles,direction:m.direction,startPrice:m.startPrice,endPrice:m.endPrice,startT:m.startT,endT:m.endT,move:m.move,startI:m.startI,endI:m.endI});}return out;}
+function generateAnglesCode(){
+  const merged={...COIN_ANGLES};
+  for(const [name,a] of Object.entries(state.angleMap)){
+    if(!Number.isInteger(merged[name]))merged[name]=a;
+  }
+  const keys=Object.keys(merged).sort();
+  const lines=keys.map(k=>`  ${JSON.stringify(k)}: ${merged[k]},`);
+  return `const COIN_ANGLES = {\n${lines.join("\n")}\n};`;
+}
+function showPendingBanner(pending){
+  const banner=$("pendingBanner");
+  if(!pending.length){banner.hidden=true;document.body.classList.remove("has-banner");return;}
+  $("pendingCount").textContent=pending.length;
+  const preview=pending.slice(0,6).map(c=>escapeHtml(c)).join(", ");
+  const more=pending.length>6?` … (+${pending.length-6})`:"";
+  $("pendingList").innerHTML=`${preview}${more}`;
+  banner.hidden=false;
+  document.body.classList.add("has-banner");
+}
+function openAnglesModal(){$("anglesOutput").value=generateAnglesCode();$("anglesModal").hidden=false;}
+function closeAnglesModal(){$("anglesModal").hidden=true;}
+$("generateAngles").onclick=openAnglesModal;
+$("closeAnglesModal").onclick=closeAnglesModal;
+$("anglesModal").addEventListener("click",e=>{if(e.target===$("anglesModal"))closeAnglesModal();});
+$("copyAngles").onclick=async()=>{
+  const ta=$("anglesOutput");ta.select();ta.setSelectionRange(0,ta.value.length);
+  try{await navigator.clipboard.writeText(ta.value);setStatus("Liste copiée dans le presse-papiers");}
+  catch(e){try{document.execCommand("copy");setStatus("Liste copiée");}catch(e2){err(e2,"Copie angles");}}
+};
+
+function polarXY(cx,cy,r,deg){const rad=(deg-90)*Math.PI/180;return{x:cx+r*Math.cos(rad),y:cy+r*Math.sin(rad)};}
+
+/* ── COMPASS GEOMETRY ── */
+let compassUid=0;
+const COMPASS_R_OUT=24;
+const COMPASS_R_TICK_INNER=19;
+const COMPASS_NUM_R=15;
+const RAY_START=4;
+const RAY_END=26;
+const PILL_CENTER_R=32;   // rapproché du bout du rayon (rayon finit à 26)
+function pillRadius(angle){const n=String(angle).length;if(n<=1)return 7;if(n===2)return 9.5;if(n===3)return 12;return 14.5;}
+function compassTicksSVG(){
+  let out="";
+  for(let d=0;d<360;d+=5){
+    const is45=d%45===0,is30=d%30===0,is10=d%10===0;
+    let inner,sw,col;
+    if(is45){inner=COMPASS_R_TICK_INNER-2.2;sw=1.1;col="rgba(56,189,248,.95)";}
+    else if(is30){inner=COMPASS_R_TICK_INNER-1.1;sw=0.95;col="rgba(56,189,248,.8)";}
+    else if(is10){inner=COMPASS_R_TICK_INNER-0.2;sw=0.7;col="rgba(56,189,248,.65)";}
+    else{inner=COMPASS_R_TICK_INNER+1.5;sw=0.35;col="rgba(45,212,191,.22)";}
+    const p1=polarXY(50,50,COMPASS_R_OUT,d),p2=polarXY(50,50,inner,d);
+    out+=`<line x1="${p1.x.toFixed(2)}" y1="${p1.y.toFixed(2)}" x2="${p2.x.toFixed(2)}" y2="${p2.y.toFixed(2)}" stroke="${col}" stroke-width="${sw}" stroke-linecap="round"/>`;
+  }
+  return out;
+}
+function compassNumbersSVG(){
+  let out="";
+  for(let d=0;d<360;d+=30){
+    const p=polarXY(50,50,COMPASS_NUM_R,d);
+    const lbl=d===0?"360":String(d);
+    out+=`<text x="${p.x.toFixed(2)}" y="${p.y.toFixed(2)}" text-anchor="middle" dominant-baseline="central" font-size="4.0" font-weight="700" fill="rgba(200,216,232,.62)" font-family="Inter,sans-serif">${lbl}</text>`;
+  }
+  return out;
+}
+function buildSmallCompass(angle,dir){
+  const up=dir==="up";
+  const color=up?"#34d399":"#f87171";
+  const uid="cmp"+(++compassUid);
+  const p1=polarXY(50,50,RAY_START,angle);
+  const p2=polarXY(50,50,RAY_END,angle);
+  const lp=polarXY(50,50,PILL_CENTER_R,angle);
+  const pr=pillRadius(angle);
+  return `<svg class="compass small-compass" viewBox="0 0 100 100">
+<defs><radialGradient id="cg_${uid}" cx="50%" cy="45%"><stop offset="0%" stop-color="#0c1825"/><stop offset="100%" stop-color="#050c14"/></radialGradient></defs>
+<circle cx="50" cy="50" r="${COMPASS_R_OUT}" fill="url(#cg_${uid})" stroke="rgba(45,212,191,.3)" stroke-width="0.7"/>
+${compassTicksSVG()}
+${compassNumbersSVG()}
+<line class="compass-ray active" x1="${p1.x.toFixed(2)}" y1="${p1.y.toFixed(2)}" x2="${p2.x.toFixed(2)}" y2="${p2.y.toFixed(2)}" stroke="${color}" stroke-width="2.2" stroke-linecap="round"/>
+<circle cx="${lp.x.toFixed(2)}" cy="${lp.y.toFixed(2)}" r="${pr}" fill="rgba(5,10,18,.96)" stroke="${color}" stroke-width="0.6"/>
+<text x="${lp.x.toFixed(2)}" y="${lp.y.toFixed(2)}" text-anchor="middle" dominant-baseline="central" font-size="11.6" font-weight="800" fill="${color}" font-family="'JetBrains Mono',monospace">${angle}°</text>
+<circle cx="50" cy="50" r="1.8" fill="${color}" opacity="0.9"/>
+</svg>`;
+}
+function buildLargeCompass(coins){
+  const uid="lgc"+(++compassUid);
+  let rays="";
+  for(const c of coins){
+    const p1=polarXY(50,50,RAY_START,c.angle),p2=polarXY(50,50,RAY_END,c.angle);
+    rays+=`<line class="compass-ray" data-coin="${escapeHtml(c.coin)}" data-angle="${c.angle}" x1="${p1.x.toFixed(3)}" y1="${p1.y.toFixed(3)}" x2="${p2.x.toFixed(3)}" y2="${p2.y.toFixed(3)}" stroke="#38bdf8" stroke-width="0.42" stroke-linecap="round" opacity="0.32"/>`;
+  }
+  return `<svg class="compass large-compass" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+<defs><radialGradient id="cg_${uid}" cx="50%" cy="45%"><stop offset="0%" stop-color="#0a1422"/><stop offset="100%" stop-color="#050a12"/></radialGradient></defs>
+<circle cx="50" cy="50" r="${COMPASS_R_OUT}" fill="url(#cg_${uid})" stroke="rgba(56,189,248,.38)" stroke-width="0.6"/>
+${compassTicksSVG()}
+${compassNumbersSVG()}
+<g class="compass-rays-group">${rays}</g>
+<circle class="compass-pivot" cx="50" cy="50" r="2" fill="#38bdf8" opacity="0.9"/>
+</svg>`;
+}
+
+async function api(op,params={},options={}){
+  const payload=op==="ping"?{type:"meta"}:op==="meta"?{type:"meta"}:{type:"candleSnapshot",req:{coin:params.coin,interval:params.interval,startTime:params.startTime,endTime:params.endTime}};
+  const maxRetries=op==="candles"?MAX_RETRIES:0;let lastError=null;
+  for(let attempt=0;attempt<=maxRetries;attempt++){
+    const requestNo=++requestSequence,started=Date.now();
+    if(op==="candles")scanStats.requested++;
+    let response;
+    try{response=await fetch("https://api.hyperliquid.xyz/info",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload),cache:"no-store",signal:options.signal});}
+    catch(e){if(e&&e.name==="AbortError")throw e;logEvent("ERROR","API fetch",e,{operation:op,coin:params.coin||"",attempt:attempt+1,requestNo});throw e;}
+    if(!response.ok){
+      const e=new Error(`Hyperliquid HTTP ${response.status} ${response.statusText||""}`.trim());lastError=e;
+      if(response.status===429&&attempt<maxRetries){const delay=RETRY_DELAYS[attempt]||20000;scanStats.retries++;logEvent("WARN","API retry",e,{operation:op,coin:params.coin||"",attempt:attempt+1,retry:attempt+1,maxRetries,delayMs:delay,requestNo});await sleep(delay);continue;}
+      logEvent("ERROR","API HTTP",e,{operation:op,coin:params.coin||"",status:response.status,attempt:attempt+1,requestNo,retries:attempt});
+      if(op==="candles"){scanStats.failed++;if(params.coin&&!scanStats.failedCoins.includes(params.coin))scanStats.failedCoins.push(params.coin);}
+      throw e;
+    }
+    let data;
+    try{data=await response.json();}
+    catch(e){logEvent("ERROR","API JSON",e,{operation:op,coin:params.coin||"",attempt:attempt+1,requestNo});if(op==="candles"){scanStats.failed++;if(params.coin&&!scanStats.failedCoins.includes(params.coin))scanStats.failedCoins.push(params.coin);}throw e;}
+    if(op==="candles"){scanStats.success++;logEvent("INFO","REQUEST OK",new Error(`${params.coin} — ${params.interval}`),{operation:op,coin:params.coin||"",interval:params.interval||"",requestNo,attempt:attempt+1,retries:attempt,durationMs:Date.now()-started});}
+    if(op==="ping")return{ok:true,direct:true};
+    return data;
+  }
+  throw lastError||new Error("Requête API échouée");
+}
+function candleCacheKey(coin,interval,endTime){const bucket=Math.floor(endTime/300000);return `${coin}|${interval}|${bucket}`;}
+function readCandleCache(coin,interval,endTime){const key=candleCacheKey(coin,interval,endTime);const hit=CANDLE_CACHE.get(key);if(hit&&hit.expiry>Date.now())return hit.data;return null;}
+function writeCandleCache(coin,interval,endTime,data){const key=candleCacheKey(coin,interval,endTime);CANDLE_CACHE.set(key,{data,expiry:Date.now()+CANDLE_TTL});}
+let persistCacheScheduled=false;
+function schedulePersistCache(){
+  if(persistCacheScheduled)return;persistCacheScheduled=true;
+  const run=()=>{persistCacheScheduled=false;try{const entries=[];const now=Date.now();for(const [k,v] of CANDLE_CACHE){if(v.expiry>now)entries.push([k,v.data]);}const json=JSON.stringify(entries);if(json.length<CANDLE_STORE_MAX_BYTES)localStorage.setItem(CANDLE_STORE_KEY,json);}catch{}};
+  (window.requestIdleCallback||setTimeout)(run,{timeout:500});
+}
+function loadPersistedCache(){try{const json=localStorage.getItem(CANDLE_STORE_KEY);if(!json)return;const entries=JSON.parse(json);const now=Date.now();for(const [k,data] of entries){CANDLE_CACHE.set(k,{data,expiry:now+CANDLE_TTL});}}catch{}}
+async function fetchCandles(coin,interval,startTime,endTime,signal){const cached=readCandleCache(coin,interval,endTime);if(cached)return cached;const raw=await api("candles",{coin,interval,startTime,endTime},{signal});writeCandleCache(coin,interval,endTime,raw);schedulePersistCache();return raw;}
+
+async function diagnostics(){
+  const isFile=location.protocol==="file:";mark("djs","OK","ok");mark("dorigin",isFile?"fichier local (file://)":location.origin,isFile?"wait":"ok");
+  mark("dfetch",typeof fetch==="function"?"OK":"ABSENT",typeof fetch==="function"?"ok":"bad");
+  try{const x=window.indexedDB;mark("didb",x?"OK":"ABSENT",x?"ok":"bad")}catch(e){mark("didb","ERREUR","bad")}
+  mark("dproxy",isFile?"Direct (local)":"Direct (en ligne)","wait");
+  try{await api("ping");mark("dproxy",isFile?"OK — direct local":"OK — direct","ok");}catch(e){mark("dproxy","ERREUR","bad");err(e,"Diagnostic API");
+    if(isFile){$("error").textContent+="\n\n💡 Erreur de connexion depuis un fichier local (file://).\nSolutions :\n1. py -m http.server 8000 (ou python3)\n2. Puis ouvrir http://localhost:8000";}
+    return false;}
+  try{
+    const meta=await api("meta");mark("dhl","OK — "+meta.universe.length+" perps","ok");
+    state.cache=meta;
+    const coinNames=meta.universe.filter(x=>!x.isDelisted&&Number(x.maxLeverage)>0).map(x=>x.name);
+    const {map,pending}=assignAngles(coinNames);
+    state.angleMap=map;
+    state.pendingCoins=pending;
+    logEvent("INFO","ANGLES",new Error(`persistants=${coinNames.length-pending.length} / pending=${pending.length}`),{pendingCoins:pending.join(", ")});
+    showPendingBanner(pending);
+    return true;
+  }catch(e){mark("dhl","ERREUR","bad");err(e,"Diagnostic Hyperliquid");return false;}
+}
+
+function parseCandles(a){return (Array.isArray(a)?a:[]).map(c=>({t:+c.t,o:+c.o,h:+c.h,l:+c.l,c:+c.c})).filter(x=>[x.t,x.h,x.l,x.c].every(Number.isFinite)).sort((a,b)=>a.t-b.t);}
+function calcMovements(coin,lev,candles){if(candles.length<2)return[];const out=[];let minLow=candles[0].l,minLowI=0,maxHigh=candles[0].h,maxHighI=0;let bestUp=null,bestDown=null;for(let i=1;i<candles.length;i++){const c=candles[i];const up=(c.h-minLow)/minLow*100;if(!bestUp||up>bestUp.move)bestUp={direction:"up",startPrice:minLow,endPrice:c.h,startT:candles[minLowI].t,endT:c.t,startI:minLowI,endI:i,move:up};const down=(maxHigh-c.l)/maxHigh*100;if(!bestDown||down>bestDown.move)bestDown={direction:"down",startPrice:maxHigh,endPrice:c.l,startT:candles[maxHighI].t,endT:c.t,startI:maxHighI,endI:i,move:down};if(c.l<minLow){minLow=c.l;minLowI=i}if(c.h>maxHigh){maxHigh=c.h;maxHighI=i}}for(const m of [bestUp,bestDown]){if(m&&m.move>0&&m.startI!==m.endI)out.push({coin,leverage:lev,score:m.move*lev,candles,direction:m.direction,startPrice:m.startPrice,endPrice:m.endPrice,startT:m.startT,endT:m.endT,move:m.move,startI:m.startI,endI:m.endI});}return out;}
 
 let clockUid=0;
 function buildSVGClock(tm,opts={}){
-  const isAnim=!!opts.anim;
-  const isUp=opts.direction!=='down';
-  const handColor=isUp?'#34d399':'#f87171';
-  const uid='clk'+(++clockUid);
-  const d=new Date(tm);
-  const hh=(+d.getHours()%12)+d.getMinutes()/60;
-  const mm=d.getMinutes()+d.getSeconds()/60;
-  const ha=hh*30, ma=mm*6;
-  const ampm=d.getHours()<12?'AM':'PM';
-  let ticks='';
-  for(let i=0;i<12;i++){
-    const a=(i*30-90)*Math.PI/180;
-    const t1=i%3===0?38:40, t2=44;
-    const col=i===0?'rgba(45,212,191,.7)':'rgba(45,212,191,.18)';
-    ticks+=`<line x1="${(50+Math.cos(a)*t1).toFixed(1)}" y1="${(50+Math.sin(a)*t1).toFixed(1)}" x2="${(50+Math.cos(a)*t2).toFixed(1)}" y2="${(50+Math.sin(a)*t2).toFixed(1)}" stroke="${col}" stroke-width="${i===0?1.2:.7}" stroke-linecap="round"/>`;
-  }
-  let numbers='';
-  for(let n=1;n<=12;n++){
-    const a=(n*30-90)*Math.PI/180, nr=34;
-    const nx=50+Math.cos(a)*nr, ny=50+Math.sin(a)*nr;
-    const isQ=(n%3===0), fs=isQ?7:5.5, fw=isQ?700:500;
-    const fill=isQ?'rgba(200,216,232,.75)':'rgba(200,216,232,.45)';
-    numbers+=`<text x="${nx.toFixed(1)}" y="${ny.toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="${fs}" font-weight="${fw}" fill="${fill}" font-family="Inter,sans-serif">${n}</text>`;
-  }
-  const dirClass=isUp?'dir-up':'dir-down';
-  const clockType=isAnim?'anim-clock':'static-clock';
+  const isAnim=!!opts.anim;const isUp=opts.direction!=="down";
+  const handColor=isUp?"#34d399":"#f87171";const uid="clk"+(++clockUid);
+  const d=new Date(tm);const hh=(+d.getHours()%12)+d.getMinutes()/60;const mm=d.getMinutes()+d.getSeconds()/60;
+  const ha=hh*30,ma=mm*6;const ampm=d.getHours()<12?"AM":"PM";
+  let ticks="";for(let i=0;i<12;i++){const a=(i*30-90)*Math.PI/180;const t1=i%3===0?38:40,t2=44;const col=i===0?"rgba(45,212,191,.7)":"rgba(45,212,191,.18)";ticks+=`<line x1="${(50+Math.cos(a)*t1).toFixed(1)}" y1="${(50+Math.sin(a)*t1).toFixed(1)}" x2="${(50+Math.cos(a)*t2).toFixed(1)}" y2="${(50+Math.sin(a)*t2).toFixed(1)}" stroke="${col}" stroke-width="${i===0?1.2:.7}" stroke-linecap="round"/>`;}
+  let numbers="";for(let n=1;n<=12;n++){const a=(n*30-90)*Math.PI/180,nr=34;const nx=50+Math.cos(a)*nr,ny=50+Math.sin(a)*nr;const isQ=(n%3===0),fs=isQ?7:5.5,fw=isQ?700:500;const fill=isQ?"rgba(200,216,232,.75)":"rgba(200,216,232,.45)";numbers+=`<text x="${nx.toFixed(1)}" y="${ny.toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="${fs}" font-weight="${fw}" fill="${fill}" font-family="Inter,sans-serif">${n}</text>`;}
+  const dirClass=isUp?"dir-up":"dir-down";const clockType=isAnim?"anim-clock":"static-clock";
   const dataAttrs=isAnim?` data-anim-start="${opts.startT}" data-anim-end="${opts.endT}"`:` data-clock-time="${tm}"`;
   return `<svg class="svg-clock ${clockType} ${dirClass}" viewBox="0 0 100 100"${dataAttrs}>
 <defs><radialGradient id="g_${uid}" cx="50%" cy="45%"><stop offset="0%" stop-color="#0c1825"/><stop offset="100%" stop-color="#060e18"/></radialGradient></defs>
@@ -309,88 +716,367 @@ ${ticks}${numbers}
 <text class="ampm-text" x="50" y="50" text-anchor="middle" dominant-baseline="central" font-size="9" font-weight="800" font-family="Inter,sans-serif" fill="rgba(255,255,255,.55)" stroke="rgba(5,10,18,.9)" stroke-width="2.5" paint-order="stroke">${ampm}</text>
 </svg>`;
 }
-
-function setSVGClocks(){
-  document.querySelectorAll('.svg-clock.static-clock').forEach(svg=>{
-    const ms=+svg.dataset.clockTime;
-    if(!Number.isFinite(ms))return;
-    const d=new Date(ms);
-    const hh=+d.getHours()%12+d.getMinutes()/60;
-    const mm=d.getMinutes()+d.getSeconds()/60;
-    const h=svg.querySelector('.hour-hand'),m=svg.querySelector('.min-hand');
-    if(h)h.setAttribute('transform',`rotate(${hh*30} 50 50)`);
-    if(m)m.setAttribute('transform',`rotate(${mm*6} 50 50)`);
-  });
-}
-
-const animClocks=[];
-let animRaf=0;
-const HOLD_MS=1500, MOVE_MS=1500;
-const CYCLE=HOLD_MS*2+MOVE_MS*2;
-
+function setSVGClocks(){document.querySelectorAll('.svg-clock.static-clock').forEach(svg=>{const ms=+svg.dataset.clockTime;if(!Number.isFinite(ms))return;const d=new Date(ms);const hh=+d.getHours()%12+d.getMinutes()/60;const mm=d.getMinutes()+d.getSeconds()/60;const h=svg.querySelector('.hour-hand'),m=svg.querySelector('.min-hand');if(h)h.setAttribute('transform',`rotate(${hh*30} 50 50)`);if(m)m.setAttribute('transform',`rotate(${mm*6} 50 50)`);});}
+const animClocks=[];let animRaf=0;
+const HOLD_MS=1500,MOVE_MS=1500;const CYCLE=HOLD_MS*2+MOVE_MS*2;
 function initAnimatedClocks(){
-  cancelAnimationFrame(animRaf);
-  animClocks.length=0;
-  document.querySelectorAll('.svg-clock.anim-clock').forEach(svg=>{
-    const s=+svg.dataset.animStart,e=+svg.dataset.animEnd;
-    if(!Number.isFinite(s)||!Number.isFinite(e))return;
-    animClocks.push({svg,start:s,end:e,hh:svg.querySelector('.hour-hand'),mm:svg.querySelector('.min-hand'),ap:svg.querySelector('.ampm-text')});
-  });
+  cancelAnimationFrame(animRaf);animClocks.length=0;
+  document.querySelectorAll('.svg-clock.anim-clock').forEach(svg=>{const s=+svg.dataset.animStart,e=+svg.dataset.animEnd;if(!Number.isFinite(s)||!Number.isFinite(e))return;animClocks.push({svg,start:s,end:e,hh:svg.querySelector('.hour-hand'),mm:svg.querySelector('.min-hand'),ap:svg.querySelector('.ampm-text')});});
   if(!animClocks.length)return;
   const t0=performance.now();
-  function tick(now){
-    for(const c of animClocks){
-      const el=now-t0, p=el%CYCLE;
-      let ts;
-      if(p<HOLD_MS){ts=c.start;}
-      else if(p<HOLD_MS+MOVE_MS){const u=(p-HOLD_MS)/MOVE_MS;const ease=u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;ts=c.start+(c.end-c.start)*ease;}
-      else if(p<HOLD_MS*2+MOVE_MS){ts=c.end;}
-      else{const u=(p-HOLD_MS*2-MOVE_MS)/MOVE_MS;const ease=u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;ts=c.end+(c.start-c.end)*ease;}
-      const d=new Date(ts);
-      const hh=+d.getHours()%12+d.getMinutes()/60;
-      const mm=d.getMinutes()+d.getSeconds()/60;
-      if(c.hh)c.hh.setAttribute('transform',`rotate(${hh*30} 50 50)`);
-      if(c.mm)c.mm.setAttribute('transform',`rotate(${mm*6} 50 50)`);
-      if(c.ap)c.ap.textContent=d.getHours()<12?'AM':'PM';
-    }
-    animRaf=requestAnimationFrame(tick);
-  }
+  function tick(now){for(const c of animClocks){const el=now-t0,p=el%CYCLE;let ts;if(p<HOLD_MS){ts=c.start;}else if(p<HOLD_MS+MOVE_MS){const u=(p-HOLD_MS)/MOVE_MS;const ease=u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;ts=c.start+(c.end-c.start)*ease;}else if(p<HOLD_MS*2+MOVE_MS){ts=c.end;}else{const u=(p-HOLD_MS*2-MOVE_MS)/MOVE_MS;const ease=u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;ts=c.end+(c.start-c.end)*ease;}const d=new Date(ts);const hh=+d.getHours()%12+d.getMinutes()/60;const mm=d.getMinutes()+d.getSeconds()/60;if(c.hh)c.hh.setAttribute('transform',`rotate(${hh*30} 50 50)`);if(c.mm)c.mm.setAttribute('transform',`rotate(${mm*6} 50 50)`);if(c.ap)c.ap.textContent=d.getHours()<12?'AM':'PM';}animRaf=requestAnimationFrame(tick);}
   animRaf=requestAnimationFrame(tick);
 }
 
-function cardHTML(r,large=false){
+function buildMiniHTML(r){
   const up=r.direction==="up";
+  const angle=state.angleMap[r.coin]||1;
   const dirLabel=up?"LONG":"SHORT";
-  const digitalClass=large?"miniDigital winnerDigital":"miniDigital";
-  const wmFillTop="rgba(232,240,250,0.04)";
-  const wmFillBottom=up?"rgba(52,211,153,0.05)":"rgba(248,113,113,0.05)";
+  const compassSvg=buildSmallCompass(angle,r.direction);
+  return `<div class="miniLayout">
+    <div class="miniText">
+      <div class="rankCoin"><span class="coinName ${up?"up":"down"}">${escapeHtml(r.coin)}</span><span class="rankArrow ${up?"up":"down"}">${dirLabel}</span><span class="levBadge">${r.leverage}×</span></div>
+    </div>
+    <div class="miniCompass">${compassSvg}</div>
+  </div>`;
+}
+function buildExpandedHTML(r){
+  const up=r.direction==="up";
+  const dir=up?"up":"down";
+  const digitalClass="miniDigital";
+  const wmFillTop="rgba(232,240,250,0.035)";
+  const wmFillBottom=up?"rgba(52,211,153,0.045)":"rgba(248,113,113,0.045)";
   const wmSvg=(t,f)=>`<svg class="wm-svg" viewBox="0 0 100 50" preserveAspectRatio="none"><text x="50" y="42" text-anchor="middle" textLength="100" lengthAdjust="spacingAndGlyphs" font-size="50" font-weight="900" fill="${f}" font-family="Inter,-apple-system,sans-serif">${t}</text></svg>`;
-  const watermark=`<div class="watermark" aria-hidden="true"><div class="wm-half">${wmSvg(r.coin,wmFillTop)}</div><div class="wm-half">${wmSvg(dirLabel,wmFillBottom)}</div></div>`;
-  const dir=up?'up':'down';
+  /* Watermark inversé : LONG/SHORT en haut, nom du coin en bas */
+  const watermark=`<div class="watermark" aria-hidden="true"><div class="wm-half">${wmSvg(up?"LONG":"SHORT",wmFillTop)}</div><div class="wm-half">${wmSvg(r.coin,wmFillBottom)}</div></div>`;
   const svgStart=buildSVGClock(r.startT,{anim:false,direction:dir});
   const svgEnd=buildSVGClock(r.endT,{anim:false,direction:dir});
   const svgAnim=buildSVGClock(r.startT,{anim:true,startT:r.startT,endT:r.endT,direction:dir});
-
+  const angle=state.angleMap[r.coin]||1;
+  const compassSvg=buildSmallCompass(angle,r.direction);
+  const sign=up?"+":"−";
   return `${watermark}
-<div class="rankTop"><div class="rankCoin">${r.coin}<span class="rankArrow ${up?"up":"down"}">${dirLabel}</span><span class="levBadge">${r.leverage}×</span></div><div class="rankMove ${up?"up":"down"}">${r.score.toFixed(2)}%<div class="rankRaw ${up?"up":"down"}">${up?"+":"−"}${r.move.toFixed(2)}%</div></div></div>
-<div class="rankMeta"><div class="rankCell"><div class="rankClockPair">
+<div class="expandedChart"><canvas></canvas></div>
+<div class="expandedClocks"><div class="rankClockPair">
   <div class="miniClockWrap"><div class="${digitalClass}">${fmtTime(r.startT,r.endT)}</div>${svgStart}</div>
   <div class="miniClockWrap"><div class="movementDuration">+${fmtDuration(r.endT-r.startT)}</div>${svgAnim}</div>
   <div class="miniClockWrap"><div class="${digitalClass}">${fmtTime(r.endT,r.startT)}</div>${svgEnd}</div>
-</div></div></div>${large?`<div class="winnerChart"><canvas id="chart"></canvas></div>`:(state.expanded===r?`<div class="inlineChart"><canvas class="inlineChartCanvas" data-chart="1"></canvas></div>`:"")}`;
+</div></div>
+<div class="expandedCompass">${compassSvg}</div>
+<div class="expandedScore">
+  <div class="metric ${up?"up":"down"}">${r.score.toFixed(2)}%</div>
+  <div class="metricRaw ${up?"up":"down"}">${sign}${r.move.toFixed(2)}%</div>
+</div>`;
+}
+function toggleExpand(idx){
+  const body=$("rows");
+  const cards=body.querySelectorAll(".rankCard");
+  if(state.expandedIdx!=null&&state.expandedIdx!==idx){
+    const prev=cards[state.expandedIdx];
+    if(prev){prev.classList.remove("selected");const eb=prev.querySelector(".expandedBody");if(eb)eb.remove();}
+  }
+  if(state.expandedIdx===idx){
+    state.expandedIdx=null;
+    const cur=cards[idx];
+    if(cur){cur.classList.remove("selected");const eb=cur.querySelector(".expandedBody");if(eb)eb.remove();}
+    return;
+  }
+  state.expandedIdx=idx;
+  const cur=cards[idx];
+  if(!cur)return;
+  cur.classList.add("selected");
+  const r=state.results[idx];
+  if(!r)return;
+  const eb=document.createElement("div");
+  eb.className="expandedBody";
+  eb.innerHTML=buildExpandedHTML(r);
+  cur.appendChild(eb);
+  eb.addEventListener("click",e=>e.stopPropagation());
+  requestAnimationFrame(()=>{
+    setSVGClocks();initAnimatedClocks();
+    const canvas=eb.querySelector("canvas");
+    if(canvas)requestAnimationFrame(()=>draw(r,canvas));
+  });
 }
 
-function renderWinner(){const box=$("winnerContent");if(!state.results.length){$("detail").hidden=true;box.innerHTML="";return}const r=state.results[0];$("detail").hidden=false;box.innerHTML=`<div class="winnerMain"><div class="winnerInfo">${cardHTML(r,true)}</div></div>`;requestAnimationFrame(()=>{setSVGClocks();initAnimatedClocks();const c=$("chart");if(c)draw(r,c);});}
-function render(){const panel=$("rankingPanel");const body=$("rows");if(!state.displayRanking){panel.hidden=true;body.innerHTML="";$("count").textContent="";$("toggleRanking").hidden=true;$("detail").hidden=true;$("winnerContent").innerHTML="";return;}panel.hidden=false;body.innerHTML="";const ranked=state.results.slice(1);const visible=state.showAll?ranked:ranked.slice(0,RANKING_LIMIT);visible.forEach(r=>{const card=document.createElement("div");card.className="rankCard"+(state.expanded===r?" selected":"");card.innerHTML=cardHTML(r,false);card.onclick=()=>{state.expanded=(state.expanded===r?null:r);render();};body.appendChild(card);if(state.expanded===r){const cv=card.querySelector(".inlineChartCanvas");if(cv)requestAnimationFrame(()=>draw(r,cv));}});setSVGClocks();initAnimatedClocks();$("count").textContent=Math.max(0,ranked.length)+" mouvement(s)";const t=$("toggleRanking");if(ranked.length>RANKING_LIMIT){t.hidden=false;t.textContent=state.showAll?"Afficher seulement les 30 premiers":`Afficher tout le classement (${ranked.length})`;}else t.hidden=true;renderWinner();}
+function downsample(candles,maxN){
+  if(candles.length<=maxN)return candles;
+  const out=[];const step=candles.length/maxN;
+  for(let i=0;i<maxN;i++){const s=Math.floor(i*step),e=Math.max(s+1,Math.floor((i+1)*step));const slice=candles.slice(s,e);if(!slice.length)continue;let h=-Infinity,l=Infinity;for(const c of slice){if(c.h>h)h=c.h;if(c.l<l)l=c.l;}out.push({t:slice[0].t,o:slice[0].o,h,l,c:slice[slice.length-1].c});}
+  return out;
+}
+function fmtChartBadge(ms,other){const d=new Date(ms);const hh=String(d.getHours()).padStart(2,"0");const mi=String(d.getMinutes()).padStart(2,"0");if(sameCalendarDay(ms,other))return `${hh}:${mi}`;return `${fmtDateShort(ms)} ${hh}:${mi}`;}
+function draw(r,canvas){
+  if(!canvas)return;
+  const dpr=devicePixelRatio||1,rect=canvas.getBoundingClientRect();
+  const w=Math.max(1,rect.width),h=Math.max(1,rect.height);
+  canvas.width=w*dpr;canvas.height=h*dpr;
+  const x=canvas.getContext("2d");x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,w,h);
+  const fullCandles=r.candles;if(!fullCandles.length)return;
+  const view=downsample(fullCandles,180);
+  const values=[];view.forEach(v=>values.push(v.h,v.l));
+  let mn=Math.min(...values),mx=Math.max(...values);
+  const margin=(mx-mn)*.08||Math.max(Math.abs(mx)*.001,1e-8);
+  mn-=margin;mx+=margin;
+  const p={l:58,r:18,t:34,b:78};
+  const plotW=w-p.l-p.r,plotH=h-p.t-p.b;
+  const sx=i=>p.l+i*plotW/Math.max(1,view.length-1);
+  const sy=v=>h-p.b-(v-mn)*plotH/Math.max(1e-12,mx-mn);
+  x.font="12px sans-serif";x.lineWidth=1;x.strokeStyle="#162a3e";x.fillStyle="#5a7088";
+  const yTicks=[];
+  for(let k=0;k<5;k++){const yy=p.t+k*plotH/4;const val=mx-k*(mx-mn)/4;yTicks.push({y:yy,value:val,label:fmt(val)});x.beginPath();x.moveTo(p.l,yy);x.lineTo(w-p.r,yy);x.stroke();x.textAlign="left";x.textBaseline="middle";x.fillStyle="#5a7088";x.fillText(fmt(val),6,yy);}
+  const candleStep=plotW/Math.max(1,view.length-1),bodyW=Math.max(1,Math.min(12,candleStep*.62));
+  view.forEach((v,i)=>{const xx=sx(i),yo=sy(v.o),yc=sy(v.c),yh=sy(v.h),yl=sy(v.l);const rising=v.c>=v.o,col=rising?"#34d399":"#f87171";x.strokeStyle=col;x.fillStyle=col;x.lineWidth=1.2;x.beginPath();x.moveTo(xx,yh);x.lineTo(xx,yl);x.stroke();const top=Math.min(yo,yc),bh=Math.max(1,Math.abs(yc-yo));x.fillRect(xx-bodyW/2,top,bodyW,bh);});
+  const axisY=h-p.b;
+  const chartStart=view[0].t,chartEnd=view[view.length-1].t;
+  const totalMs=Math.max(1,chartEnd-chartStart);
+  const timeToX=tt=>p.l+(tt-chartStart)/totalMs*plotW;
+  const HOUR_MS=3600000,MIN10_MS=600000;
+  const hoursSpan=totalMs/HOUR_MS;
+  const minLabelWidthMin=30;
+  const slots10=Math.max(1,Math.floor(totalMs/MIN10_MS));
+  const pxPer10=plotW/slots10;
+  const labelEvery10=pxPer10>=minLabelWidthMin&&hoursSpan<=18;
+  x.textAlign="center";x.textBaseline="top";
+  view.forEach((v,i)=>{const d=new Date(v.t),min=d.getMinutes(),sec=d.getSeconds();const hour=min===0&&sec<30,quarter=(min%15===0&&sec<30);const xx=sx(i);const len=hour?13:(quarter?9:5),width=hour?2.4:(quarter?1.7:1);x.strokeStyle=hour?"#c8d8e8":(quarter?"#7a8ea0":"#2a3e52");x.lineWidth=width;x.beginPath();x.moveTo(xx,axisY);x.lineTo(xx,axisY+len);x.stroke();});
+  const labelY=axisY+18;
+  x.font="600 11px 'JetBrains Mono',monospace";x.textAlign="center";x.textBaseline="top";
+  if(labelEvery10){
+    const first=Math.ceil(chartStart/MIN10_MS)*MIN10_MS;let lastX=-1e9;
+    for(let t=first;t<=chartEnd;t+=MIN10_MS){
+      const d=new Date(t);const isHour=d.getMinutes()===0;const xx=timeToX(t);
+      if(xx<lastX+minLabelWidthMin-4)continue;
+      x.strokeStyle=isHour?"#c8d8e8":"#5a7088";x.lineWidth=isHour?1.8:1;
+      x.beginPath();x.moveTo(xx,axisY);x.lineTo(xx,axisY+(isHour?14:9));x.stroke();
+      const label=isHour?`${String(d.getHours()).padStart(2,"0")}h`:`${String(d.getMinutes()).padStart(2,"0")}m`;
+      x.fillStyle=isHour?"#c8d8e8":"#7a8ea0";x.fillText(label,xx,labelY);
+      lastX=xx;
+    }
+  }else{
+    const slotsH=Math.max(1,Math.ceil(totalMs/HOUR_MS));const pxPerH=plotW/slotsH;
+    const stepH=pxPerH>=42?1:Math.ceil(42/pxPerH);
+    const first=Math.ceil(chartStart/HOUR_MS)*HOUR_MS;
+    for(let t=first,k=0;t<=chartEnd;t+=HOUR_MS,k++){
+      if(k%stepH!==0)continue;
+      const d=new Date(t);const xx=timeToX(t);
+      x.strokeStyle="#c8d8e8";x.lineWidth=1.8;x.beginPath();x.moveTo(xx,axisY);x.lineTo(xx,axisY+14);x.stroke();
+      x.fillStyle="#c8d8e8";x.fillText(`${String(d.getHours()).padStart(2,"0")}h`,xx,labelY);
+    }
+  }
+  x.textAlign="start";x.textBaseline="alphabetic";
+  const si=r.startI,ei=r.endI;
+  if(si>=0&&ei>=0){
+    const mapIdx=orig=>Math.round(orig/(r.candles.length-1)*(view.length-1));
+    const vsi=Math.max(0,Math.min(view.length-1,mapIdx(si)));
+    const vei=Math.max(0,Math.min(view.length-1,mapIdx(ei)));
+    const sx0=sx(vsi),sy0=sy(r.startPrice),sx1=sx(vei),sy1=sy(r.endPrice);
+    const color=r.direction==="up"?"#34d399":"#f87171";
+    x.setLineDash([5,4]);x.strokeStyle=color;x.lineWidth=1.2;
+    x.beginPath();x.moveTo(sx0,p.t);x.lineTo(sx0,axisY);x.stroke();
+    x.beginPath();x.moveTo(sx1,p.t);x.lineTo(sx1,axisY);x.stroke();
+    x.setLineDash([]);
+    const drawEventPrice=(value,baseY)=>{const text=fmt(value);x.font="700 11px sans-serif";let yy=baseY;const conflicts=yTicks.filter(t=>Math.abs(t.y-yy)<14);if(conflicts.length){const above=baseY-18,below=baseY+18;const freeAbove=above>=p.t+7&&!yTicks.some(t=>Math.abs(t.y-above)<14);const freeBelow=below<=axisY-7&&!yTicks.some(t=>Math.abs(t.y-below)<14);if(freeAbove)yy=above;else if(freeBelow)yy=below;else yy=baseY<=(p.t+axisY)/2?below:above;}x.textAlign="right";x.textBaseline="middle";x.fillStyle=color;x.shadowColor="rgba(0,0,0,.9)";x.shadowBlur=3;x.fillText(text,p.l-8,yy);x.shadowColor="transparent";x.shadowBlur=0;};
+    drawEventPrice(r.startPrice,sy0);drawEventPrice(r.endPrice,sy1);
+    const label0=fmtTime(r.startT,r.endT),label1=fmtTime(r.endT,r.startT);
+    x.font="bold 12px sans-serif";
+    const pad=6,boxH=22;
+    const w0=x.measureText(label0).width+pad*2,w1=x.measureText(label1).width+pad*2;
+    const boxLabelY=labelY+22;
+    const minGap=Math.max(7,Math.min(14,w*.01));
+    const min0=p.l+w0/2,max0=w-p.r-w0/2;
+    const min1=p.l+w1/2,max1=w-p.r-w1/2;
+    let c0=Math.max(min0,Math.min(max0,sx0));
+    let c1=Math.max(min1,Math.min(max1,sx1));
+    const swap=c0>c1;const lW=swap?w1:w0,rW=swap?w0:w1;
+    const lMinB=swap?min1:min0,lMaxB=swap?max1:max0,rMinB=swap?min0:min1,rMaxB=swap?max0:max1;
+    const lC0=swap?c1:c0,rC0=swap?c0:c1;
+    const requiredGap=lW/2+rW/2+minGap,currentGap=rC0-lC0;
+    if(currentGap<requiredGap){const mid=(lC0+rC0)/2;let lC=mid-requiredGap/2,rC=mid+requiredGap/2;if(lC<lMinB){rC+=(lMinB-lC);lC=lMinB;}if(rC>rMaxB){lC-=(rC-rMaxB);rC=rMaxB;}lC=Math.max(lMinB,Math.min(lMaxB,lC));rC=Math.max(rMinB,Math.min(rMaxB,rC));if(swap){c1=lC;c0=rC;}else{c0=lC;c1=rC;}}
+    const b0=c0-w0/2,b1=c1-w1/2;
+    const drawBottomLabel=(label,bx,by,boxW)=>{x.fillStyle="rgba(7,16,26,.96)";x.beginPath();x.roundRect(bx,by,boxW,boxH,6);x.fill();x.strokeStyle="rgba(56,189,248,.12)";x.lineWidth=1;x.stroke();x.fillStyle=color;x.textAlign="center";x.textBaseline="middle";x.fillText(label,bx+boxW/2,by+boxH/2);};
+    const drawConnector=(sourceX,targetX)=>{const sourceY=axisY+14,targetY=boxLabelY+boxH/2,dx=targetX-sourceX;x.strokeStyle=color;x.lineWidth=1.25;x.lineCap="round";x.beginPath();x.moveTo(sourceX,sourceY);const useNew=$('newConnectors')?.checked;if(useNew){const totalDy=Math.max(1,targetY-sourceY),sign=dx>=0?1:-1;const y1=sourceY+totalDy*.20,y2=sourceY+totalDy*.90;x.lineTo(sourceX,y1);x.lineTo(targetX,y2);x.lineTo(targetX,targetY);}else{const lead=Math.max(10,Math.min(18,(targetY-sourceY)*.22));const startCurveY=sourceY+lead,endCurveY=targetY-lead;const curve=Math.max(12,Math.min(42,Math.abs(dx)*.42));x.lineTo(sourceX,startCurveY);x.bezierCurveTo(sourceX,startCurveY+curve,targetX,endCurveY-curve,targetX,endCurveY);x.lineTo(targetX,targetY);}x.stroke();};
+    drawConnector(sx0,c0);drawConnector(sx1,c1);
+    drawBottomLabel(label0,b0,boxLabelY,w0);drawBottomLabel(label1,b1,boxLabelY,w1);
+  }
+  const badgeStartTxt=`Début ${fmtChartBadge(chartStart,chartEnd)}`;
+  const badgeEndTxt=`Fin ${fmtChartBadge(chartEnd,chartStart)}`;
+  x.font="600 11px 'JetBrains Mono',monospace";
+  const bp=6,bh=20;
+  const bsW=x.measureText(badgeStartTxt).width+bp*2;
+  const beW=x.measureText(badgeEndTxt).width+bp*2;
+  const by=6;
+  x.fillStyle="rgba(8,20,32,.92)";x.beginPath();x.roundRect(p.l+2,by,bsW,bh,6);x.fill();x.strokeStyle="rgba(56,189,248,.28)";x.lineWidth=1;x.stroke();
+  x.fillStyle="#8ba0b8";x.textAlign="left";x.textBaseline="middle";x.fillText(badgeStartTxt,p.l+2+bp,by+bh/2);
+  x.fillStyle="rgba(8,20,32,.92)";x.beginPath();x.roundRect(w-p.r-2-beW,by,beW,bh,6);x.fill();x.strokeStyle="rgba(56,189,248,.28)";x.lineWidth=1;x.stroke();
+  x.fillStyle="#8ba0b8";x.textAlign="left";x.fillText(badgeEndTxt,w-p.r-2-beW+bp,by+bh/2);
+}
 
-function draw(r,canvas){const c=canvas||$("chart");if(!c)return;const dpr=devicePixelRatio||1,rect=c.getBoundingClientRect();const w=Math.max(1,rect.width),h=Math.max(1,rect.height);c.width=w*dpr;c.height=h*dpr;const x=c.getContext("2d");x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,w,h);const candles=r.candles;if(!candles.length)return;const view=candles,values=[];view.forEach(v=>values.push(v.h,v.l));let mn=Math.min(...values),mx=Math.max(...values);const margin=(mx-mn)*.08||Math.max(Math.abs(mx)*.001,1e-8);mn-=margin;mx+=margin;const p={l:58,r:18,t:28,b:70};const plotW=w-p.l-p.r,plotH=h-p.t-p.b;const sx=i=>p.l+i*plotW/Math.max(1,view.length-1);const sy=v=>h-p.b-(v-mn)*plotH/Math.max(1e-12,mx-mn);x.font="12px sans-serif";x.lineWidth=1;x.strokeStyle="#162a3e";x.fillStyle="#5a7088";const yTicks=[];for(let k=0;k<5;k++){const yy=p.t+k*plotH/4;const val=mx-k*(mx-mn)/4;yTicks.push({y:yy,value:val,label:fmt(val)});x.beginPath();x.moveTo(p.l,yy);x.lineTo(w-p.r,yy);x.stroke();x.textAlign="left";x.textBaseline="middle";x.fillStyle="#5a7088";x.fillText(fmt(val),6,yy);}const candleStep=plotW/Math.max(1,view.length-1),bodyW=Math.max(1,Math.min(12,candleStep*.62));view.forEach((v,i)=>{const xx=sx(i),yo=sy(v.o),yc=sy(v.c),yh=sy(v.h),yl=sy(v.l),rising=v.c>=v.o,col=rising?"#34d399":"#f87171";x.strokeStyle=col;x.fillStyle=col;x.lineWidth=1.2;x.beginPath();x.moveTo(xx,yh);x.lineTo(xx,yl);x.stroke();const top=Math.min(yo,yc),bh=Math.max(1,Math.abs(yc-yo));x.fillRect(xx-bodyW/2,top,bodyW,bh);});const axisY=h-p.b;x.textAlign="center";x.textBaseline="top";view.forEach((v,i)=>{const d=new Date(v.t),min=d.getMinutes(),sec=d.getSeconds();const hour=min===0&&sec<30,quarter=(min%15===0&&sec<30);const xx=sx(i);const len=hour?13:(quarter?9:5),width=hour?2.4:(quarter?1.7:1);x.strokeStyle=hour?"#c8d8e8":(quarter?"#7a8ea0":"#2a3e52");x.lineWidth=width;x.beginPath();x.moveTo(xx,axisY);x.lineTo(xx,axisY+len);x.stroke();});x.textAlign="start";x.textBaseline="alphabetic";const si=r.startI,ei=r.endI;if(si>=0&&ei>=0&&si<view.length&&ei<view.length){const sx0=sx(si),sy0=sy(r.startPrice),sx1=sx(ei),sy1=sy(r.endPrice);const color=r.direction==="up"?"#34d399":"#f87171";x.setLineDash([5,4]);x.strokeStyle=color;x.lineWidth=1.2;x.beginPath();x.moveTo(sx0,p.t);x.lineTo(sx0,axisY);x.stroke();x.beginPath();x.moveTo(sx1,p.t);x.lineTo(sx1,axisY);x.stroke();x.setLineDash([]);const drawEventPrice=(value,baseY)=>{const text=fmt(value);x.font="700 11px sans-serif";let yy=baseY;const conflicts=yTicks.filter(t=>Math.abs(t.y-yy)<14);if(conflicts.length){const above=baseY-18,below=baseY+18;const freeAbove=above>=p.t+7&&!yTicks.some(t=>Math.abs(t.y-above)<14);const freeBelow=below<=axisY-7&&!yTicks.some(t=>Math.abs(t.y-below)<14);if(freeAbove)yy=above;else if(freeBelow)yy=below;else yy=baseY<=(p.t+axisY)/2?below:above;}x.textAlign="right";x.textBaseline="middle";x.fillStyle=color;x.shadowColor="rgba(0,0,0,.9)";x.shadowBlur=3;x.fillText(text,p.l-8,yy);x.shadowColor="transparent";x.shadowBlur=0;};drawEventPrice(r.startPrice,sy0);drawEventPrice(r.endPrice,sy1);const label0=fmtTime(r.startT,r.endT),label1=fmtTime(r.endT,r.startT);x.font="bold 12px sans-serif";const pad=6,boxH=22,gap=8;const w0=x.measureText(label0).width+pad*2,w1=x.measureText(label1).width+pad*2;const useNewConnectors=$('newConnectors')?.checked;let c0=sx0,c1=sx1;if(useNewConnectors){const minGap=Math.max(7,Math.min(14,w*.010));const min0=p.l+w0/2,max0=w-p.r-w0/2;const min1=p.l+w1/2,max1=w-p.r-w1/2;c0=Math.max(min0,Math.min(max0,sx0));c1=Math.max(min1,Math.min(max1,sx1));const swap=c0>c1;const lW=swap?w1:w0,rW=swap?w0:w1;const lMinB=swap?min1:min0,lMaxB=swap?max1:max0,rMinB=swap?min0:min1,rMaxB=swap?max0:max1;const lC0=swap?c1:c0,rC0=swap?c0:c1;const requiredGap=lW/2+rW/2+minGap,currentGap=rC0-lC0;if(currentGap<requiredGap){const mid=(lC0+rC0)/2;let lC=mid-requiredGap/2,rC=mid+requiredGap/2;if(lC<lMinB){rC+=(lMinB-lC);lC=lMinB;}if(rC>rMaxB){lC-=(rC-rMaxB);rC=rMaxB;}lC=Math.max(lMinB,Math.min(lMaxB,lC));rC=Math.max(rMinB,Math.min(rMaxB,rC));if(swap){c1=lC;c0=rC;}else{c0=lC;c1=rC;}}}else{const minGap=Math.max(8,Math.min(18,w*.012));const min0=p.l+w0/2,max0=w-p.r-w0/2;const min1=p.l+w1/2,max1=w-p.r-w1/2;const sourceRight=sx1>=sx0;let c0=sx0,c1=sx1;const required=(w0+w1)/2+minGap;if(sourceRight){const low=Math.max(min0,min1-required),high=Math.min(max0,max1-required);if(low<=high){const ideal=(sx0+sx1-required)/2;c0=Math.max(low,Math.min(high,ideal));c1=c0+required;}else{const fallbackGap=Math.max(2,Math.min(minGap,Math.max(2,(w-p.l-p.r-w0-w1)*.5)));const req2=(w0+w1)/2+fallbackGap;const low2=Math.max(min0,min1-req2),high2=Math.min(max0,max1-req2);c0=Math.max(low2,Math.min(high2,(sx0+sx1-req2)/2));c1=c0+req2;}}else{const low=Math.max(min1,min0-required),high=Math.min(max1,max0-required);if(low<=high){const ideal=(sx1+sx0-required)/2;c1=Math.max(low,Math.min(high,ideal));c0=c1+required;}else{const fallbackGap=Math.max(2,Math.min(minGap,Math.max(2,(w-p.l-p.r-w0-w1)*.5)));const req2=(w0+w1)/2+fallbackGap;const low2=Math.max(min1,min0-req2),high2=Math.min(max1,max0-req2);c1=Math.max(low2,Math.min(high2,(sx1+sx0-req2)/2));c0=c1+req2;}}}const b0=c0-w0/2,b1=c1-w1/2;const labelY=axisY+34;const drawBottomLabel=(label,bx,by,boxW)=>{x.fillStyle="rgba(7,16,26,.96)";x.beginPath();x.roundRect(bx,by,boxW,boxH,6);x.fill();x.strokeStyle="rgba(56,189,248,.12)";x.lineWidth=1;x.stroke();x.fillStyle=color;x.textAlign="center";x.textBaseline="middle";x.fillText(label,bx+boxW/2,by+boxH/2);};const drawConnector=(sourceX,targetX)=>{const sourceY=axisY+14,targetY=labelY+boxH/2,dx=targetX-sourceX;x.strokeStyle=color;x.lineWidth=1.25;x.lineCap="round";x.beginPath();x.moveTo(sourceX,sourceY);if(Math.abs(dx)<0.5){x.lineTo(targetX,targetY);}else if($('newConnectors')?.checked){const totalDy=Math.max(1,targetY-sourceY),sign=dx>=0?1:-1;const y1=sourceY+totalDy*.20,y2=sourceY+totalDy*.90,aligned=Math.abs(dx)<0.5;if(aligned){x.lineTo(sourceX,y1);x.lineTo(targetX,y2);x.lineTo(targetX,targetY);}else{const mainDy=Math.max(1,y2-y1);const offset=Math.max(7,Math.min(Math.abs(dx)*.30,32));const bend=Math.max(3,Math.min(mainDy*.12,10));const startX=sourceX+sign*offset,endX=targetX-sign*offset,startY=y1+bend,endY=y2-bend;const vx=endX-startX,vy=endY-startY,vlen=Math.max(1,Math.hypot(vx,vy)),tx=vx/vlen,ty=vy/vlen;const tangent=Math.max(4,Math.min(offset*.90,mainDy*.14));x.lineTo(sourceX,y1);x.bezierCurveTo(sourceX,y1+bend*.35,startX-tx*tangent,startY-ty*tangent,startX,startY);x.lineTo(endX,endY);x.bezierCurveTo(endX+tx*tangent,endY+ty*tangent,targetX,y2-bend*.35,targetX,y2);x.lineTo(targetX,targetY);}}else{const lead=Math.max(10,Math.min(18,(targetY-sourceY)*.22));const startCurveY=sourceY+lead,endCurveY=targetY-lead;const curve=Math.max(12,Math.min(42,Math.abs(dx)*.42));x.lineTo(sourceX,startCurveY);x.bezierCurveTo(sourceX,startCurveY+curve,targetX,endCurveY-curve,targetX,endCurveY);x.lineTo(targetX,targetY);}x.stroke();};drawConnector(sx0,c0);drawConnector(sx1,c1);drawBottomLabel(label0,b0,labelY,w0);drawBottomLabel(label1,b1,labelY,w1);}}
+function render(){
+  renderBigCompass();
+  const panel=$("rankingPanel"),body=$("rows");
+  if(!state.displayRanking){panel.hidden=true;body.innerHTML="";$("count").textContent="";$("toggleRanking").hidden=true;return;}
+  panel.hidden=false;body.innerHTML="";
+  const visible=state.showAll?state.results:state.results.slice(0,RANKING_LIMIT);
+  visible.forEach((r,idx)=>{
+    const card=document.createElement("div");
+    card.className="rankCard"+(state.expandedIdx===idx?" selected":"");
+    card.innerHTML=buildMiniHTML(r);
+    card.addEventListener("click",e=>{if(e.target.closest(".expandedBody"))return;toggleExpand(idx);});
+    body.appendChild(card);
+    if(state.expandedIdx===idx){
+      const eb=document.createElement("div");
+      eb.className="expandedBody";
+      eb.innerHTML=buildExpandedHTML(r);
+      eb.addEventListener("click",e=>e.stopPropagation());
+      card.appendChild(eb);
+    }
+  });
+  setSVGClocks();initAnimatedClocks();
+  $("count").textContent=Math.max(0,state.results.length)+" mouvement(s)";
+  const t=$("toggleRanking");
+  if(state.results.length>RANKING_LIMIT){t.hidden=false;t.textContent=state.showAll?"Afficher seulement les 30 premiers":`Afficher tout le classement (${state.results.length})`;}
+  else t.hidden=true;
+  if(state.expandedIdx!=null){const cur=body.children[state.expandedIdx];if(cur){const canvas=cur.querySelector("canvas");if(canvas){const r=state.results[state.expandedIdx];if(r)requestAnimationFrame(()=>draw(r,canvas));}}}
+}
 
-async function scan(){state.cancel=false;state.finishEarly=false;state.scanning=true;state.expanded=null;state.selected=null;state.displayRanking=false;scanAbortController=new AbortController();$("finishNow").hidden=false;$("showRankingEarly").hidden=false;$('error').textContent="";state.selected=null;if(!state.cache){if(!(await diagnostics())){state.scanning=false;$("finishNow").hidden=true;return}}const hours=Math.max(1,Math.min(48,+$('hours').value||6)),interval=$('interval').value;const conc=Math.max(1,Math.min(8,+$('concurrency').value||4));let markets=state.cache.universe.filter(x=>!x.isDelisted&&Number(x.maxLeverage)>0);const now=Date.now(),start=now-hours*3600000;state.results=[];state.expanded=null;render();scanStats={requested:markets.length,success:0,retries:0,failed:0,failedCoins:[],started:0,finished:0};requestSequence=0;setStatus(`Scan de ${markets.length} perps…`,0);logEvent("INFO","SCAN START",new Error(`${markets.length} perps — ${interval} — ${hours}h`),{markets:markets.length,interval,hours,concurrency:conc,maxRetries:MAX_RETRIES});let next=0,done=0;async function worker(){while(true){if(state.cancel||state.finishEarly)return;const i=next++;if(i>=markets.length)return;const m=markets[i];scanStats.started++;try{const raw=await api("candles",{coin:m.name,interval,startTime:start,endTime:now},{signal:scanAbortController.signal});const moves=calcMovements(m.name,+m.maxLeverage,parseCandles(raw));for(const r of moves)state.results.push(r);}catch(e){if(e&&e.name==="AbortError")return;logEvent("ERROR","Scan candles",e,{coin:m.name,interval,marketIndex:i});}done++;scanStats.finished=done;setStatus(`Scan ${done}/${markets.length}`,done/markets.length*100);}}await Promise.all(Array.from({length:Math.min(conc,markets.length)},worker));state.results.sort((a,b)=>b.score-a.score);state.expanded=null;state.displayRanking=true;render();const missing=markets.length-scanStats.success;const incomplete=missing>0;if(state.finishEarly)setStatus(`Classement terminé avec les données disponibles — ${scanStats.success}/${markets.length} marchés récupérés — ${missing} non récupérés`,100);else if(state.cancel)setStatus(`Scan annulé — ${scanStats.success}/${markets.length} marchés récupérés`,100);else if(incomplete)setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${missing} manquants`,100);else setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${state.results.length} mouvements`,100);logEvent(incomplete?"WARN":"INFO","SCAN END",new Error(`${scanStats.success}/${markets.length} marchés récupérés`),{markets:markets.length,success:scanStats.success,failed:scanStats.failed,retries:scanStats.retries,missing,failedCoins:scanStats.failedCoins.join(", "),movements:state.results.length,finishEarly:state.finishEarly,cancelled:state.cancel});state.scanning=false;$("finishNow").hidden=true;$("showRankingEarly").hidden=true;scanAbortController=null;}
+function getUniverseCoins(){
+  if(!state.cache||!state.cache.universe)return[];
+  const out=[];
+  for(const m of state.cache.universe){if(m.isDelisted)continue;if(!(Number(m.maxLeverage)>0))continue;const a=state.angleMap[m.name];if(a==null)continue;out.push({coin:m.name,angle:a});}
+  out.sort((a,b)=>a.coin.localeCompare(b.coin));
+  return out;
+}
+function renderBigCompass(){
+  const panel=$("bigCompassPanel"),wrap=$("bigCompassWrap"),tooltip=$("compassTooltip");
+  if(!panel||!wrap)return;
+  const coins=getUniverseCoins();
+  if(!coins.length){panel.hidden=true;return;}
+  wrap.querySelectorAll("svg").forEach(el=>el.remove());
+  const tmp=document.createElement("div");
+  tmp.innerHTML=buildLargeCompass(coins);
+  const svgEl=tmp.firstElementChild;
+  wrap.appendChild(svgEl);
+  panel.hidden=false;tooltip.hidden=true;
+  setupCompassHover(svgEl,coins,tooltip);
+}
+function scheduleBigCompass(){(window.requestIdleCallback||setTimeout)(()=>renderBigCompass(),{timeout:400});}
+function positionCompassTooltip(svg,tooltip,angle,coin){
+  const svgRect=svg.getBoundingClientRect();
+  const wrapRect=tooltip.parentElement.getBoundingClientRect();
+  const cx=svgRect.left-wrapRect.left+svgRect.width/2;
+  const cy=svgRect.top-wrapRect.top+svgRect.height/2;
+  const unitPx=Math.min(svgRect.width,svgRect.height)/100;
+  const rPx=PILL_CENTER_R*unitPx;
+  const rad=(angle-90)*Math.PI/180;
+  tooltip.style.left=(cx+rPx*Math.cos(rad))+"px";
+  tooltip.style.top=(cy+rPx*Math.sin(rad))+"px";
+  tooltip.innerHTML=`<b>${escapeHtml(coin)}</b> — ${angle}°`;
+  tooltip.hidden=false;
+}
+function setupCompassHover(svg,coins,tooltip){
+  let hoverCoin=null;
+  let pinnedCoin=null;
+  function applyHighlight(){
+    svg.querySelectorAll(".compass-ray.hovered").forEach(r=>r.classList.remove("hovered"));
+    svg.querySelectorAll(".compass-ray.pinned").forEach(r=>r.classList.remove("pinned"));
+    if(hoverCoin||pinnedCoin)svg.classList.add("has-hover");
+    else svg.classList.remove("has-hover");
+    if(pinnedCoin){
+      for(const el of svg.querySelectorAll(".compass-ray")){if(el.dataset.coin===pinnedCoin){el.classList.add("pinned");break;}}
+    }
+    if(hoverCoin){
+      for(const el of svg.querySelectorAll(".compass-ray")){if(el.dataset.coin===hoverCoin){el.classList.add("hovered");break;}}
+    }
+    const focus=hoverCoin||pinnedCoin;
+    if(focus){
+      const c=coins.find(x=>x.coin===focus);
+      if(c)positionCompassTooltip(svg,tooltip,c.angle,c.coin);
+      else tooltip.hidden=true;
+    }else{tooltip.hidden=true;}
+  }
+  function clearHover(){hoverCoin=null;applyHighlight();}
+  function getPoint(e){
+    if(e.clientX!=null&&!isNaN(e.clientX))return{x:e.clientX,y:e.clientY};
+    if(e.touches&&e.touches[0])return{x:e.touches[0].clientX,y:e.touches[0].clientY};
+    if(e.changedTouches&&e.changedTouches[0])return{x:e.changedTouches[0].clientX,y:e.changedTouches[0].clientY};
+    return null;
+  }
+  function nearestCoin(e){
+    const pt=getPoint(e);if(!pt)return null;
+    const rect=svg.getBoundingClientRect();
+    const x=pt.x-rect.left,y=pt.y-rect.top;
+    const cx=rect.width/2,cy=rect.height/2;
+    const dx=x-cx,dy=y-cy;
+    const dist=Math.hypot(dx,dy);
+    const maxR=Math.min(rect.width,rect.height)/2;
+    if(dist<maxR*.08||dist>maxR)return null;
+    let deg=Math.atan2(dx,-dy)*180/Math.PI;if(deg<0)deg+=360;
+    let best=null,bestDist=Infinity;
+    for(const c of coins){let d=Math.abs(c.angle-deg);if(d>180)d=360-d;if(d<bestDist){bestDist=d;best=c;}}
+    if(!best||bestDist>2.4)return null;
+    return best;
+  }
+  svg.addEventListener("pointermove",e=>{const n=nearestCoin(e);hoverCoin=n?n.coin:null;applyHighlight();},{passive:true});
+  svg.addEventListener("pointerleave",()=>{clearHover();},{passive:true});
+  svg.addEventListener("pointerdown",e=>{
+    const n=nearestCoin(e);
+    if(!n){pinnedCoin=null;applyHighlight();return;}
+    if(pinnedCoin===n.coin){pinnedCoin=null;}
+    else{pinnedCoin=n.coin;}
+    applyHighlight();
+  },{passive:true});
+}
+
+async function scan(){
+  state.cancel=false;state.finishEarly=false;state.scanning=true;state.expandedIdx=null;state.displayRanking=false;
+  scanAbortController=new AbortController();
+  $("finishNow").hidden=false;$("showRankingEarly").hidden=false;$("error").textContent="";
+  if(!state.cache){if(!(await diagnostics())){state.scanning=false;$("finishNow").hidden=true;return;}}
+  const hours=Math.max(1,Math.min(48,+$("hours").value||6)),interval=$("interval").value;
+  const conc=Math.max(1,Math.min(8,+$("concurrency").value||4));
+  let markets=state.cache.universe.filter(x=>!x.isDelisted&&Number(x.maxLeverage)>0);
+  const now=Date.now(),start=now-hours*3600000;
+  state.results=[];state.expandedIdx=null;render();
+  scanStats={requested:markets.length,success:0,retries:0,failed:0,failedCoins:[],started:0,finished:0};
+  requestSequence=0;
+  setStatus(`Scan de ${markets.length} perps…`,0);
+  logEvent("INFO","SCAN START",new Error(`${markets.length} perps — ${interval} — ${hours}h`),{markets:markets.length,interval,hours,concurrency:conc,maxRetries:MAX_RETRIES});
+  let next=0,done=0;
+  async function worker(){
+    while(true){
+      if(state.cancel||state.finishEarly)return;
+      const i=next++;if(i>=markets.length)return;
+      const m=markets[i];scanStats.started++;
+      try{
+        const raw=await fetchCandles(m.name,interval,start,now,scanAbortController.signal);
+        const moves=calcMovements(m.name,+m.maxLeverage,parseCandles(raw));
+        for(const r of moves)state.results.push(r);
+      }catch(e){
+        if(e&&e.name==="AbortError")return;
+        logEvent("ERROR","Scan candles",e,{coin:m.name,interval,marketIndex:i});
+      }
+      done++;scanStats.finished=done;
+      setStatus(`Scan ${done}/${markets.length}`,done/markets.length*100);
+    }
+  }
+  await Promise.all(Array.from({length:Math.min(conc,markets.length)},worker));
+  state.results.sort((a,b)=>b.score-a.score);
+  state.expandedIdx=null;state.displayRanking=true;render();
+  const missing=markets.length-scanStats.success;const incomplete=missing>0;
+  if(state.finishEarly)setStatus(`Classement terminé avec les données disponibles — ${scanStats.success}/${markets.length} marchés récupérés — ${missing} non récupérés`,100);
+  else if(state.cancel)setStatus(`Scan annulé — ${scanStats.success}/${markets.length} marchés récupérés`,100);
+  else if(incomplete)setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${missing} manquants`,100);
+  else setStatus(`Terminé — ${scanStats.success}/${markets.length} marchés récupérés — ${state.results.length} mouvements`,100);
+  logEvent(incomplete?"WARN":"INFO","SCAN END",new Error(`${scanStats.success}/${markets.length} marchés récupérés`),{markets:markets.length,success:scanStats.success,failed:scanStats.failed,retries:scanStats.retries,missing,failedCoins:scanStats.failedCoins.join(", "),movements:state.results.length,finishEarly:state.finishEarly,cancelled:state.cancel});
+  state.scanning=false;$("finishNow").hidden=true;$("showRankingEarly").hidden=true;scanAbortController=null;
+  scheduleBigCompass();
+}
+
 $("downloadLog").onclick=()=>{const text=readLog().map(formatLogEntry).join("\n\n")||"Aucune erreur enregistrée.";const blob=new Blob([text+"\n"],{type:"text/plain;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`hyperliquid-scanner-log-${new Date().toISOString().replace(/[:.]/g,"-")}.txt`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);};
 $("copyLog").onclick=async()=>{const text=readLog().map(formatLogEntry).join("\n\n")||"Aucune erreur enregistrée.";try{await navigator.clipboard.writeText(text);setStatus("Log copié dans le presse-papiers");}catch(e){err(e,"Copie du log");}};
 $("clearLog").onclick=()=>{localStorage.removeItem(LOG_KEY);renderLog();$("error").textContent="";};
 $("toggleRanking").onclick=()=>{state.showAll=!state.showAll;render();};
-$("showRankingEarly").onclick=()=>{if(!state.results.length){setStatus("Aucune donnée de classement disponible pour le moment.");return;}state.displayRanking=true;state.showAll=false;state.expanded=null;render();$("rankingPanel").scrollIntoView({behavior:"smooth",block:"start"});};
+$("showRankingEarly").onclick=()=>{if(!state.results.length){setStatus("Aucune donnée de classement disponible pour le moment.");return;}state.displayRanking=true;state.showAll=false;state.expandedIdx=null;render();$("rankingPanel").scrollIntoView({behavior:"smooth",block:"start"});};
 $("jumpLogs").onclick=()=>{const log=$("logPanel");const logTop=log.getBoundingClientRect().top+window.scrollY;const nearLog=Math.abs(window.scrollY-logTop)<220;if(nearLog)window.scrollTo({top:0,behavior:"smooth"});else log.scrollIntoView({behavior:"smooth",block:"start"});setTimeout(updateJumpButton,80);};
 function updateJumpButton(){const log=$("logPanel");if(!log)return;const logTop=log.getBoundingClientRect().top+window.scrollY;const nearLog=Math.abs(window.scrollY-logTop)<220;$("jumpLogs").setAttribute("aria-label",nearLog?"Revenir en haut":"Aller au journal");$("jumpLogs").title=nearLog?"Haut":"Journal";}
 window.addEventListener("scroll",updateJumpButton,{passive:true});updateJumpButton();
@@ -407,7 +1093,8 @@ function handleViewportResize(){const cw=document.documentElement.clientWidth;if
 window.addEventListener("resize",handleViewportResize,{passive:true});
 if(window.visualViewport)window.visualViewport.addEventListener("resize",handleViewportResize,{passive:true});
 window.addEventListener("orientationchange",()=>{setTimeout(()=>{lastLayoutWidth=document.documentElement.clientWidth;handleViewportResize();},120);},{passive:true});
-diagnostics().then(ok=>setStatus(ok?"Prêt — Hyperliquid API opérationnelle":"Diagnostic en échec — voir le détail ci-dessus"));
+loadPersistedCache();
+diagnostics().then(ok=>{setStatus(ok?"Prêt — Hyperliquid API opérationnelle":"Diagnostic en échec — voir le détail ci-dessus");if(ok)scheduleBigCompass();});
 })();
 </script>
 </body>

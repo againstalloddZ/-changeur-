@@ -22,7 +22,8 @@ h2{font-size:16px;font-weight:700;letter-spacing:-.01em;margin-bottom:10px;color
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(56,189,248,.2),transparent);z-index:12}
 @media(min-width:768px){.card{padding:24px}}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}
-@media(min-width:600px){.grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:600px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:900px){.grid{grid-template-columns:repeat(5,1fr)}}
 label{display:block;color:var(--text-secondary);font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:2px}
 input,select,button{width:100%;min-height:46px;border-radius:var(--radius-md);border:1px solid var(--border-secondary);background:var(--bg-input);color:var(--text-primary);padding:10px 14px;font-size:15px;font-family:inherit;transition:var(--transition);outline:none}
 input:focus,select:focus{border-color:var(--accent-cyan);box-shadow:0 0 0 3px rgba(56,189,248,.1)}
@@ -85,16 +86,18 @@ button:not(.primary):not(.danger):hover{border-color:var(--border-glow);backgrou
 .miniText .rankCoin{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .coinName{font-size:40px;font-weight:850;letter-spacing:-.02em;line-height:1}
 .coinName.up{color:var(--green)}.coinName.down{color:var(--red)}
-.miniCompass{flex:0 0 auto;display:flex;align-items:center;justify-content:center}
+.miniCompass{flex:0 0 auto;display:flex;align-items:center;justify-content:center;min-width:0}
 .miniClocks{flex:0 0 auto;display:flex;gap:12px;align-items:flex-start;justify-content:center;flex-wrap:wrap}
 .rankArrow{font-size:13px;font-weight:850;letter-spacing:.06em;padding:4px 9px;border-radius:var(--radius-sm);background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);line-height:1.2;font-family:'JetBrains Mono',monospace}
 .rankArrow.down{background:var(--red-bg);border:1px solid var(--red-border);color:var(--red)}
 .levBadge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:var(--radius-sm);background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);font-size:12px;font-weight:800;line-height:1.25;font-family:'JetBrains Mono',monospace}
 
 .expandedBody{margin-top:16px;padding-top:16px;border-top:1px dashed var(--border-primary);cursor:default;display:flex;flex-direction:column;gap:16px}
-.expandedChart{height:320px}
+/* Chart + compass côte à côte (desktop) → chart ~2x plus étroit qu'avant */
+.expandedChartCompassRow{display:grid;grid-template-columns:minmax(260px,1.05fr) minmax(0,1fr);gap:16px;align-items:center;justify-items:center}
+.expandedChart{height:320px;width:100%;min-width:0;justify-self:stretch}
 .expandedChart canvas{width:100%;height:100%;display:block;background:var(--bg-inner);border-radius:var(--radius-md);border:1px solid var(--border-primary)}
-.expandedCompass{display:flex;justify-content:center;align-items:center}
+.expandedCompass{display:flex;justify-content:center;align-items:center;min-width:0}
 .expandedScore{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;justify-content:flex-start}
 .expandedScore .metric{font-size:32px;font-weight:800;font-family:'JetBrains Mono',monospace;line-height:1}
 .expandedScore .metricRaw{font-size:18px;font-weight:800;font-family:'JetBrains Mono',monospace;opacity:.8}
@@ -125,8 +128,11 @@ button:not(.primary):not(.danger):hover{border-color:var(--border-glow);backgrou
 .fileHint .hintSteps li strong{color:var(--text-primary);display:inline;font-size:12px}
 
 .compass{display:block;margin:0 auto;border-radius:50%}
-.rankCard .compass.small-compass{width:260px;height:260px}
-.expandedCompass .compass.small-compass{width:300px;height:300px}
+/* ── Rank compass : wrap le SVG pour permettre un label HTML overlay ── */
+.rankCompassWrap{position:relative;display:inline-block;width:min(78vw,440px);height:min(78vw,440px);max-width:100%}
+.rankCompassWrap .compass.small-compass{width:100%!important;height:100%!important;max-width:none!important;margin:0}
+.rankCompassLabel{position:absolute;transform:translate(-50%,-50%);padding:6px 11px;background:rgba(8,20,32,.97);border:1px solid rgba(56,189,248,.7);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:800;color:var(--accent-cyan);white-space:nowrap;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.5),0 0 10px rgba(56,189,248,.15);z-index:2}
+.rankCompassLabel b{color:#e8f0fa;font-weight:900}
 .compass-ray.active{animation:compassRayPulse 2.4s ease-in-out infinite}
 @keyframes compassRayPulse{0%,100%{stroke-opacity:1}50%{stroke-opacity:.55}}
 @media (prefers-reduced-motion:reduce){.compass-ray.active{animation:none}}
@@ -135,16 +141,15 @@ button:not(.primary):not(.danger):hover{border-color:var(--border-glow);backgrou
 .bigCompassPanel h2{margin-bottom:4px}
 .compassIntro{color:var(--text-secondary);font-size:12px;margin-bottom:6px;line-height:1.5}
 .bigCompassWrap{position:relative;display:flex;align-items:center;justify-content:center;padding:22px 0 8px}
-.large-compass{display:block;width:min(96vw,780px);height:min(96vw,780px);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.large-compass{display:block;width:min(78vw,440px);height:min(78vw,440px);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 .large-compass .compass-ray{transition:opacity .18s ease,stroke-width .18s ease}
-.large-compass.has-hover .compass-ray{opacity:.08!important}
-.large-compass.has-hover .compass-ray.pinned{opacity:1!important;stroke-width:1.7!important;filter:drop-shadow(0 0 3px rgba(56,189,248,.7))}
-.large-compass.has-hover .compass-ray.hovered{opacity:1!important;stroke-width:2.5!important;filter:drop-shadow(0 0 6px rgba(56,189,248,1))}
+.large-compass.has-hover .compass-ray{opacity:.06!important}
+.large-compass.has-hover .compass-ray.pinned{opacity:1!important;stroke-width:0.35!important;filter:drop-shadow(0 0 3px rgba(56,189,248,.75))}
+.large-compass.has-hover .compass-ray.hovered{opacity:1!important;stroke-width:0.5!important;filter:drop-shadow(0 0 6px rgba(56,189,248,1))}
 .compassTooltip{position:absolute;transform:translate(-50%,-50%);padding:9px 14px;background:rgba(8,20,32,.97);border:1px solid rgba(56,189,248,.6);border-radius:10px;font-size:17px;font-family:'JetBrains Mono',monospace;color:var(--accent-cyan);font-weight:800;pointer-events:none;white-space:nowrap;z-index:5;box-shadow:0 4px 16px rgba(0,0,0,.5)}
 .compassTooltip b{color:#e8f0fa;font-weight:900}
 .compassTooltip[hidden]{display:none}
 
-/* ── PINNED LABELS (persistants autour de la boussole) ── */
 .pinnedLabels{position:absolute;inset:0;pointer-events:none;z-index:4}
 .pinnedLabel{position:absolute;transform:translate(-50%,-50%);padding:5px 10px;background:rgba(8,20,32,.95);border:1px solid rgba(56,189,248,.8);border-radius:9px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:800;color:var(--accent-cyan);white-space:nowrap;pointer-events:auto;cursor:pointer;display:flex;align-items:center;gap:6px;box-shadow:0 3px 12px rgba(0,0,0,.5),0 0 10px rgba(56,189,248,.15);transition:transform .12s ease,box-shadow .12s ease,background .12s ease;user-select:none;-webkit-user-select:none;animation:pinnedLabelIn .18s ease-out}
 .pinnedLabel:hover{background:rgba(12,28,44,.98);border-color:#38bdf8;box-shadow:0 3px 14px rgba(0,0,0,.55),0 0 16px rgba(56,189,248,.35);transform:translate(-50%,-50%) scale(1.04)}
@@ -153,7 +158,6 @@ button:not(.primary):not(.danger):hover{border-color:var(--border-glow);backgrou
 @keyframes pinnedLabelIn{from{opacity:0;transform:translate(-50%,-50%) scale(.85)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
 @media (prefers-reduced-motion:reduce){.pinnedLabel{animation:none}}
 
-/* ── PERPS LIST ── */
 .perpsListHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;padding-top:14px;border-top:1px solid var(--border-primary);flex-wrap:wrap}
 .perpsListHeader h3{font-size:13px;font-weight:800;color:var(--text-primary);letter-spacing:.01em}
 .perpsListHeader .perpsCount{font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
@@ -192,17 +196,14 @@ body.has-banner{padding-bottom:90px}
 .modalActions button{min-height:44px;font-size:13px}
 
 @media(max-width:900px){
-  .rankCard .compass.small-compass{width:220px;height:220px}
-  .expandedCompass .compass.small-compass{width:260px;height:260px}
   .coinName{font-size:34px}
 }
 @media(max-width:700px){
   .logActions{grid-template-columns:1fr}.perpControl{grid-column:span 1}.grid{grid-template-columns:1fr 1fr}
   main{padding:14px 12px}.diag{grid-template-columns:1fr 1fr}
   .actions{grid-template-columns:1fr 1fr}h1{font-size:24px}
-  .expandedChart{height:260px}
-  .rankCard .compass.small-compass{width:200px;height:200px}
-  .expandedCompass .compass.small-compass{width:230px;height:230px}
+  .expandedChartCompassRow{grid-template-columns:1fr;gap:12px}
+  .expandedChart{height:240px}
   .miniLayout{flex-direction:column;align-items:stretch;gap:8px}
   .miniText{width:100%}
   .miniText .rankCoin{justify-content:center}
@@ -214,7 +215,9 @@ body.has-banner{padding-bottom:90px}
   .movementDuration{font-size:11px}
   .coinName{font-size:30px}
   .card{padding:14px;border-radius:14px}
-  .large-compass{width:94vw;height:94vw}
+  .large-compass{width:88vw;height:88vw}
+  .rankCompassWrap{width:min(78vw,300px);height:min(78vw,300px)}
+  .rankCompassLabel{font-size:12px;padding:5px 9px}
   .compassTooltip{font-size:15px;padding:7px 11px}
   .pinnedLabel{font-size:11px;padding:4px 8px;border-radius:8px}
   .pinnedLabel .pinnedLabelDot{width:5px;height:5px}
@@ -227,7 +230,7 @@ body.has-banner{padding-bottom:90px}
   .perpItem{padding:7px 8px;font-size:11px}
   .perpItem .perpAngle{font-size:10px}
 }
-@media(max-width:420px){.grid{grid-template-columns:1fr}.diag{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.logActions{grid-template-columns:1fr}.perpsList{grid-template-columns:repeat(auto-fill,minmax(95px,1fr))}.pinnedLabel{font-size:10px;padding:3px 7px}}
+@media(max-width:420px){.grid{grid-template-columns:1fr}.diag{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.logActions{grid-template-columns:1fr}.perpsList{grid-template-columns:repeat(auto-fill,minmax(95px,1fr))}.pinnedLabel{font-size:10px;padding:3px 7px}.rankCompassLabel{font-size:11px;padding:4px 8px}.rankCompassWrap{width:min(85vw,280px);height:min(85vw,280px)}}
 ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:var(--bg-primary)}::-webkit-scrollbar-thumb{background:var(--border-secondary);border-radius:99px}::-webkit-scrollbar-thumb:hover{background:var(--text-muted)}
 ::selection{background:rgba(56,189,248,.2);color:var(--text-primary)}
 </style>
@@ -238,7 +241,8 @@ body.has-banner{padding-bottom:90px}
 <div class="sub">Détection des plus grands mouvements de prix pondérés par le levier sur les marchés perpétuels Hyperliquid.</div>
 <section class="card">
 <div class="grid">
-<label>Heures<input id="hours" type="number" min="1" max="48" value="6"></label>
+<label>Heures<input id="hours" type="number" min="0" max="48" value="0"></label>
+<label>Minutes<input id="minutes" type="number" min="0" max="59" value="15"></label>
 <label>Bougies<select id="interval"><option>1m</option><option>3m</option><option selected>5m</option><option>15m</option><option>30m</option><option>1h</option><option>2h</option><option>4h</option><option>8h</option><option>12h</option><option>1d</option></select></label>
 <label>Concurrence<input id="concurrency" type="number" min="1" max="8" value="4"></label>
 <label class="perpControl">Perpétuels uniquement<input id="perpsOnly" type="checkbox" checked style="width:auto;min-height:auto;margin-right:8px"></label>
@@ -368,6 +372,7 @@ function fmtDateShort(ms){const d=new Date(ms);const dd=String(d.getDate()).padS
 function sameCalendarDay(a,b){const da=new Date(a),db=new Date(b);return da.getFullYear()===db.getFullYear()&&da.getMonth()===db.getMonth()&&da.getDate()===db.getDate();}
 function fmtTime(ms,o){return sameCalendarDay(ms,o)?fmtClock(ms):fmtClock(ms)+" · "+fmtDateShort(ms);}
 function fmtDuration(ms){const t=Math.max(0,Math.round(Math.abs(Number(ms)||0)/60000));if(t<60)return `${t} min`;const h=Math.floor(t/60),m=t%60;return m?`${h}h ${String(m).padStart(2,"0")}`:`${h}h`;}
+function fmtRangeLabel(hours,minutes){if(hours>0&&minutes>0)return `${hours}h ${String(minutes).padStart(2,"0")}m`;if(hours>0)return `${hours}h`;return `${minutes}m`;}
 function fmt(n){return Number(n).toLocaleString("fr-FR",{maximumFractionDigits:8})}
 function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);}
@@ -461,12 +466,13 @@ function compassNumbersSVG(){
   }
   return out;
 }
-function buildSmallCompass(angle,dir){
+function buildSmallCompass(angle,dir,opts={}){
   const up=dir==="up";
   const color=up?"#34d399":"#f87171";
   const uid="cmp"+(++compassUid);
   const p1=polarXY(50,50,RAY_START,angle);
   const p2=polarXY(50,50,RAY_END,angle);
+  const showPill=opts.showPill!==false;
   const lp=polarXY(50,50,PILL_CENTER_R,angle);
   const pr=pillRadius(angle);
   return `<svg class="compass small-compass" viewBox="0 0 100 100">
@@ -474,18 +480,26 @@ function buildSmallCompass(angle,dir){
 <circle cx="50" cy="50" r="${COMPASS_R_OUT}" fill="url(#cg_${uid})" stroke="rgba(45,212,191,.3)" stroke-width="0.7"/>
 ${compassTicksSVG()}
 ${compassNumbersSVG()}
-<line class="compass-ray active" x1="${p1.x.toFixed(2)}" y1="${p1.y.toFixed(2)}" x2="${p2.x.toFixed(2)}" y2="${p2.y.toFixed(2)}" stroke="${color}" stroke-width="2.2" stroke-linecap="round"/>
-<circle cx="${lp.x.toFixed(2)}" cy="${lp.y.toFixed(2)}" r="${pr}" fill="rgba(5,10,18,.96)" stroke="${color}" stroke-width="0.6"/>
-<text x="${lp.x.toFixed(2)}" y="${lp.y.toFixed(2)}" text-anchor="middle" dominant-baseline="central" font-size="11.6" font-weight="800" fill="${color}" font-family="'JetBrains Mono',monospace">${angle}°</text>
+<line class="compass-ray active" x1="${p1.x.toFixed(2)}" y1="${p1.y.toFixed(2)}" x2="${p2.x.toFixed(2)}" y2="${p2.y.toFixed(2)}" stroke="${color}" stroke-width="0.5" stroke-linecap="round"/>
+${showPill?`<circle cx="${lp.x.toFixed(2)}" cy="${lp.y.toFixed(2)}" r="${pr}" fill="rgba(5,10,18,.96)" stroke="${color}" stroke-width="0.6"/>
+<text x="${lp.x.toFixed(2)}" y="${lp.y.toFixed(2)}" text-anchor="middle" dominant-baseline="central" font-size="11.6" font-weight="800" fill="${color}" font-family="'JetBrains Mono',monospace">${angle}°</text>`:''}
 <circle cx="50" cy="50" r="1.8" fill="${color}" opacity="0.9"/>
 </svg>`;
+}
+/* Rank compass: SVG + HTML label overlay positionné à l'angle du rayon (comme le tooltip de la grande boussole) */
+function buildRankCompassBlock(coin, angle, dir){
+  const compassSvg = buildSmallCompass(angle, dir, {showPill:false});
+  const rad=(angle-90)*Math.PI/180;
+  const leftPct = 50 + Math.cos(rad) * PILL_CENTER_R;
+  const topPct  = 50 + Math.sin(rad) * PILL_CENTER_R;
+  return `<div class="rankCompassWrap">${compassSvg}<div class="rankCompassLabel" style="left:${leftPct.toFixed(3)}%;top:${topPct.toFixed(3)}%"><b>${escapeHtml(coin)}</b> — ${angle}°</div></div>`;
 }
 function buildLargeCompass(coins){
   const uid="lgc"+(++compassUid);
   let rays="";
   for(const c of coins){
     const p1=polarXY(50,50,RAY_START,c.angle),p2=polarXY(50,50,RAY_END,c.angle);
-    rays+=`<line class="compass-ray" data-coin="${escapeHtml(c.coin)}" data-angle="${c.angle}" x1="${p1.x.toFixed(3)}" y1="${p1.y.toFixed(3)}" x2="${p2.x.toFixed(3)}" y2="${p2.y.toFixed(3)}" stroke="#38bdf8" stroke-width="0.42" stroke-linecap="round" opacity="0.32"/>`;
+    rays+=`<line class="compass-ray" data-coin="${escapeHtml(c.coin)}" data-angle="${c.angle}" x1="${p1.x.toFixed(3)}" y1="${p1.y.toFixed(3)}" x2="${p2.x.toFixed(3)}" y2="${p2.y.toFixed(3)}" stroke="#38bdf8" stroke-width="0.15" stroke-linecap="round" opacity="0.32"/>`;
   }
   return `<svg class="compass large-compass" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
 <defs><radialGradient id="cg_${uid}" cx="50%" cy="45%"><stop offset="0%" stop-color="#0a1422"/><stop offset="100%" stop-color="#050a12"/></radialGradient></defs>
@@ -596,7 +610,7 @@ function buildMiniLayoutHTML(r, expanded){
     </div>`;
   } else {
     const angle=state.angleMap[r.coin]||1;
-    right=`<div class="miniCompass">${buildSmallCompass(angle,r.direction)}</div>`;
+    right=`<div class="miniCompass">${buildRankCompassBlock(r.coin, angle, r.direction)}</div>`;
   }
   return `<div class="miniLayout">
     <div class="miniText">
@@ -612,11 +626,13 @@ function buildExpandedHTML(r){
   const wmSvg=(t,f)=>`<svg class="wm-svg" viewBox="0 0 100 50" preserveAspectRatio="none"><text x="50" y="42" text-anchor="middle" textLength="100" lengthAdjust="spacingAndGlyphs" font-size="50" font-weight="900" fill="${f}" font-family="Inter,-apple-system,sans-serif">${t}</text></svg>`;
   const watermark=`<div class="watermark" aria-hidden="true"><div class="wm-half">${wmSvg(up?"LONG":"SHORT",wmFillTop)}</div><div class="wm-half">${wmSvg(r.coin,wmFillBottom)}</div></div>`;
   const angle=state.angleMap[r.coin]||1;
-  const compassSvg=buildSmallCompass(angle,r.direction);
+  const compassBlock=buildRankCompassBlock(r.coin, angle, r.direction);
   const sign=up?"+":"−";
   return `${watermark}
-<div class="expandedChart"><canvas></canvas></div>
-<div class="expandedCompass">${compassSvg}</div>
+<div class="expandedChartCompassRow">
+  <div class="expandedChart"><canvas></canvas></div>
+  <div class="expandedCompass">${compassBlock}</div>
+</div>
 <div class="expandedScore">
   <div class="metric ${up?"up":"down"}">${r.score.toFixed(2)}%</div>
   <div class="metricRaw ${up?"up":"down"}">${sign}${r.move.toFixed(2)}%</div>
@@ -794,7 +810,6 @@ $("rows").addEventListener("click", e=>{
   if(idx>=0)toggleExpand(idx);
 });
 
-/* ── BIG COMPASS ── */
 function getUniverseCoins(){
   if(!state.cache||!state.cache.universe)return[];
   const out=[];
@@ -815,7 +830,7 @@ function renderBigCompass(){
   panel.hidden=false;tooltip.hidden=true;
   state.compassSVG=svgEl;
   state.compassCoins=coins;
-  state.lastPinnedSig=""; // force rebuild des labels au resize
+  state.lastPinnedSig="";
   buildPerpsList(coins);
   setupCompassInteraction(svgEl,coins,tooltip);
   updateCompassHighlight();
@@ -836,7 +851,6 @@ function positionCompassTooltip(svg,tooltip,angle,coin){
   tooltip.hidden=false;
 }
 
-/* ── PERSISTENT PINNED LABELS ── */
 const PIN_RING_RADII=[PILL_CENTER_R, PILL_CENTER_R+14, PILL_CENTER_R+28, PILL_CENTER_R+42, PILL_CENTER_R+56];
 const PIN_RING_THRESHOLDS=[24, 17, 13, 10, 8];
 function renderPinnedLabels(svg, coins, pinnedSet){
@@ -882,7 +896,6 @@ function updatePinnedLabels(force){
   state.lastPinnedSig=sig;
   renderPinnedLabels(state.compassSVG, state.compassCoins, state.compassPinned);
 }
-/* Event delegation unique sur le conteneur — évite de rebinder à chaque rebuild */
 (function bindPinnedLabelsEvents(){
   const container=$("pinnedLabels");
   if(!container || container.dataset.bound)return;
@@ -937,7 +950,6 @@ function updateCompassHighlight(){
     }
   }
   $("perpsCount").textContent=pinned.size?`${pinned.size} épinglé${pinned.size>1?"s":""}`:`${coins.length} perps`;
-  // Tooltip seulement si on survole un perp NON épinglé (sinon son label persistant suffit)
   if(hover && !pinned.has(hover)){
     const c=coins.find(x=>x.coin===hover);
     if(c)positionCompassTooltip(svg,tooltip,c.angle,c.coin);
@@ -1029,7 +1041,6 @@ function setupCompassInteraction(svg,coins,tooltip){
       else if(state.compassPinned.has(n.coin)){state.compassPinned.delete(n.coin);}
       else{state.compassPinned.add(n.coin);}
     } else if(downPos.pointerType!=="mouse"){
-      // Touch : après un drag, on efface le hover (le doigt est parti)
       state.compassHover=null;
     }
     downPos=null;
@@ -1053,15 +1064,24 @@ async function scan(){
   scanAbortController=new AbortController();
   $("finishNow").hidden=false;$("showRankingEarly").hidden=false;$("error").textContent="";
   if(!state.cache){if(!(await diagnostics())){state.scanning=false;$("finishNow").hidden=true;return;}}
-  const hours=Math.max(1,Math.min(48,+$("hours").value||6)),interval=$("interval").value;
+  const hours=Math.max(0,Math.min(48,+$("hours").value||0));
+  const minutes=Math.max(0,Math.min(59,+$("minutes").value||0));
+  const totalMinutes=hours*60+minutes;
+  if(totalMinutes<1){
+    setStatus("Durée invalide : minimum 1 minute (heures + minutes cumulées)");
+    state.scanning=false;$("finishNow").hidden=true;$("showRankingEarly").hidden=true;
+    return;
+  }
+  const rangeLabel=fmtRangeLabel(hours,minutes);
+  const interval=$("interval").value;
   const conc=Math.max(1,Math.min(8,+$("concurrency").value||4));
   let markets=state.cache.universe.filter(x=>!x.isDelisted&&Number(x.maxLeverage)>0);
-  const now=Date.now(),start=now-hours*3600000;
+  const now=Date.now(),start=now-totalMinutes*60000;
   state.results=[];state.expandedIdx=null;render();
   scanStats={requested:markets.length,success:0,retries:0,failed:0,failedCoins:[],started:0,finished:0};
   requestSequence=0;
-  setStatus(`Scan de ${markets.length} perps…`,0);
-  logEvent("INFO","SCAN START",new Error(`${markets.length} perps — ${interval} — ${hours}h`),{markets:markets.length,interval,hours,concurrency:conc,maxRetries:MAX_RETRIES});
+  setStatus(`Scan de ${markets.length} perps sur ${rangeLabel}…`,0);
+  logEvent("INFO","SCAN START",new Error(`${markets.length} perps — ${interval} — ${rangeLabel}`),{markets:markets.length,interval,range:rangeLabel,totalMinutes,hours,minutes,concurrency:conc,maxRetries:MAX_RETRIES});
   let next=0,done=0;
   async function worker(){
     while(true){

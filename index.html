@@ -64,8 +64,8 @@ button:not(.primary):not(.danger):hover{border-color:var(--border-glow);backgrou
 .wm-half{height:50%;width:100%;overflow:hidden}.wm-svg{width:100%;height:100%;display:block}
 
 .svg-clock{display:block;margin:0 auto;border-radius:50%}
-.static-clock{width:116px;height:116px}
-.anim-clock{width:88px;height:88px}
+.static-clock{width:100px;height:100px}
+.anim-clock{width:76px;height:76px}
 .svg-clock .hour-hand{transition:transform 1.4s cubic-bezier(.45,0,.15,1)}
 .svg-clock .min-hand{transition:transform .8s cubic-bezier(.45,0,.15,1)}
 .svg-clock.anim-clock .hour-hand,.svg-clock.anim-clock .min-hand{transition:none!important}
@@ -86,6 +86,7 @@ button:not(.primary):not(.danger):hover{border-color:var(--border-glow);backgrou
 .coinName{font-size:40px;font-weight:850;letter-spacing:-.02em;line-height:1}
 .coinName.up{color:var(--green)}.coinName.down{color:var(--red)}
 .miniCompass{flex:0 0 auto;display:flex;align-items:center;justify-content:center}
+.miniClocks{flex:0 0 auto;display:flex;gap:12px;align-items:flex-start;justify-content:center;flex-wrap:wrap}
 .rankArrow{font-size:13px;font-weight:850;letter-spacing:.06em;padding:4px 9px;border-radius:var(--radius-sm);background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);line-height:1.2;font-family:'JetBrains Mono',monospace}
 .rankArrow.down{background:var(--red-bg);border:1px solid var(--red-border);color:var(--red)}
 .levBadge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:var(--radius-sm);background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);font-size:12px;font-weight:800;line-height:1.25;font-family:'JetBrains Mono',monospace}
@@ -93,15 +94,14 @@ button:not(.primary):not(.danger):hover{border-color:var(--border-glow);backgrou
 .expandedBody{margin-top:16px;padding-top:16px;border-top:1px dashed var(--border-primary);cursor:default;display:flex;flex-direction:column;gap:16px}
 .expandedChart{height:320px}
 .expandedChart canvas{width:100%;height:100%;display:block;background:var(--bg-inner);border-radius:var(--radius-md);border:1px solid var(--border-primary)}
-.expandedClocks .rankClockPair{display:flex;width:100%;gap:4px;justify-content:space-between;align-items:flex-start}
 .expandedCompass{display:flex;justify-content:center;align-items:center}
 .expandedScore{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;justify-content:flex-start}
 .expandedScore .metric{font-size:32px;font-weight:800;font-family:'JetBrains Mono',monospace;line-height:1}
 .expandedScore .metricRaw{font-size:18px;font-weight:800;font-family:'JetBrains Mono',monospace;opacity:.8}
 
 .miniClockWrap{text-align:center;min-width:0;flex:0 0 auto}
-.miniDigital{font-size:16px;font-weight:850;line-height:1.05;margin-bottom:4px;font-family:'JetBrains Mono',monospace}
-.movementDuration{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:800;color:var(--text-primary);text-align:center;margin-bottom:4px;line-height:1.2;white-space:nowrap}
+.miniDigital{font-size:14px;font-weight:850;line-height:1.05;margin-bottom:4px;font-family:'JetBrains Mono',monospace}
+.movementDuration{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:800;color:var(--text-primary);text-align:center;margin-bottom:4px;line-height:1.2;white-space:nowrap}
 
 .rankingToggle{margin-top:12px}.rankingToggle button{min-height:44px;font-size:13px}
 .preRankingAction{margin-top:14px;text-align:center}.preRankingAction button{width:100%}
@@ -135,13 +135,42 @@ button:not(.primary):not(.danger):hover{border-color:var(--border-glow);backgrou
 .bigCompassPanel h2{margin-bottom:4px}
 .compassIntro{color:var(--text-secondary);font-size:12px;margin-bottom:6px;line-height:1.5}
 .bigCompassWrap{position:relative;display:flex;align-items:center;justify-content:center;padding:22px 0 8px}
-.large-compass{display:block;width:min(96vw,780px);height:min(96vw,780px);touch-action:manipulation;user-select:none}
+.large-compass{display:block;width:min(96vw,780px);height:min(96vw,780px);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 .large-compass .compass-ray{transition:opacity .18s ease,stroke-width .18s ease}
 .large-compass.has-hover .compass-ray{opacity:.08!important}
-.large-compass.has-hover .compass-ray.hovered,.large-compass.has-hover .compass-ray.pinned{opacity:1!important;stroke-width:1.8!important;filter:drop-shadow(0 0 3px rgba(56,189,248,.8))}
+.large-compass.has-hover .compass-ray.pinned{opacity:1!important;stroke-width:1.7!important;filter:drop-shadow(0 0 3px rgba(56,189,248,.7))}
+.large-compass.has-hover .compass-ray.hovered{opacity:1!important;stroke-width:2.5!important;filter:drop-shadow(0 0 6px rgba(56,189,248,1))}
 .compassTooltip{position:absolute;transform:translate(-50%,-50%);padding:9px 14px;background:rgba(8,20,32,.97);border:1px solid rgba(56,189,248,.6);border-radius:10px;font-size:17px;font-family:'JetBrains Mono',monospace;color:var(--accent-cyan);font-weight:800;pointer-events:none;white-space:nowrap;z-index:5;box-shadow:0 4px 16px rgba(0,0,0,.5)}
 .compassTooltip b{color:#e8f0fa;font-weight:900}
 .compassTooltip[hidden]{display:none}
+
+/* ── PINNED LABELS (persistants autour de la boussole) ── */
+.pinnedLabels{position:absolute;inset:0;pointer-events:none;z-index:4}
+.pinnedLabel{position:absolute;transform:translate(-50%,-50%);padding:5px 10px;background:rgba(8,20,32,.95);border:1px solid rgba(56,189,248,.8);border-radius:9px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:800;color:var(--accent-cyan);white-space:nowrap;pointer-events:auto;cursor:pointer;display:flex;align-items:center;gap:6px;box-shadow:0 3px 12px rgba(0,0,0,.5),0 0 10px rgba(56,189,248,.15);transition:transform .12s ease,box-shadow .12s ease,background .12s ease;user-select:none;-webkit-user-select:none;animation:pinnedLabelIn .18s ease-out}
+.pinnedLabel:hover{background:rgba(12,28,44,.98);border-color:#38bdf8;box-shadow:0 3px 14px rgba(0,0,0,.55),0 0 16px rgba(56,189,248,.35);transform:translate(-50%,-50%) scale(1.04)}
+.pinnedLabel b{color:#e8f0fa;font-weight:900}
+.pinnedLabel .pinnedLabelDot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent-cyan);box-shadow:0 0 6px rgba(56,189,248,.9);flex:0 0 auto}
+@keyframes pinnedLabelIn{from{opacity:0;transform:translate(-50%,-50%) scale(.85)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@media (prefers-reduced-motion:reduce){.pinnedLabel{animation:none}}
+
+/* ── PERPS LIST ── */
+.perpsListHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;padding-top:14px;border-top:1px solid var(--border-primary);flex-wrap:wrap}
+.perpsListHeader h3{font-size:13px;font-weight:800;color:var(--text-primary);letter-spacing:.01em}
+.perpsListHeader .perpsCount{font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
+.perpsListHeader .perpsClear{width:auto;min-height:32px;padding:0 12px;font-size:12px;font-weight:700;color:var(--text-secondary);background:var(--bg-inner);border-color:var(--border-primary)}
+.perpsListHeader .perpsClear:hover{color:var(--accent-cyan);border-color:rgba(56,189,248,.4)}
+.perpsList{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;margin-top:10px;max-height:420px;overflow-y:auto;padding:2px;scrollbar-width:thin;scrollbar-color:var(--border-secondary) transparent}
+.perpsList::-webkit-scrollbar{width:8px}
+.perpsList::-webkit-scrollbar-track{background:transparent}
+.perpsList::-webkit-scrollbar-thumb{background:var(--border-secondary);border-radius:99px}
+.perpItem{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;background:var(--bg-inner);border:1px solid var(--border-primary);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:12px;cursor:pointer;transition:all .18s ease;user-select:none;-webkit-user-select:none}
+.perpItem:hover{border-color:var(--border-secondary);background:var(--bg-card-hover)}
+.perpItem.hovered{border-color:rgba(56,189,248,.55);background:rgba(56,189,248,.05)}
+.perpItem.pinned{border-color:var(--accent-cyan);background:rgba(56,189,248,.09);box-shadow:0 0 10px rgba(56,189,248,.15)}
+.perpItem .perpName{font-weight:700;color:var(--text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.perpItem.pinned .perpName{color:var(--accent-cyan);font-weight:800}
+.perpItem .perpAngle{color:var(--text-muted);font-weight:600;font-size:11px;flex:0 0 auto}
+.perpItem.pinned .perpAngle{color:var(--accent-cyan);font-weight:800}
 
 .pendingBanner{position:fixed;left:0;right:0;bottom:0;z-index:60;background:linear-gradient(180deg,rgba(251,191,36,.12),rgba(251,191,36,.06));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--yellow-border);padding:12px 16px;padding-bottom:max(12px,calc(12px + env(safe-area-inset-bottom)));display:flex;align-items:center;gap:14px;flex-wrap:wrap;box-shadow:0 -4px 20px rgba(0,0,0,.4)}
 .pendingBanner[hidden]{display:none}
@@ -178,17 +207,27 @@ body.has-banner{padding-bottom:90px}
   .miniText{width:100%}
   .miniText .rankCoin{justify-content:center}
   .miniCompass{justify-content:center}
+  .miniClocks{justify-content:center;gap:8px}
+  .static-clock{width:82px;height:82px}
+  .anim-clock{width:62px;height:62px}
+  .miniDigital{font-size:12px}
+  .movementDuration{font-size:11px}
   .coinName{font-size:30px}
   .card{padding:14px;border-radius:14px}
   .large-compass{width:94vw;height:94vw}
   .compassTooltip{font-size:15px;padding:7px 11px}
+  .pinnedLabel{font-size:11px;padding:4px 8px;border-radius:8px}
+  .pinnedLabel .pinnedLabelDot{width:5px;height:5px}
   .expandedScore{justify-content:center}
   .expandedScore .metric{font-size:26px}
   .expandedScore .metricRaw{font-size:15px}
   .pendingBanner{padding:10px 12px}
   .pendingBannerText{font-size:12px}
+  .perpsList{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:5px;max-height:340px}
+  .perpItem{padding:7px 8px;font-size:11px}
+  .perpItem .perpAngle{font-size:10px}
 }
-@media(max-width:420px){.grid{grid-template-columns:1fr}.diag{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.logActions{grid-template-columns:1fr}}
+@media(max-width:420px){.grid{grid-template-columns:1fr}.diag{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.logActions{grid-template-columns:1fr}.perpsList{grid-template-columns:repeat(auto-fill,minmax(95px,1fr))}.pinnedLabel{font-size:10px;padding:3px 7px}}
 ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:var(--bg-primary)}::-webkit-scrollbar-thumb{background:var(--border-secondary);border-radius:99px}::-webkit-scrollbar-thumb:hover{background:var(--text-muted)}
 ::selection{background:rgba(56,189,248,.2);color:var(--text-primary)}
 </style>
@@ -214,10 +253,17 @@ body.has-banner{padding-bottom:90px}
 <section class="card" id="rankingPanel" hidden><div id="count" class="muted">Aucun résultat</div><div id="rows" class="ranking"></div><div class="rankingToggle"><button id="toggleRanking">Afficher tout le classement</button></div></section>
 <section class="card bigCompassPanel" id="bigCompassPanel" hidden>
 <h2>🧭 Boussole des perps</h2>
-<div class="compassIntro">Chaque perp occupe une position unique et fixe (angle entier 1–360°). Survolez pour identifier, cliquez/touchez pour figer la sélection (re-cliquez pour libérer).</div>
+<div class="compassIntro">Chaque perp occupe une position unique et fixe (angle entier 1–360°). Survolez un rayon pour l'identifier. <strong>Cliquez/touchez un rayon pour l'épingler</strong> (plusieurs en même temps possibles, leur nom reste affiché autour de la boussole). Touchez à côté pour tout effacer. Sur mobile, faites glisser le doigt autour du cercle pour parcourir les rayons (le drag ne les épingle pas).</div>
 <div class="bigCompassWrap" id="bigCompassWrap">
 <div class="compassTooltip" id="compassTooltip" hidden></div>
+<div class="pinnedLabels" id="pinnedLabels"></div>
 </div>
+<div class="perpsListHeader">
+  <h3>📋 Liste des perps</h3>
+  <div class="perpsCount" id="perpsCount">—</div>
+  <button class="perpsClear" id="perpsClear" type="button">✕ Tout effacer</button>
+</div>
+<div class="perpsList" id="perpsList"></div>
 </section>
 <section class="card logPanel" id="logPanel">
 <h2>🧾 Journal d'activité & erreurs</h2>
@@ -260,211 +306,49 @@ body.has-banner{padding-bottom:90px}
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════════════════════════
-   COIN_ANGLES — Registre persistant des angles des perps sur la boussole
-   ─────────────────────────────────────────────────────────────────
-   Chaque entrée associe un nom de perp (ex: "BTC") à un angle entier
-   unique dans [1..360]. Cette liste est la source de vérité absolue :
-   elle garantit que chaque perp occupe EXACTEMENT la même position sur
-   la boussole, quel que soit l'appareil, le navigateur, le mode
-   (local / file:// / GitHub Pages).
-
-   Pour ajouter un nouveau listing :
-    1. Lancer l'outil → un bandeau jaune apparaît en bas de page
-    2. Cliquer sur « Générer la liste » → la liste complète s'affiche
-    3. Copier / coller cette liste dans le code source (ce bloc)
-   ═══════════════════════════════════════════════════════════════════ */
 const COIN_ANGLES = {
-  "0G": 188,
-  "2Z": 9,
-  "AAVE": 68,
-  "ACE": 291,
-  "ADA": 107,
-  "AERO": 53,
-  "AIXBT": 309,
-  "ALGO": 94,
-  "ALT": 54,
-  "ANIME": 28,
-  "APE": 131,
-  "APEX": 172,
-  "APT": 322,
-  "AR": 312,
-  "ARB": 29,
-  "ASTER": 40,
-  "ATOM": 63,
-  "AVAX": 26,
-  "AVNT": 193,
-  "AXS": 257,
-  "AZTEC": 88,
-  "BABY": 79,
-  "BANANA": 293,
-  "BCH": 300,
-  "BERA": 359,
-  "BIGTIME": 170,
-  "BIO": 307,
-  "BLUR": 292,
-  "BNB": 47,
-  "BOME": 192,
-  "BRETT": 51,
-  "BSV": 52,
-  "BTC": 106,
-  "CAKE": 244,
-  "CASHCAT": 264,
-  "CC": 162,
-  "CELO": 171,
-  "CFX": 45,
-  "CHIP": 146,
-  "COMP": 38,
-  "CRV": 178,
-  "DASH": 321,
-  "DOGE": 360,
-  "DOT": 295,
-  "DYDX": 326,
-  "DYM": 356,
-  "EIGEN": 55,
-  "ENA": 2,
-  "ENS": 237,
-  "ETC": 19,
-  "ETH": 249,
-  "ETHFI": 339,
-  "FARTCOIN": 173,
-  "FET": 320,
-  "FIL": 199,
-  "FOGO": 167,
-  "GALA": 344,
-  "GAS": 112,
-  "GMT": 30,
-  "GMX": 1,
-  "GOAT": 155,
-  "GRAM": 313,
-  "GRASS": 305,
-  "GRIFFAIN": 243,
-  "HBAR": 324,
-  "HEMI": 100,
-  "HMSTR": 207,
-  "HYPE": 70,
-  "HYPER": 160,
-  "ICP": 308,
-  "IMX": 142,
-  "INIT": 350,
-  "INJ": 213,
-  "IO": 24,
-  "IOTA": 163,
-  "JTO": 235,
-  "JUP": 56,
-  "KAITO": 141,
-  "KAS": 115,
-  "LAYER": 299,
-  "LDO": 32,
-  "LINEA": 159,
-  "LINK": 3,
-  "LIT": 201,
-  "LTC": 25,
-  "MANTA": 200,
-  "ME": 353,
-  "MEGA": 174,
-  "MELANIA": 137,
-  "MEME": 8,
-  "MERL": 297,
-  "MET": 104,
-  "MINA": 69,
-  "MNT": 354,
-  "MON": 294,
-  "MOODENG": 134,
-  "MORPHO": 298,
-  "MOVE": 124,
-  "NEAR": 10,
-  "NEO": 314,
-  "NIL": 338,
-  "NOT": 27,
-  "NXPC": 226,
-  "ONDO": 333,
-  "OP": 215,
-  "ORDI": 116,
-  "PAXG": 220,
-  "PENDLE": 74,
-  "PENGU": 358,
-  "PEOPLE": 296,
-  "PNUT": 247,
-  "POL": 355,
-  "POLYX": 77,
-  "PONS": 306,
-  "POPCAT": 241,
-  "PROVE": 284,
-  "PUMP": 175,
-  "PURR": 341,
-  "PYTH": 34,
-  "RENDER": 148,
-  "RESOLV": 57,
-  "REZ": 33,
-  "RSR": 248,
-  "RUNE": 245,
-  "S": 31,
-  "SAGA": 15,
-  "SAND": 46,
-  "SEI": 269,
-  "SKR": 58,
-  "SKY": 147,
-  "SNX": 44,
-  "SOL": 265,
-  "SOPH": 111,
-  "SPX": 261,
-  "STABLE": 176,
-  "STBL": 105,
-  "STRK": 357,
-  "STX": 227,
-  "SUI": 164,
-  "SUPER": 136,
-  "SUSHI": 59,
-  "SYRUP": 144,
-  "TAO": 310,
-  "TIA": 90,
-  "TNSR": 238,
-  "TRB": 4,
-  "TRUMP": 71,
-  "TRX": 161,
-  "TURBO": 301,
-  "UMA": 330,
-  "UNI": 5,
-  "USELESS": 211,
-  "USUAL": 165,
-  "VIRTUAL": 351,
-  "VVV": 60,
-  "W": 48,
-  "WCT": 6,
-  "WIF": 102,
-  "WLD": 66,
-  "WLFI": 108,
-  "XAI": 277,
-  "XLM": 325,
-  "XMR": 35,
-  "XPL": 262,
-  "XRP": 331,
-  "YGG": 132,
-  "ZEC": 156,
-  "ZEN": 91,
-  "ZETA": 89,
-  "ZK": 98,
-  "ZORA": 36,
-  "ZRO": 7,
-  "kBONK": 233,
-  "kFLOKI": 242,
-  "kLUNC": 177,
-  "kNEIRO": 311,
-  "kPEPE": 302,
-  "kSHIB": 246,
+  "0G": 188, "2Z": 9, "AAVE": 68, "ACE": 291, "ADA": 107, "AERO": 53, "AIXBT": 309,
+  "ALGO": 94, "ALT": 54, "ANIME": 28, "APE": 131, "APEX": 172, "APT": 322, "AR": 312,
+  "ARB": 29, "ASTER": 40, "ATOM": 63, "AVAX": 26, "AVNT": 193, "AXS": 257, "AZTEC": 88,
+  "BABY": 79, "BANANA": 293, "BCH": 300, "BERA": 359, "BIGTIME": 170, "BIO": 307,
+  "BLUR": 292, "BNB": 47, "BOME": 192, "BRETT": 51, "BSV": 52, "BTC": 106, "CAKE": 244,
+  "CASHCAT": 264, "CC": 162, "CELO": 171, "CFX": 45, "CHIP": 146, "COMP": 38, "CRV": 178,
+  "DASH": 321, "DOGE": 360, "DOT": 295, "DYDX": 326, "DYM": 356, "EIGEN": 55, "ENA": 2,
+  "ENS": 237, "ETC": 19, "ETH": 249, "ETHFI": 339, "FARTCOIN": 173, "FET": 320, "FIL": 199,
+  "FOGO": 167, "GALA": 344, "GAS": 112, "GMT": 30, "GMX": 1, "GOAT": 155, "GRAM": 313,
+  "GRASS": 305, "GRIFFAIN": 243, "HBAR": 324, "HEMI": 100, "HMSTR": 207, "HYPE": 70,
+  "HYPER": 160, "ICP": 308, "IMX": 142, "INIT": 350, "INJ": 213, "IO": 24, "IOTA": 163,
+  "JTO": 235, "JUP": 56, "KAITO": 141, "KAS": 115, "LAYER": 299, "LDO": 32, "LINEA": 159,
+  "LINK": 3, "LIT": 201, "LTC": 25, "MANTA": 200, "ME": 353, "MEGA": 174, "MELANIA": 137,
+  "MEME": 8, "MERL": 297, "MET": 104, "MINA": 69, "MNT": 354, "MON": 294, "MOODENG": 134,
+  "MORPHO": 298, "MOVE": 124, "NEAR": 10, "NEO": 314, "NIL": 338, "NOT": 27, "NXPC": 226,
+  "ONDO": 333, "OP": 215, "ORDI": 116, "PAXG": 220, "PENDLE": 74, "PENGU": 358,
+  "PEOPLE": 296, "PNUT": 247, "POL": 355, "POLYX": 77, "PONS": 306, "POPCAT": 241,
+  "PROVE": 284, "PUMP": 175, "PURR": 341, "PYTH": 34, "RENDER": 148, "RESOLV": 57,
+  "REZ": 33, "RSR": 248, "RUNE": 245, "S": 31, "SAGA": 15, "SAND": 46, "SEI": 269,
+  "SKR": 58, "SKY": 147, "SNX": 44, "SOL": 265, "SOPH": 111, "SPX": 261, "STABLE": 176,
+  "STBL": 105, "STRK": 357, "STX": 227, "SUI": 164, "SUPER": 136, "SUSHI": 59,
+  "SYRUP": 144, "TAO": 310, "TIA": 90, "TNSR": 238, "TRB": 4, "TRUMP": 71, "TRX": 161,
+  "TURBO": 301, "UMA": 330, "UNI": 5, "USELESS": 211, "USUAL": 165, "VIRTUAL": 351,
+  "VVV": 60, "W": 48, "WCT": 6, "WIF": 102, "WLD": 66, "WLFI": 108, "XAI": 277,
+  "XLM": 325, "XMR": 35, "XPL": 262, "XRP": 331, "YGG": 132, "ZEC": 156, "ZEN": 91,
+  "ZETA": 89, "ZK": 98, "ZORA": 36, "ZRO": 7, "kBONK": 233, "kFLOKI": 242,
+  "kLUNC": 177, "kNEIRO": 311, "kPEPE": 302, "kSHIB": 246,
 };
 const TOOL_VERSION="V33";
 window.addEventListener("DOMContentLoaded",()=>{const v=document.getElementById("toolVersion");if(v)v.textContent=TOOL_VERSION;});
 "use strict";
 (() => {
 const $=id=>document.getElementById(id);
-const state={cancel:false,finishEarly:false,scanning:false,results:[],cache:null,expandedIdx:null,showAll:false,displayRanking:false,angleMap:{},pendingCoins:[]};
+const state={
+  cancel:false,finishEarly:false,scanning:false,results:[],cache:null,
+  expandedIdx:null,showAll:false,displayRanking:false,angleMap:{},pendingCoins:[],
+  compassHover:null,compassPinned:new Set(),compassSVG:null,compassCoins:null,
+  lastPinnedSig:""
+};
 const RANKING_LIMIT=30;const MAX_RETRIES=6;const RETRY_DELAYS=[1000,2000,4000,8000,12000,20000];
 let scanAbortController=null;
 const LOG_KEY="hyperliquid_scanner_error_log_v1";const MAX_LOG_ENTRIES=1000;
-const CANDLE_CACHE=new Map();const CANDLE_TTL=5*60000;const CANDLE_STORE_KEY="hyperliquid_candle_cache_v1";
-const CANDLE_STORE_MAX_BYTES=3_500_000;
 let requestSequence=0;
 let scanStats={requested:0,success:0,retries:0,failed:0,failedCoins:[]};
 if(location.protocol==="file:"){const h=document.getElementById("fileHint");if(h)h.hidden=false;}
@@ -487,20 +371,18 @@ function fmtDuration(ms){const t=Math.max(0,Math.round(Math.abs(Number(ms)||0)/6
 function fmt(n){return Number(n).toLocaleString("fr-FR",{maximumFractionDigits:8})}
 function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);}
+function angularDistance(a,b){let d=Math.abs(a-b);if(d>180)d=360-d;return d;}
 
-/* ── SHA-256 (pure JS, sync) ── */
 const SHA256_K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
 function sha256(msg){
   const H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
   const rr=(v,n)=>(v>>>n)|(v<<(32-n));
   const bytes=new TextEncoder().encode(msg);
-  const l=bytes.length,bitLen=l*8;
-  const withOne=l+1;
+  const l=bytes.length,bitLen=l*8;const withOne=l+1;
   const padded=withOne+((56-withOne%64+64)%64)+8;
   const buf=new Uint8Array(padded);buf.set(bytes);buf[l]=0x80;
   const dv=new DataView(buf.buffer);
-  dv.setUint32(padded-8,Math.floor(bitLen/0x100000000));
-  dv.setUint32(padded-4,bitLen>>>0);
+  dv.setUint32(padded-8,Math.floor(bitLen/0x100000000));dv.setUint32(padded-4,bitLen>>>0);
   for(let cs=0;cs<padded;cs+=64){
     const w=new Uint32Array(64);
     for(let i=0;i<16;i++)w[i]=dv.getUint32(cs+i*4);
@@ -511,34 +393,18 @@ function sha256(msg){
   }
   return H.map(x=>x.toString(16).padStart(8,"0")).join("");
 }
-
 const ANGLE_SALT="hyperliquid-compass-v1";
 function assignAngles(coinNames){
   const map={};const taken=new Set();const pending=[];
-  for(const name of coinNames){
-    const a=COIN_ANGLES[name];
-    if(Number.isInteger(a)&&a>=1&&a<=360&&!taken.has(a)){map[name]=a;taken.add(a);}
-  }
-  for(const [name,a] of Object.entries(COIN_ANGLES)){
-    if(Number.isInteger(a)&&a>=1&&a<=360&&!coinNames.includes(name))taken.add(a);
-  }
+  for(const name of coinNames){const a=COIN_ANGLES[name];if(Number.isInteger(a)&&a>=1&&a<=360&&!taken.has(a)){map[name]=a;taken.add(a);}}
+  for(const [name,a] of Object.entries(COIN_ANGLES)){if(Number.isInteger(a)&&a>=1&&a<=360&&!coinNames.includes(name))taken.add(a);}
   const remaining=coinNames.filter(n=>map[n]==null).sort();
-  for(const name of remaining){
-    const hex=sha256(name+ANGLE_SALT);
-    const num=parseInt(hex.slice(0,8),16);
-    let angle=(num%360)+1;
-    let probe=0;
-    while(taken.has(angle)&&probe<360){angle=(angle%360)+1;probe++;}
-    map[name]=angle;taken.add(angle);pending.push(name);
-  }
+  for(const name of remaining){const hex=sha256(name+ANGLE_SALT);const num=parseInt(hex.slice(0,8),16);let angle=(num%360)+1;let probe=0;while(taken.has(angle)&&probe<360){angle=(angle%360)+1;probe++;}map[name]=angle;taken.add(angle);pending.push(name);}
   return {map,pending};
 }
-
 function generateAnglesCode(){
   const merged={...COIN_ANGLES};
-  for(const [name,a] of Object.entries(state.angleMap)){
-    if(!Number.isInteger(merged[name]))merged[name]=a;
-  }
+  for(const [name,a] of Object.entries(state.angleMap)){if(!Number.isInteger(merged[name]))merged[name]=a;}
   const keys=Object.keys(merged).sort();
   const lines=keys.map(k=>`  ${JSON.stringify(k)}: ${merged[k]},`);
   return `const COIN_ANGLES = {\n${lines.join("\n")}\n};`;
@@ -550,8 +416,7 @@ function showPendingBanner(pending){
   const preview=pending.slice(0,6).map(c=>escapeHtml(c)).join(", ");
   const more=pending.length>6?` … (+${pending.length-6})`:"";
   $("pendingList").innerHTML=`${preview}${more}`;
-  banner.hidden=false;
-  document.body.classList.add("has-banner");
+  banner.hidden=false;document.body.classList.add("has-banner");
 }
 function openAnglesModal(){$("anglesOutput").value=generateAnglesCode();$("anglesModal").hidden=false;}
 function closeAnglesModal(){$("anglesModal").hidden=true;}
@@ -563,17 +428,15 @@ $("copyAngles").onclick=async()=>{
   try{await navigator.clipboard.writeText(ta.value);setStatus("Liste copiée dans le presse-papiers");}
   catch(e){try{document.execCommand("copy");setStatus("Liste copiée");}catch(e2){err(e2,"Copie angles");}}
 };
-
 function polarXY(cx,cy,r,deg){const rad=(deg-90)*Math.PI/180;return{x:cx+r*Math.cos(rad),y:cy+r*Math.sin(rad)};}
 
-/* ── COMPASS GEOMETRY ── */
 let compassUid=0;
 const COMPASS_R_OUT=24;
 const COMPASS_R_TICK_INNER=19;
 const COMPASS_NUM_R=15;
 const RAY_START=4;
 const RAY_END=26;
-const PILL_CENTER_R=32;   // rapproché du bout du rayon (rayon finit à 26)
+const PILL_CENTER_R=32;
 function pillRadius(angle){const n=String(angle).length;if(n<=1)return 7;if(n===2)return 9.5;if(n===3)return 12;return 14.5;}
 function compassTicksSVG(){
   let out="";
@@ -659,17 +522,7 @@ async function api(op,params={},options={}){
   }
   throw lastError||new Error("Requête API échouée");
 }
-function candleCacheKey(coin,interval,endTime){const bucket=Math.floor(endTime/300000);return `${coin}|${interval}|${bucket}`;}
-function readCandleCache(coin,interval,endTime){const key=candleCacheKey(coin,interval,endTime);const hit=CANDLE_CACHE.get(key);if(hit&&hit.expiry>Date.now())return hit.data;return null;}
-function writeCandleCache(coin,interval,endTime,data){const key=candleCacheKey(coin,interval,endTime);CANDLE_CACHE.set(key,{data,expiry:Date.now()+CANDLE_TTL});}
-let persistCacheScheduled=false;
-function schedulePersistCache(){
-  if(persistCacheScheduled)return;persistCacheScheduled=true;
-  const run=()=>{persistCacheScheduled=false;try{const entries=[];const now=Date.now();for(const [k,v] of CANDLE_CACHE){if(v.expiry>now)entries.push([k,v.data]);}const json=JSON.stringify(entries);if(json.length<CANDLE_STORE_MAX_BYTES)localStorage.setItem(CANDLE_STORE_KEY,json);}catch{}};
-  (window.requestIdleCallback||setTimeout)(run,{timeout:500});
-}
-function loadPersistedCache(){try{const json=localStorage.getItem(CANDLE_STORE_KEY);if(!json)return;const entries=JSON.parse(json);const now=Date.now();for(const [k,data] of entries){CANDLE_CACHE.set(k,{data,expiry:now+CANDLE_TTL});}}catch{}}
-async function fetchCandles(coin,interval,startTime,endTime,signal){const cached=readCandleCache(coin,interval,endTime);if(cached)return cached;const raw=await api("candles",{coin,interval,startTime,endTime},{signal});writeCandleCache(coin,interval,endTime,raw);schedulePersistCache();return raw;}
+async function fetchCandles(coin,interval,startTime,endTime,signal){return await api("candles",{coin,interval,startTime,endTime},{signal});}
 
 async function diagnostics(){
   const isFile=location.protocol==="file:";mark("djs","OK","ok");mark("dorigin",isFile?"fichier local (file://)":location.origin,isFile?"wait":"ok");
@@ -684,8 +537,7 @@ async function diagnostics(){
     state.cache=meta;
     const coinNames=meta.universe.filter(x=>!x.isDelisted&&Number(x.maxLeverage)>0).map(x=>x.name);
     const {map,pending}=assignAngles(coinNames);
-    state.angleMap=map;
-    state.pendingCoins=pending;
+    state.angleMap=map;state.pendingCoins=pending;
     logEvent("INFO","ANGLES",new Error(`persistants=${coinNames.length-pending.length} / pending=${pending.length}`),{pendingCoins:pending.join(", ")});
     showPendingBanner(pending);
     return true;
@@ -728,57 +580,61 @@ function initAnimatedClocks(){
   animRaf=requestAnimationFrame(tick);
 }
 
-function buildMiniHTML(r){
+function buildMiniLayoutHTML(r, expanded){
   const up=r.direction==="up";
-  const angle=state.angleMap[r.coin]||1;
   const dirLabel=up?"LONG":"SHORT";
-  const compassSvg=buildSmallCompass(angle,r.direction);
+  let right;
+  if(expanded){
+    const dir=up?"up":"down";
+    const svgStart=buildSVGClock(r.startT,{anim:false,direction:dir});
+    const svgEnd=buildSVGClock(r.endT,{anim:false,direction:dir});
+    const svgAnim=buildSVGClock(r.startT,{anim:true,startT:r.startT,endT:r.endT,direction:dir});
+    right=`<div class="miniClocks">
+      <div class="miniClockWrap"><div class="miniDigital">${fmtTime(r.startT,r.endT)}</div>${svgStart}</div>
+      <div class="miniClockWrap"><div class="movementDuration">+${fmtDuration(r.endT-r.startT)}</div>${svgAnim}</div>
+      <div class="miniClockWrap"><div class="miniDigital">${fmtTime(r.endT,r.startT)}</div>${svgEnd}</div>
+    </div>`;
+  } else {
+    const angle=state.angleMap[r.coin]||1;
+    right=`<div class="miniCompass">${buildSmallCompass(angle,r.direction)}</div>`;
+  }
   return `<div class="miniLayout">
     <div class="miniText">
       <div class="rankCoin"><span class="coinName ${up?"up":"down"}">${escapeHtml(r.coin)}</span><span class="rankArrow ${up?"up":"down"}">${dirLabel}</span><span class="levBadge">${r.leverage}×</span></div>
     </div>
-    <div class="miniCompass">${compassSvg}</div>
+    ${right}
   </div>`;
 }
 function buildExpandedHTML(r){
   const up=r.direction==="up";
-  const dir=up?"up":"down";
-  const digitalClass="miniDigital";
   const wmFillTop="rgba(232,240,250,0.035)";
   const wmFillBottom=up?"rgba(52,211,153,0.045)":"rgba(248,113,113,0.045)";
   const wmSvg=(t,f)=>`<svg class="wm-svg" viewBox="0 0 100 50" preserveAspectRatio="none"><text x="50" y="42" text-anchor="middle" textLength="100" lengthAdjust="spacingAndGlyphs" font-size="50" font-weight="900" fill="${f}" font-family="Inter,-apple-system,sans-serif">${t}</text></svg>`;
-  /* Watermark inversé : LONG/SHORT en haut, nom du coin en bas */
   const watermark=`<div class="watermark" aria-hidden="true"><div class="wm-half">${wmSvg(up?"LONG":"SHORT",wmFillTop)}</div><div class="wm-half">${wmSvg(r.coin,wmFillBottom)}</div></div>`;
-  const svgStart=buildSVGClock(r.startT,{anim:false,direction:dir});
-  const svgEnd=buildSVGClock(r.endT,{anim:false,direction:dir});
-  const svgAnim=buildSVGClock(r.startT,{anim:true,startT:r.startT,endT:r.endT,direction:dir});
   const angle=state.angleMap[r.coin]||1;
   const compassSvg=buildSmallCompass(angle,r.direction);
   const sign=up?"+":"−";
   return `${watermark}
 <div class="expandedChart"><canvas></canvas></div>
-<div class="expandedClocks"><div class="rankClockPair">
-  <div class="miniClockWrap"><div class="${digitalClass}">${fmtTime(r.startT,r.endT)}</div>${svgStart}</div>
-  <div class="miniClockWrap"><div class="movementDuration">+${fmtDuration(r.endT-r.startT)}</div>${svgAnim}</div>
-  <div class="miniClockWrap"><div class="${digitalClass}">${fmtTime(r.endT,r.startT)}</div>${svgEnd}</div>
-</div></div>
 <div class="expandedCompass">${compassSvg}</div>
 <div class="expandedScore">
   <div class="metric ${up?"up":"down"}">${r.score.toFixed(2)}%</div>
   <div class="metricRaw ${up?"up":"down"}">${sign}${r.move.toFixed(2)}%</div>
 </div>`;
 }
+function buildCardHTML(r, expanded){return buildMiniLayoutHTML(r, expanded) + (expanded ? `<div class="expandedBody">${buildExpandedHTML(r)}</div>` : "");}
+
 function toggleExpand(idx){
   const body=$("rows");
   const cards=body.querySelectorAll(".rankCard");
   if(state.expandedIdx!=null&&state.expandedIdx!==idx){
     const prev=cards[state.expandedIdx];
-    if(prev){prev.classList.remove("selected");const eb=prev.querySelector(".expandedBody");if(eb)eb.remove();}
+    if(prev){prev.classList.remove("selected");const pr=state.results[state.expandedIdx];if(pr)prev.innerHTML=buildCardHTML(pr,false);}
   }
   if(state.expandedIdx===idx){
     state.expandedIdx=null;
     const cur=cards[idx];
-    if(cur){cur.classList.remove("selected");const eb=cur.querySelector(".expandedBody");if(eb)eb.remove();}
+    if(cur){cur.classList.remove("selected");const cr=state.results[idx];if(cr)cur.innerHTML=buildCardHTML(cr,false);}
     return;
   }
   state.expandedIdx=idx;
@@ -787,14 +643,10 @@ function toggleExpand(idx){
   cur.classList.add("selected");
   const r=state.results[idx];
   if(!r)return;
-  const eb=document.createElement("div");
-  eb.className="expandedBody";
-  eb.innerHTML=buildExpandedHTML(r);
-  cur.appendChild(eb);
-  eb.addEventListener("click",e=>e.stopPropagation());
+  cur.innerHTML=buildCardHTML(r,true);
   requestAnimationFrame(()=>{
     setSVGClocks();initAnimatedClocks();
-    const canvas=eb.querySelector("canvas");
+    const canvas=cur.querySelector("canvas");
     if(canvas)requestAnimationFrame(()=>draw(r,canvas));
   });
 }
@@ -920,25 +772,29 @@ function render(){
   visible.forEach((r,idx)=>{
     const card=document.createElement("div");
     card.className="rankCard"+(state.expandedIdx===idx?" selected":"");
-    card.innerHTML=buildMiniHTML(r);
-    card.addEventListener("click",e=>{if(e.target.closest(".expandedBody"))return;toggleExpand(idx);});
+    card.innerHTML=buildCardHTML(r, state.expandedIdx===idx);
     body.appendChild(card);
-    if(state.expandedIdx===idx){
-      const eb=document.createElement("div");
-      eb.className="expandedBody";
-      eb.innerHTML=buildExpandedHTML(r);
-      eb.addEventListener("click",e=>e.stopPropagation());
-      card.appendChild(eb);
-    }
   });
   setSVGClocks();initAnimatedClocks();
   $("count").textContent=Math.max(0,state.results.length)+" mouvement(s)";
   const t=$("toggleRanking");
   if(state.results.length>RANKING_LIMIT){t.hidden=false;t.textContent=state.showAll?"Afficher seulement les 30 premiers":`Afficher tout le classement (${state.results.length})`;}
   else t.hidden=true;
-  if(state.expandedIdx!=null){const cur=body.children[state.expandedIdx];if(cur){const canvas=cur.querySelector("canvas");if(canvas){const r=state.results[state.expandedIdx];if(r)requestAnimationFrame(()=>draw(r,canvas));}}}
+  if(state.expandedIdx!=null){
+    const cur=body.children[state.expandedIdx];
+    if(cur){const canvas=cur.querySelector("canvas");const r=state.results[state.expandedIdx];if(canvas&&r)requestAnimationFrame(()=>draw(r,canvas));}
+  }
 }
+$("rows").addEventListener("click", e=>{
+  if(e.target.closest(".expandedBody"))return;
+  const card=e.target.closest(".rankCard");
+  if(!card)return;
+  const parent=card.parentElement;
+  const idx=[...parent.children].indexOf(card);
+  if(idx>=0)toggleExpand(idx);
+});
 
+/* ── BIG COMPASS ── */
 function getUniverseCoins(){
   if(!state.cache||!state.cache.universe)return[];
   const out=[];
@@ -957,7 +813,13 @@ function renderBigCompass(){
   const svgEl=tmp.firstElementChild;
   wrap.appendChild(svgEl);
   panel.hidden=false;tooltip.hidden=true;
-  setupCompassHover(svgEl,coins,tooltip);
+  state.compassSVG=svgEl;
+  state.compassCoins=coins;
+  state.lastPinnedSig=""; // force rebuild des labels au resize
+  buildPerpsList(coins);
+  setupCompassInteraction(svgEl,coins,tooltip);
+  updateCompassHighlight();
+  updatePinnedLabels(true);
 }
 function scheduleBigCompass(){(window.requestIdleCallback||setTimeout)(()=>renderBigCompass(),{timeout:400});}
 function positionCompassTooltip(svg,tooltip,angle,coin){
@@ -973,32 +835,152 @@ function positionCompassTooltip(svg,tooltip,angle,coin){
   tooltip.innerHTML=`<b>${escapeHtml(coin)}</b> — ${angle}°`;
   tooltip.hidden=false;
 }
-function setupCompassHover(svg,coins,tooltip){
-  let hoverCoin=null;
-  let pinnedCoin=null;
-  function applyHighlight(){
-    svg.querySelectorAll(".compass-ray.hovered").forEach(r=>r.classList.remove("hovered"));
-    svg.querySelectorAll(".compass-ray.pinned").forEach(r=>r.classList.remove("pinned"));
-    if(hoverCoin||pinnedCoin)svg.classList.add("has-hover");
-    else svg.classList.remove("has-hover");
-    if(pinnedCoin){
-      for(const el of svg.querySelectorAll(".compass-ray")){if(el.dataset.coin===pinnedCoin){el.classList.add("pinned");break;}}
-    }
-    if(hoverCoin){
-      for(const el of svg.querySelectorAll(".compass-ray")){if(el.dataset.coin===hoverCoin){el.classList.add("hovered");break;}}
-    }
-    const focus=hoverCoin||pinnedCoin;
-    if(focus){
-      const c=coins.find(x=>x.coin===focus);
-      if(c)positionCompassTooltip(svg,tooltip,c.angle,c.coin);
-      else tooltip.hidden=true;
-    }else{tooltip.hidden=true;}
+
+/* ── PERSISTENT PINNED LABELS ── */
+const PIN_RING_RADII=[PILL_CENTER_R, PILL_CENTER_R+14, PILL_CENTER_R+28, PILL_CENTER_R+42, PILL_CENTER_R+56];
+const PIN_RING_THRESHOLDS=[24, 17, 13, 10, 8];
+function renderPinnedLabels(svg, coins, pinnedSet){
+  const container=$("pinnedLabels");
+  if(!container)return;
+  container.innerHTML="";
+  if(!svg||!coins||!pinnedSet.size)return;
+  const items=[];
+  for(const name of pinnedSet){
+    const c=coins.find(x=>x.coin===name);
+    if(c)items.push({coin:c.coin,angle:c.angle});
   }
-  function clearHover(){hoverCoin=null;applyHighlight();}
+  items.sort((a,b)=>a.angle-b.angle);
+  const svgRect=svg.getBoundingClientRect();
+  const wrapRect=container.parentElement.getBoundingClientRect();
+  const cx=svgRect.left-wrapRect.left+svgRect.width/2;
+  const cy=svgRect.top-wrapRect.top+svgRect.height/2;
+  const unitPx=Math.min(svgRect.width,svgRect.height)/100;
+  const placed=[];
+  for(const item of items){
+    let chosenRing=0;
+    for(let i=0;i<PIN_RING_RADII.length;i++){
+      const conflict=placed.some(p=>p.ring===i && angularDistance(p.angle,item.angle)<PIN_RING_THRESHOLDS[i]);
+      if(!conflict){chosenRing=i;break;}
+    }
+    placed.push({angle:item.angle, ring:chosenRing});
+    const r=PIN_RING_RADII[chosenRing];
+    const rad=(item.angle-90)*Math.PI/180;
+    const px=cx+Math.cos(rad)*r*unitPx;
+    const py=cy+Math.sin(rad)*r*unitPx;
+    const el=document.createElement("div");
+    el.className="pinnedLabel";
+    el.style.left=px+"px";
+    el.style.top=py+"px";
+    el.dataset.coin=item.coin;
+    el.innerHTML=`<span class="pinnedLabelDot"></span><b>${escapeHtml(item.coin)}</b> — ${item.angle}°`;
+    container.appendChild(el);
+  }
+}
+function updatePinnedLabels(force){
+  const sig=[...state.compassPinned].sort().join("|");
+  if(!force && sig===state.lastPinnedSig)return;
+  state.lastPinnedSig=sig;
+  renderPinnedLabels(state.compassSVG, state.compassCoins, state.compassPinned);
+}
+/* Event delegation unique sur le conteneur — évite de rebinder à chaque rebuild */
+(function bindPinnedLabelsEvents(){
+  const container=$("pinnedLabels");
+  if(!container || container.dataset.bound)return;
+  container.dataset.bound="1";
+  container.addEventListener("mouseover",e=>{
+    const label=e.target.closest(".pinnedLabel");
+    if(label && label.dataset.coin){
+      if(state.compassHover!==label.dataset.coin){
+        state.compassHover=label.dataset.coin;
+        updateCompassHighlight();
+      }
+    }
+  });
+  container.addEventListener("mouseout",e=>{
+    const label=e.target.closest(".pinnedLabel");
+    if(label && label.dataset.coin){
+      if(state.compassHover===label.dataset.coin){
+        state.compassHover=null;
+        updateCompassHighlight();
+      }
+    }
+  });
+  container.addEventListener("click",e=>{
+    const label=e.target.closest(".pinnedLabel");
+    if(label && label.dataset.coin){
+      e.stopPropagation();
+      state.compassPinned.delete(label.dataset.coin);
+      updateCompassHighlight();
+      updatePinnedLabels();
+    }
+  });
+})();
+
+function updateCompassHighlight(){
+  const svg=state.compassSVG,tooltip=$("compassTooltip"),coins=state.compassCoins;
+  if(!svg||!coins)return;
+  const hover=state.compassHover;
+  const pinned=state.compassPinned;
+  svg.querySelectorAll(".compass-ray.hovered").forEach(r=>r.classList.remove("hovered"));
+  svg.querySelectorAll(".compass-ray.pinned").forEach(r=>r.classList.remove("pinned"));
+  if(hover||pinned.size)svg.classList.add("has-hover");
+  else svg.classList.remove("has-hover");
+  for(const el of svg.querySelectorAll(".compass-ray")){
+    if(pinned.has(el.dataset.coin))el.classList.add("pinned");
+    if(el.dataset.coin===hover)el.classList.add("hovered");
+  }
+  const list=$("perpsList");
+  if(list){
+    for(const item of list.querySelectorAll(".perpItem")){
+      item.classList.toggle("pinned",pinned.has(item.dataset.coin));
+      item.classList.toggle("hovered",item.dataset.coin===hover);
+    }
+  }
+  $("perpsCount").textContent=pinned.size?`${pinned.size} épinglé${pinned.size>1?"s":""}`:`${coins.length} perps`;
+  // Tooltip seulement si on survole un perp NON épinglé (sinon son label persistant suffit)
+  if(hover && !pinned.has(hover)){
+    const c=coins.find(x=>x.coin===hover);
+    if(c)positionCompassTooltip(svg,tooltip,c.angle,c.coin);
+    else tooltip.hidden=true;
+  } else {
+    tooltip.hidden=true;
+  }
+}
+function buildPerpsList(coins){
+  const list=$("perpsList");
+  list.innerHTML="";
+  for(const c of coins){
+    const item=document.createElement("div");
+    item.className="perpItem";
+    item.dataset.coin=c.coin;
+    item.dataset.angle=c.angle;
+    item.innerHTML=`<span class="perpName">${escapeHtml(c.coin)}</span><span class="perpAngle">${c.angle}°</span>`;
+    item.addEventListener("click",()=>{
+      if(state.compassPinned.has(c.coin))state.compassPinned.delete(c.coin);
+      else state.compassPinned.add(c.coin);
+      updateCompassHighlight();
+      updatePinnedLabels();
+    });
+    item.addEventListener("mouseenter",()=>{
+      if(state.compassHover!==c.coin){
+        state.compassHover=c.coin;
+        updateCompassHighlight();
+      }
+    });
+    item.addEventListener("mouseleave",()=>{
+      if(state.compassHover===c.coin){
+        state.compassHover=null;
+        updateCompassHighlight();
+      }
+    });
+    list.appendChild(item);
+  }
+}
+function setupCompassInteraction(svg,coins,tooltip){
+  let downPos=null;
+  const MOVE_THRESHOLD_SQ=64;
   function getPoint(e){
     if(e.clientX!=null&&!isNaN(e.clientX))return{x:e.clientX,y:e.clientY};
-    if(e.touches&&e.touches[0])return{x:e.touches[0].clientX,y:e.touches[0].clientY};
-    if(e.changedTouches&&e.changedTouches[0])return{x:e.changedTouches[0].clientX,y:e.changedTouches[0].clientY};
     return null;
   }
   function nearestCoin(e){
@@ -1016,16 +998,55 @@ function setupCompassHover(svg,coins,tooltip){
     if(!best||bestDist>2.4)return null;
     return best;
   }
-  svg.addEventListener("pointermove",e=>{const n=nearestCoin(e);hoverCoin=n?n.coin:null;applyHighlight();},{passive:true});
-  svg.addEventListener("pointerleave",()=>{clearHover();},{passive:true});
-  svg.addEventListener("pointerdown",e=>{
+  svg.addEventListener("pointermove",e=>{
     const n=nearestCoin(e);
-    if(!n){pinnedCoin=null;applyHighlight();return;}
-    if(pinnedCoin===n.coin){pinnedCoin=null;}
-    else{pinnedCoin=n.coin;}
-    applyHighlight();
+    const newHover=n?n.coin:null;
+    if(state.compassHover!==newHover){
+      state.compassHover=newHover;
+      updateCompassHighlight();
+    }
+  },{passive:true});
+  svg.addEventListener("pointerleave",()=>{
+    if(!downPos){
+      if(state.compassHover!==null){
+        state.compassHover=null;
+        updateCompassHighlight();
+      }
+    }
+  },{passive:true});
+  svg.addEventListener("pointerdown",e=>{
+    try{svg.setPointerCapture(e.pointerId);}catch(_){}
+    downPos={x:e.clientX,y:e.clientY,pointerType:e.pointerType||"mouse"};
+  },{passive:true});
+  svg.addEventListener("pointerup",e=>{
+    try{svg.releasePointerCapture(e.pointerId);}catch(_){}
+    if(!downPos)return;
+    const dx=e.clientX-downPos.x,dy=e.clientY-downPos.y;
+    const moved=dx*dx+dy*dy>MOVE_THRESHOLD_SQ;
+    if(!moved){
+      const n=nearestCoin(e);
+      if(!n){state.compassPinned.clear();}
+      else if(state.compassPinned.has(n.coin)){state.compassPinned.delete(n.coin);}
+      else{state.compassPinned.add(n.coin);}
+    } else if(downPos.pointerType!=="mouse"){
+      // Touch : après un drag, on efface le hover (le doigt est parti)
+      state.compassHover=null;
+    }
+    downPos=null;
+    updateCompassHighlight();
+    updatePinnedLabels();
+  },{passive:true});
+  svg.addEventListener("pointercancel",()=>{
+    downPos=null;state.compassHover=null;
+    updateCompassHighlight();
   },{passive:true});
 }
+
+$("perpsClear").addEventListener("click",()=>{
+  state.compassPinned.clear();
+  updateCompassHighlight();
+  updatePinnedLabels();
+});
 
 async function scan(){
   state.cancel=false;state.finishEarly=false;state.scanning=true;state.expandedIdx=null;state.displayRanking=false;
@@ -1093,7 +1114,6 @@ function handleViewportResize(){const cw=document.documentElement.clientWidth;if
 window.addEventListener("resize",handleViewportResize,{passive:true});
 if(window.visualViewport)window.visualViewport.addEventListener("resize",handleViewportResize,{passive:true});
 window.addEventListener("orientationchange",()=>{setTimeout(()=>{lastLayoutWidth=document.documentElement.clientWidth;handleViewportResize();},120);},{passive:true});
-loadPersistedCache();
 diagnostics().then(ok=>{setStatus(ok?"Prêt — Hyperliquid API opérationnelle":"Diagnostic en échec — voir le détail ci-dessus");if(ok)scheduleBigCompass();});
 })();
 </script>

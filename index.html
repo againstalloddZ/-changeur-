@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#050a12">
-<title>Hyperliquid Scanner V3.3</title>
+<title>Hyperliquid Scanner V3.4</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -175,6 +175,15 @@ button:not(.primary):not(.danger):hover{border-color:var(--border-glow);backgrou
 .perpItem.pinned .perpName{color:var(--accent-cyan);font-weight:800}
 .perpItem .perpAngle{color:var(--text-muted);font-weight:600;font-size:11px;flex:0 0 auto}
 .perpItem.pinned .perpAngle{color:var(--accent-cyan);font-weight:800}
+.perpItem .perpLev{color:var(--green);font-weight:800;font-size:11px;flex:0 0 auto;font-family:'JetBrains Mono',monospace}
+.perpItem.pinned .perpLev{color:var(--accent-cyan)}
+.perpsControls{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:12px;align-items:end}
+.perpsControls label{margin-bottom:0}
+.perpsControls select,.perpsControls input[type="number"]{min-height:38px;font-size:13px;padding:6px 12px}
+.perpsFilterToggle{display:flex;align-items:center;gap:8px;min-height:38px;padding:0 12px;background:var(--bg-inner);border:1px solid var(--border-primary);border-radius:var(--radius-md);text-transform:none;letter-spacing:0;font-size:12px;font-weight:600;color:var(--text-secondary);cursor:pointer;transition:var(--transition)}
+.perpsFilterToggle:hover{border-color:var(--border-secondary);color:var(--text-primary)}
+.perpsFilterToggle input{width:auto;min-height:auto;margin:0;cursor:pointer}
+.perpsEmpty{grid-column:1/-1;color:var(--text-muted);font-size:12px;padding:10px 4px;font-family:'JetBrains Mono',monospace}
 
 .pendingBanner{position:fixed;left:0;right:0;bottom:0;z-index:60;background:linear-gradient(180deg,rgba(251,191,36,.12),rgba(251,191,36,.06));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--yellow-border);padding:12px 16px;padding-bottom:max(12px,calc(12px + env(safe-area-inset-bottom)));display:flex;align-items:center;gap:14px;flex-wrap:wrap;box-shadow:0 -4px 20px rgba(0,0,0,.4)}
 .pendingBanner[hidden]{display:none}
@@ -229,6 +238,9 @@ body.has-banner{padding-bottom:90px}
   .perpsList{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:5px;max-height:340px}
   .perpItem{padding:7px 8px;font-size:11px}
   .perpItem .perpAngle{font-size:10px}
+  .perpItem .perpLev{font-size:10px}
+  .perpsControls{grid-template-columns:1fr 1fr;gap:8px}
+  .perpsControls select,.perpsControls input[type="number"]{min-height:36px;font-size:12px}
 }
 @media(max-width:420px){.grid{grid-template-columns:1fr}.diag{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.logActions{grid-template-columns:1fr}.perpsList{grid-template-columns:repeat(auto-fill,minmax(95px,1fr))}.pinnedLabel{font-size:10px;padding:3px 7px}.rankCompassLabel{font-size:11px;padding:4px 8px}.rankCompassWrap{width:min(85vw,280px);height:min(85vw,280px)}}
 ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:var(--bg-primary)}::-webkit-scrollbar-thumb{background:var(--border-secondary);border-radius:99px}::-webkit-scrollbar-thumb:hover{background:var(--text-muted)}
@@ -267,11 +279,18 @@ body.has-banner{padding-bottom:90px}
   <div class="perpsCount" id="perpsCount">—</div>
   <button class="perpsClear" id="perpsClear" type="button">✕ Tout effacer</button>
 </div>
+<div class="perpsControls">
+  <label class="perpsFilterToggle" title="Masque les perps dont l'open interest et/ou le volume 24h font partie des plus faibles."><input id="perpsLiquidityFilter" type="checkbox" checked> Exclure les moins liquides</label>
+  <label>Exclure — open interest<input id="perpsExcludeOi" type="number" min="0" max="500" step="5" value="30"></label>
+  <label>Exclure — volume 24h<input id="perpsExcludeVol" type="number" min="0" max="500" step="5" value="30"></label>
+  <label>Trier par<select id="perpsSort"><option value="alpha">Nom (A → Z)</option><option value="vol">Volume 24h</option></select></label>
+  <label>Filtrer par lettre<select id="perpsLetter"><option value="*">Toutes</option></select></label>
+</div>
 <div class="perpsList" id="perpsList"></div>
 </section>
 <section class="card logPanel" id="logPanel">
 <h2>🧾 Journal d'activité & erreurs</h2>
-<div class="logVersion">Version de l'outil : <b id="toolVersion">V33</b></div>
+<div class="logVersion">Version de l'outil : <b id="toolVersion">V34</b></div>
 <div class="muted">Les erreurs sont détaillées avec leur source. Les requêtes réussies sont enregistrées succinctement (heure, ordre, coin, durée) pour reconstituer l'ordre du scan et identifier précisément les données manquantes.</div>
 <div class="logActions"><button id="downloadLog">📥 Télécharger le log</button><button id="copyLog">📋 Copier le log</button><button class="danger" id="clearLog">🗑 Vider le log</button></div>
 <div class="logHint" id="logCount">0 événement</div>
@@ -339,16 +358,24 @@ const COIN_ANGLES = {
   "ZETA": 89, "ZK": 98, "ZORA": 36, "ZRO": 7, "kBONK": 233, "kFLOKI": 242,
   "kLUNC": 177, "kNEIRO": 311, "kPEPE": 302, "kSHIB": 246,
 };
-const TOOL_VERSION="V33";
+const TOOL_VERSION="V34";
 window.addEventListener("DOMContentLoaded",()=>{const v=document.getElementById("toolVersion");if(v)v.textContent=TOOL_VERSION;});
 "use strict";
 (() => {
 const $=id=>document.getElementById(id);
+const PERPS_PREFS_KEY="hyperliquid_perps_list_prefs_v1";
+const PERPS_PREFS_DEFAULTS={liquidity:true,excludeOi:30,excludeVol:30,sort:"alpha",letter:"*"};
+function clampCount(v,fallback){const n=Math.round(Number(v));if(!Number.isFinite(n))return fallback;return Math.max(0,Math.min(500,n));}
+function readPerpsPrefs(){
+  let p={};try{const raw=JSON.parse(localStorage.getItem(PERPS_PREFS_KEY)||"null");if(raw&&typeof raw==="object")p=raw;}catch{}
+  const d=PERPS_PREFS_DEFAULTS;
+  return {liquidity:p.liquidity!==false,excludeOi:clampCount(p.excludeOi,d.excludeOi),excludeVol:clampCount(p.excludeVol,d.excludeVol),sort:p.sort==="vol"?"vol":"alpha",letter:typeof p.letter==="string"&&p.letter?p.letter:"*"};
+}
 const state={
   cancel:false,finishEarly:false,scanning:false,results:[],cache:null,
   expandedIdx:null,showAll:false,displayRanking:false,angleMap:{},pendingCoins:[],
   compassHover:null,compassPinned:new Set(),compassSVG:null,compassCoins:null,
-  lastPinnedSig:""
+  lastPinnedSig:"",marketStats:{},perpsPrefs:readPerpsPrefs(),perpsDisplayCount:0,perpsTotalCount:0
 };
 const RANKING_LIMIT=30;const MAX_RETRIES=6;const RETRY_DELAYS=[1000,2000,4000,8000,12000,20000];
 let scanAbortController=null;
@@ -512,7 +539,7 @@ ${compassNumbersSVG()}
 }
 
 async function api(op,params={},options={}){
-  const payload=op==="ping"?{type:"meta"}:op==="meta"?{type:"meta"}:{type:"candleSnapshot",req:{coin:params.coin,interval:params.interval,startTime:params.startTime,endTime:params.endTime}};
+  const payload=op==="ping"?{type:"meta"}:op==="meta"?{type:"meta"}:op==="ctxs"?{type:"metaAndAssetCtxs"}:{type:"candleSnapshot",req:{coin:params.coin,interval:params.interval,startTime:params.startTime,endTime:params.endTime}};
   const maxRetries=op==="candles"?MAX_RETRIES:0;let lastError=null;
   for(let attempt=0;attempt<=maxRetries;attempt++){
     const requestNo=++requestSequence,started=Date.now();
@@ -549,6 +576,8 @@ async function diagnostics(){
   try{
     const meta=await api("meta");mark("dhl","OK — "+meta.universe.length+" perps","ok");
     state.cache=meta;
+    try{applyMarketStats(await api("ctxs"));}
+    catch(e){logEvent("WARN","STATS PERPS",e);}
     const coinNames=meta.universe.filter(x=>!x.isDelisted&&Number(x.maxLeverage)>0).map(x=>x.name);
     const {map,pending}=assignAngles(coinNames);
     state.angleMap=map;state.pendingCoins=pending;
@@ -810,12 +839,101 @@ $("rows").addEventListener("click", e=>{
   if(idx>=0)toggleExpand(idx);
 });
 
+function applyMarketStats(data){
+  const stats={};
+  if(!Array.isArray(data))return stats;
+  const universe=data[0]&&Array.isArray(data[0].universe)?data[0].universe:null;
+  const ctxs=Array.isArray(data[1])?data[1]:null;
+  const fallback=state.cache&&Array.isArray(state.cache.universe)?state.cache.universe:null;
+  if(!ctxs)return stats;
+  ctxs.forEach((c,i)=>{
+    if(!c)return;
+    const src=(universe&&universe[i])||(fallback&&fallback[i]);
+    const name=src&&src.name;
+    if(!name)return;
+    const oi=Number(c.openInterest);
+    const mark=Number(c.markPx)||Number(c.oraclePx)||Number(c.midPx)||0;
+    const vol=Number(c.dayNtlVlm);
+    stats[name]={oi:Number.isFinite(oi)&&mark>0?Math.max(0,oi)*mark:0,vol:Number.isFinite(vol)?Math.max(0,vol):0};
+  });
+  state.marketStats=stats;
+  const count=Object.keys(stats).length;
+  if(count)logEvent("INFO","STATS PERPS",new Error(`${count} marchés avec open interest et volume`),{markets:count});
+  return stats;
+}
+function savePerpsPrefs(){
+  try{const p=state.perpsPrefs;localStorage.setItem(PERPS_PREFS_KEY,JSON.stringify({liquidity:!!p.liquidity,excludeOi:p.excludeOi,excludeVol:p.excludeVol,sort:p.sort,letter:p.letter}));}catch{}
+}
 function getUniverseCoins(){
   if(!state.cache||!state.cache.universe)return[];
   const out=[];
-  for(const m of state.cache.universe){if(m.isDelisted)continue;if(!(Number(m.maxLeverage)>0))continue;const a=state.angleMap[m.name];if(a==null)continue;out.push({coin:m.name,angle:a});}
+  for(const m of state.cache.universe){
+    if(m.isDelisted)continue;
+    if(!(Number(m.maxLeverage)>0))continue;
+    const a=state.angleMap[m.name];if(a==null)continue;
+    const s=state.marketStats[m.name];
+    out.push({coin:m.name,angle:a,leverage:Number(m.maxLeverage)||0,oi:s?s.oi:null,vol:s?s.vol:null});
+  }
   out.sort((a,b)=>a.coin.localeCompare(b.coin));
   return out;
+}
+/* Liste affichée = tous les perps, moins les N plus faibles en open interest et/ou en volume 24h,
+   puis filtrée par lettre initiale et triée (nom ou volume). N'affecte ni le scan ni la boussole. */
+function getDisplayCoins(){
+  const all=getUniverseCoins();
+  let coins=all.slice();
+  const prefs=state.perpsPrefs||PERPS_PREFS_DEFAULTS;
+  const hasStats=Object.keys(state.marketStats||{}).length>0;
+  if(prefs.liquidity&&hasStats){
+    const removed=new Set();
+    const excludeWeakest=(key,count)=>{
+      const n=Math.max(0,Math.min(Number(count)||0,coins.length));
+      if(!n)return;
+      const ranked=coins.slice().sort((a,b)=>(Number(b[key])||0)-(Number(a[key])||0));
+      for(let i=ranked.length-n;i<ranked.length;i++)removed.add(ranked[i].coin);
+    };
+    excludeWeakest("oi",prefs.excludeOi);
+    excludeWeakest("vol",prefs.excludeVol);
+    coins=coins.filter(c=>!removed.has(c.coin));
+  }
+  const letter=prefs.letter;
+  if(letter&&letter!=="*")coins=coins.filter(c=>c.coin.charAt(0).toUpperCase()===letter);
+  if(prefs.sort==="vol")coins.sort((a,b)=>{const d=(Number(b.vol)||0)-(Number(a.vol)||0);return d||a.coin.localeCompare(b.coin);});
+  else coins.sort((a,b)=>a.coin.localeCompare(b.coin));
+  return {coins,total:all.length,hasStats};
+}
+function populatePerpsLetters(coins){
+  const sel=$("perpsLetter");
+  if(!sel)return;
+  const letters=[...new Set((coins||[]).map(c=>c.coin.charAt(0).toUpperCase()))].filter(ch=>/[A-Z0-9]/.test(ch)).sort();
+  const pref=state.perpsPrefs.letter;
+  const value=pref&&pref!=="*"&&letters.includes(pref)?pref:"*";
+  sel.innerHTML=`<option value="*">Toutes</option>`+letters.map(l=>`<option value="${escapeHtml(l)}">${escapeHtml(l)}</option>`).join("");
+  sel.value=value;
+  if(value!==pref){state.perpsPrefs.letter=value;savePerpsPrefs();}
+}
+let perpsRefreshTimer=0;
+function refreshPerpsList(delay=0){
+  clearTimeout(perpsRefreshTimer);
+  perpsRefreshTimer=setTimeout(()=>{savePerpsPrefs();buildPerpsList();updateCompassHighlight();},delay);
+}
+function initPerpsControls(){
+  const lib=$("perpsLiquidityFilter"),oiEl=$("perpsExcludeOi"),volEl=$("perpsExcludeVol"),sortEl=$("perpsSort"),letterEl=$("perpsLetter");
+  if(!lib||!oiEl||!volEl||!sortEl||!letterEl)return;
+  const prefs=state.perpsPrefs;
+  lib.checked=!!prefs.liquidity;
+  oiEl.value=prefs.excludeOi;
+  volEl.value=prefs.excludeVol;
+  sortEl.value=prefs.sort;
+  lib.addEventListener("change",()=>{state.perpsPrefs.liquidity=lib.checked;refreshPerpsList();});
+  sortEl.addEventListener("change",()=>{state.perpsPrefs.sort=sortEl.value==="vol"?"vol":"alpha";refreshPerpsList();});
+  letterEl.addEventListener("change",()=>{state.perpsPrefs.letter=letterEl.value||"*";refreshPerpsList();});
+  const bindCount=(el,key,fallback)=>{
+    el.addEventListener("input",()=>{state.perpsPrefs[key]=clampCount(el.value,fallback);refreshPerpsList(200);});
+    el.addEventListener("blur",()=>{el.value=state.perpsPrefs[key];});
+  };
+  bindCount(oiEl,"excludeOi",PERPS_PREFS_DEFAULTS.excludeOi);
+  bindCount(volEl,"excludeVol",PERPS_PREFS_DEFAULTS.excludeVol);
 }
 function renderBigCompass(){
   const panel=$("bigCompassPanel"),wrap=$("bigCompassWrap"),tooltip=$("compassTooltip");
@@ -831,7 +949,8 @@ function renderBigCompass(){
   state.compassSVG=svgEl;
   state.compassCoins=coins;
   state.lastPinnedSig="";
-  buildPerpsList(coins);
+  populatePerpsLetters(coins);
+  buildPerpsList();
   setupCompassInteraction(svgEl,coins,tooltip);
   updateCompassHighlight();
   updatePinnedLabels(true);
@@ -949,7 +1068,8 @@ function updateCompassHighlight(){
       item.classList.toggle("hovered",item.dataset.coin===hover);
     }
   }
-  $("perpsCount").textContent=pinned.size?`${pinned.size} épinglé${pinned.size>1?"s":""}`:`${coins.length} perps`;
+  const shown=state.perpsDisplayCount||0,total=state.perpsTotalCount||coins.length;
+  $("perpsCount").textContent=(pinned.size?`${pinned.size} épinglé${pinned.size>1?"s":""} — `:"")+`${shown}/${total} affichés`;
   if(hover && !pinned.has(hover)){
     const c=coins.find(x=>x.coin===hover);
     if(c)positionCompassTooltip(svg,tooltip,c.angle,c.coin);
@@ -958,15 +1078,20 @@ function updateCompassHighlight(){
     tooltip.hidden=true;
   }
 }
-function buildPerpsList(coins){
+function buildPerpsList(){
   const list=$("perpsList");
+  if(!list)return;
+  const {coins,total,hasStats}=getDisplayCoins();
+  state.perpsDisplayCount=coins.length;
+  state.perpsTotalCount=total;
   list.innerHTML="";
   for(const c of coins){
     const item=document.createElement("div");
     item.className="perpItem";
     item.dataset.coin=c.coin;
     item.dataset.angle=c.angle;
-    item.innerHTML=`<span class="perpName">${escapeHtml(c.coin)}</span><span class="perpAngle">${c.angle}°</span>`;
+    item.title=`${c.coin} — angle ${c.angle}°`;
+    item.innerHTML=`<span class="perpName">${escapeHtml(c.coin)}</span><span class="perpLev">${c.leverage}×</span>`;
     item.addEventListener("click",()=>{
       if(state.compassPinned.has(c.coin))state.compassPinned.delete(c.coin);
       else state.compassPinned.add(c.coin);
@@ -986,6 +1111,12 @@ function buildPerpsList(coins){
       }
     });
     list.appendChild(item);
+  }
+  if(!coins.length){
+    const empty=document.createElement("div");
+    empty.className="perpsEmpty";
+    empty.textContent=hasStats?"Aucun perp ne correspond aux filtres actuels.":"Données de liquidité indisponibles — filtres inactifs.";
+    list.appendChild(empty);
   }
 }
 function setupCompassInteraction(svg,coins,tooltip){
@@ -1058,6 +1189,7 @@ $("perpsClear").addEventListener("click",()=>{
   updateCompassHighlight();
   updatePinnedLabels();
 });
+initPerpsControls();
 
 async function scan(){
   state.cancel=false;state.finishEarly=false;state.scanning=true;state.expandedIdx=null;state.displayRanking=false;
